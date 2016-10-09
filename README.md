@@ -1,0 +1,1 @@
+Personal POS system based on Python Flask
