@@ -1,8 +1,8 @@
 from flask import * 
-
+from app import app
 import sys
-app = Flask(__name__)
-app.secret_key = 'F12Zr47j\3yX R~X@H!jmM]Lwf/,?KT'
+
+
 
 
 @app.route("/",methods=['POST','GET'])
@@ -23,7 +23,6 @@ def exit():
     return redirect(url_for('login'))
 
 @app.route("/main",methods=['POST','GET'])
-
 def main():
     return render_template('main.html',session=session)
 
@@ -78,14 +77,3 @@ def base():
 def page_not_found(e):
     return render_template('404.html',methods=['POST','GET']), 404
  
-if __name__ == "__main__":
-    if len(sys.argv)>1:
-        try:
-            int(sys.argv[1])
-            port = int(sys.argv[1])
-        except:
-            port = 5000
-    app.run(
-        host="0.0.0.0", 
-        port=port, 
-        debug=True)
