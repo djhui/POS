@@ -1,20 +1,20 @@
 from hashlib import md5
 from app import app
-
+from app import db
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
 
 
-class User():
-    id = 1
-    nickname = 22
-    email = 33
-    role = 44
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(320), unique=True)
+    role = db.Column(db.String(32), nullable=False)
 
     @staticmethod
-    def make_unique_nickname(nickname):
+    def make_unique_nickname(username):
         pass
         
     def is_authenticated(self):
@@ -31,7 +31,7 @@ class User():
 
         
     def __repr__(self):
-        return '<User %r>' % (self.nickname)    
+        return '<User %r>' % (self.username)    
         
 
         

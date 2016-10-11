@@ -2,14 +2,14 @@ from flask import *
 from app import app,lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from models import User
-
+from hashlib import sha512
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',methods=['POST','GET']), 404
 
 @lm.user_loader
 def load_user(id):
-    return User
+    return User.query.filter_by(username=session['name']).first()
 
 @app.before_request
 def before_request():
@@ -17,18 +17,13 @@ def before_request():
 
 @app.route("/",methods=['POST','GET'])
 def login():
-    error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin': 
-            error= "sorry"
-        else:
-            session['name'] = request.form['username']
-            user = User()
-            print user
+        user = User.query.filter_by(username=request.form['username']).first()
+        session['name'] = request.form['username']
+        if request.form['username'] == user.username and sha512(request.form['password']).hexdigest() == user.password: 
             login_user(user)
-            print current_user
             return redirect(request.args.get('next') or url_for('main'))
-    return render_template('index.html',error=error)
+    return render_template('index.html')
  
 @app.route("/exit",methods=['POST','GET'])
 @login_required
@@ -36,7 +31,6 @@ def exit():
     
     session['name']=None
     logout_user()
-    print current_user
     return redirect(url_for('login'))
 
 
