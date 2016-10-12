@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from flask import * 
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
@@ -44,61 +46,61 @@ def main():
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
-    return render_template('sales.html',session=session)
+    return render_template('sales.html',session=session,nav = u"销售总览")
 
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required
 def salesdetail():
-    return render_template('sales_detail.html',session=session)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情")
 
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
 def salesadd():
-    return render_template('sales.html',session=session)
+    return render_template('sales.html',session=session,nav = u"添加")
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
 def users():
-    return render_template('users.html',session=session)
+    return render_template('users.html',session=session,nav = u"用户管理")
 
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
-    return render_template('freight.html',session=session)
+    return render_template('freight.html',session=session,nav = u"运费估算")
 
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
 def stocks():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存总览")
 
 @app.route("/stocks/cabinets",methods=['POST','GET'])
 @login_required
 def stockscabinets():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存->柜/箱")
 
 @app.route("/stocks/chairs",methods=['POST','GET'])
 @login_required
 def stockschairs():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存->椅/凳")
 
 @app.route("/stocks/desks",methods=['POST','GET'])
 @login_required
 def stocksdesks():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存->桌/几")
 
 @app.route("/stocks/sofa",methods=['POST','GET'])
 @login_required
 def stockssofa():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存->沙发")
 
 @app.route("/stocks/add",methods=['POST','GET'])
 @login_required
 def stocksadd():
-    return render_template('stocks.html',session=session)
+    return render_template('stocks.html',session=session,nav = u"库存->新增")
 
 @app.route("/roles",methods=['POST','GET'])
 @login_required
 def roles():
-    return render_template('base.html',session=session)
+    return render_template('base.html',session=session,nav = u"角色管理")
 
  
