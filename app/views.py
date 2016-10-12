@@ -101,6 +101,6 @@ def stocksadd():
 @app.route("/roles",methods=['POST','GET'])
 @login_required
 def roles():
-    return render_template('base.html',session=session,nav = u"角色管理")
+    return render_template('roles.html',session=session,nav = u"角色管理")
 
  

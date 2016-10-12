@@ -5,8 +5,7 @@
             <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button><button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
                 <div class="keep-open btn-group" title="Columns"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><label><input type="checkbox" data-field="id" value="1" checked="checked"> 账号</label></li>
-                        <li><label><input type="checkbox" data-field="name" value="2" checked="checked"> 岗位</label></li>
+                        <li><label><input type="checkbox" data-field="id" value="1" checked="checked"> 角色</label></li>
                         <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 权限</label></li>
                         <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 操作</label></li>
 
@@ -30,12 +29,7 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
-                                <div class="th-inner sortable">账号</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">岗位<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
-                                </div>
+                                <div class="th-inner sortable">角色</div>
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
@@ -53,7 +47,7 @@
                     </thead>
                     <tbody>
                         <tr class="no-records-found">
-                            <td colspan="4">No matching records found</td>
+                            <td colspan="3">No matching records found</td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
@@ -62,8 +56,6 @@
                                         <li><a href="#"><i class="icon-pencil"></i>修改</a></li>
                                         <li><a href="#"><i class="icon-trash"></i>删除</a></li>
                                         <li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#"><i class="i"></i>设为管理员</a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -98,45 +90,52 @@
     <div class="clearfix "></div>
 </div>
 
-
 <div class="col-lg-6">
     <form class="form-horizontal alert alert-dismissible alert-info">
         <fieldset>
-            <legend>新建帐号</legend>
+            <legend>新建角色</legend>
             <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">用户名</label>
+                <label for="inputDefault" class="col-lg-2 control-label">角色名</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" id="inputDefault" placeholder="用户名">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputPassword" class="col-lg-2 control-label">密码</label>
-                <div class="col-lg-10">
-                    <input type="password" class="form-control" id="inputPassword" placeholder="密码">
-                </div>
-            </div>
 
 
             <div class="form-group">
-                <label for="select" class="col-lg-2 control-label">岗位</label>
-                <div class="col-lg-10">
-                    <select class="form-control" id="select">
-          <option>客服</option>
-          <option>美工</option>
-          <option>仓库</option>
-        </select>
-                </div>
-            </div>
+                <label for="inputDefault" class="col-lg-2 control-label">权限</label>
 
-            <div class="form-group">
-                <label for="select" class="col-lg-2 control-label">角色</label>
-                <div class="col-lg-10">
-                    <select class="form-control" id="select">
-          <option>客服</option>
-          <option>美工</option>
-          <option>仓库</option>
-        </select>
+                <div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> 总览查询</label>
+                        <label><input type="checkbox"> 明细查询</label>
+                        <label><input type="checkbox"> 录入</label>
+                    </div>
+
+
+
+
+                    <label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> 运费估算</label>
+                    </div>
+
+                    <label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> 所有宝贝</label>
+                        <label><input type="checkbox"> 柜/箱</label>
+                        <label><input type="checkbox"> 椅/凳</label>
+                        <label><input type="checkbox"> 桌/几</label>
+                        <label><input type="checkbox"> 沙发</label>
+                        <label><input type="checkbox"> 新增</label>
+                    </div>
+                    <label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> 账号管理</label>
+                        <label><input type="checkbox"> 角色管理</label>
+                    </div>
                 </div>
+
             </div>
 
             <div class="form-group">
@@ -148,4 +147,9 @@
         </fieldset>
     </form>
 </div>
+
+
+
+
+
 {% endblock %}
