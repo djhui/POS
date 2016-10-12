@@ -1,6 +1,6 @@
 from flask import * 
 from app import app,lm
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required
 from models import User
 from hashlib import sha512
 @app.errorhandler(404)
@@ -96,9 +96,9 @@ def stockssofa():
 def stocksadd():
     return render_template('stocks.html',session=session)
 
-@app.route("/base",methods=['POST','GET'])
+@app.route("/roles",methods=['POST','GET'])
 @login_required
-def base():
+def roles():
     return render_template('base.html',session=session)
 
  
