@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 from flask import Flask
 import MySQLdb
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -9,12 +11,15 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
+    nickname = db.Column(db.String(80), unique=True)
+    mobile = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(320), unique=True)
     role = db.Column(db.String(32), nullable=False)
   
-    def __init__(self, username, email, phone):
+    def __init__(self, username, password, role):
         self.username = username
         self.password = password
         self.role= role
+        
 if __name__ == '__main__':
         db.create_all()
