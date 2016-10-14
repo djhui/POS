@@ -22,6 +22,7 @@ def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
         session['name'] = request.form['username']
+        session['nickname'] = user.nickname
         if request.form['username'] == user.username and sha512(request.form['password']).hexdigest() == user.password: 
             login_user(user)
             return redirect(request.args.get('next') or url_for('main'))

@@ -13,6 +13,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(320), unique=True)
+    nickname = db.Column(db.String(80), unique=True)
+    mobile = db.Column(db.String(80), unique=True)
     role = db.Column(db.String(32), nullable=False)
 
     @staticmethod
