@@ -56,7 +56,7 @@ def salesdetail():
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
 def salesadd():
-    return render_template('sales.html',session=session,nav = u"添加")
+    return render_template('salesadd.html',session=session,nav = u"添加")
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -96,7 +96,7 @@ def stockssofa():
 @app.route("/stocks/add",methods=['POST','GET'])
 @login_required
 def stocksadd():
-    return render_template('stocks.html',session=session,nav = u"库存->新增")
+    return render_template('stocksadd.html',session=session,nav = u"库存->新增")
 
 @app.route("/roles",methods=['POST','GET'])
 @login_required
