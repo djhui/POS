@@ -42,6 +42,10 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
+                                <div class="th-inner sortable">名称</div>
+                                <div class="fht-cell"></div>
+                            </th>
+                            <th style="">
                                 <div class="th-inner sortable">编号<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
                                 </div>
                                 <div class="fht-cell"></div>
@@ -75,6 +79,10 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
+                                <div class="th-inner sortable">类别</div>
+                                <div class="fht-cell"></div>
+                            </th>
+                            <th style="">
                                 <div class="th-inner sortable">备注</div>
                                 <div class="fht-cell"></div>
                             </th>
@@ -85,11 +93,26 @@
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>{% if stocklist %} {% for stocks in stocklist %}
                         <tr class="no-records-found">
+                             <td>{{stocks.id}}</td>
+<td>{{stocks.picture}}</td>
+<td>{{stocks.products}}</td>
+
+<td>{{stocks.code}}</td>
+<td>{{stocks.specification}}</td>
+<td>{{stocks.color}}</td>
+<td>{{stocks.exstock}}</td>
+<td>{{stocks.whstock}}</td>
+<td>{{stocks.fastock}}</td>
+<td>{{stocks.pkgsize}}</td>
+<td>{{stocks.pgkbulk}}</td>
+<td>{{stocks.categroies}}</td>
+<td>{{stocks.memo}}</td>
+                             <td><a href=" # " class="btn btn-primary btn-xs ">修改</a> <a href="# " class="btn btn-danger btn-xs ">删除</a></td>
+                             {% endfor %} {% else %}
                             <td colspan="11">No matching records found</td>
-                            <td><a href=" # " class="btn btn-primary btn-xs ">修改</a> <a href="# " class="btn btn-danger btn-xs ">删除</a></td>
-                        </tr>
+                        </tr>{% endif %}
                     </tbody>
                 </table>
             </div>

@@ -3,11 +3,15 @@
 from flask import * 
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User,Role,db
+from models import User,Role,db,Sales,Stock
 from hashlib import sha512
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',methods=['POST','GET']), 404
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('404.html',methods=['POST','GET']), 403
 
 @lm.user_loader
 def load_user(id):
@@ -51,7 +55,8 @@ def sales():
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required
 def salesdetail():
-    return render_template('sales_detail.html',session=session,nav = u"销售详情")
+    saleslist = Sales.query.order_by(Sales.id)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist)
 
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
@@ -87,7 +92,8 @@ def freight():
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
 def stocks():
-    return render_template('stocks.html',session=session,nav = u"库存总览")
+    stocklist = Stock.query.order_by(Stock.id)
+    return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist)
 
 @app.route("/stocks/cabinets",methods=['POST','GET'])
 @login_required

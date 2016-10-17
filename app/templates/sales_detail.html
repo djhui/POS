@@ -5,6 +5,7 @@
             <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button><button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
                 <div class="keep-open btn-group" title="Columns"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
+                        <li><label><input type="checkbox" data-field="date" value="1" checked="checked"> 产品</label></li>
                         <li><label><input type="checkbox" data-field="date" value="1" checked="checked"> 下单日期</label></li>
                         <li><label><input type="checkbox" data-field="wangwang" value="2" checked="checked"> 旺旺号</label></li>
                         <li><label><input type="checkbox" data-field="production" value="3" checked="checked"> 产品</label></li>
@@ -40,6 +41,10 @@
                         <tr>
                             <th class="bs-checkbox " style="width: 36px; ">
                                 <div class="th-inner "><input name="btSelectAll" type="checkbox"></div>
+                                <div class="fht-cell"></div>
+                            </th>
+                            <th style="">
+                                <div class="th-inner sortable">产品</div>
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
@@ -114,7 +119,7 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
-                                <div class="th-inner sortable">开发票</div>
+                                <div class="th-inner sortable">备注</div>
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
@@ -123,11 +128,31 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>{% if saleslist %} {% for sales in saleslist %}
                         <tr class="no-records-found">
-                            <td colspan="18">No matching records found</td>
+                           <td>{{sales.id}}</td>
+<td>{{sales.picture}}</td>
+<td>{{sales.orderdate}}</td>
+<td>{{sales.wangwang}}</td>
+<td>{{sales.cdeliverydate}}</td>
+<td>{{sales.type}}</td>
+<td>{{sales.color}}</td>
+<td>{{sales.number}}</td>
+<td>{{sales.address}}</td>
+<td>{{sales.transportation}}</td>
+<td>{{sales.Inprice}}</td>
+<td>{{sales.advprice}}</td>
+<td>{{sales.CSE}}</td>
+<td>{{sales.deliverydate}}</td>
+<td>{{sales.Tnumber}}</td>
+<td>{{sales.Aprice}}</td>
+<td>{{sales.Recashes}}</td>
+<td>{{sales.Commission}}</td>
+<td>{{sales.memo}}</td>
+                            
                             <td><a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a></td>
-                        </tr>
+                            {% endfor %} {% else %}<td colspan="18">No matching records found</td>
+                        </tr>{% endif %}
                     </tbody>
                 </table>
             </div>
