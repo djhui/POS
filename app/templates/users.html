@@ -2,7 +2,8 @@
 <div class="panel-body">
     <div class="bootstrap-table">
         <div class="fixed-table-toolbar">
-            <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button><button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
+            <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
+                <button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
                 <div class="keep-open btn-group" title="Columns"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
                         <li><label><input type="checkbox" data-field="id" value="1" checked="checked"> 账号</label></li>
@@ -34,7 +35,7 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
-                                <div class="th-inner sortable">岗位<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
+                                <div class="th-inner sortable">角色<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
                                 </div>
                                 <div class="fht-cell"></div>
                             </th>
@@ -51,9 +52,13 @@
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody> {% if userlist %} {% for user in userlist %}
                         <tr class="no-records-found">
-                            <td colspan="4">No matching records found</td>
+
+                            <td>{{user.id}}</td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.role}}</td>
+                            <td>{{user.role}}</td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
@@ -67,7 +72,13 @@
                                     </ul>
                                 </div>
                             </td>
-                        </tr>
+                            {% endfor %} {% else %}
+                            <td colspan="4">No matching records found</td>
+
+
+
+
+                        </tr>{% endif %}
                     </tbody>
                 </table>
             </div>
@@ -132,9 +143,11 @@
                 <label for="select" class="col-lg-2 control-label">角色</label>
                 <div class="col-lg-10">
                     <select class="form-control" id="select">
-          <option>客服</option>
-          <option>美工</option>
-          <option>仓库</option>
+                         {% if rolelist %} {% for role in rolelist %}
+          <option>{{role.rolename}}</option>
+    {%endfor %} {%else%}
+    <option>请先建角色</option>
+     {%endif%}
         </select>
                 </div>
             </div>

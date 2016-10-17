@@ -46,8 +46,44 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% if rolelist %} {% for role in rolelist %}
                         <tr class="no-records-found">
-                            <td colspan="3">No matching records found</td>
+
+                            <td>{{role.id}} </td>
+                            <td>{{role.rolename}} </td>
+                            <td>
+                                <label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
+                                    <label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
+                                    <label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
+                                </div>
+
+
+
+
+                                <label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
+                                </div>
+
+                                <label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
+                                    <label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
+                                    <label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
+                                    <label><input type="checkbox" disabled id="stockdesks{{role.id}}"> 桌/几</label>
+                                    <label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
+                                    <label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
+                                </div>
+                                <label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
+                                    <label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
+                                </div>
+
+                            </td>
+
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
@@ -59,7 +95,25 @@
                                     </ul>
                                 </div>
                             </td>
+                            <script>
+                                document.getElementById("sales{{role.id}}").checked = {{role.sales|lower}};
+                                document.getElementById("salesdetail{{role.id}}").checked = {{role.salesdetail|lower}};
+                                document.getElementById("salesadd{{role.id}}").checked = {{role.salesadd|lower }};
+                                document.getElementById("freight{{role.id}}").checked = {{role.freight|lower}};
+                                document.getElementById("stock{{role.id}}").checked = {{role.stock|lower}};
+                                document.getElementById("stockcabinets{{role.id}}").checked = {{role.stockcabinets|lower}};
+                                document.getElementById("stockchairs{{role.id}}").checked = {{role.stockchairs|lower }};
+                                document.getElementById("stockdesks{{role.id}}").checked = {{role.stockdesks|lower}};
+                                document.getElementById("stocksofa{{role.id}}").checked = {{role.stocksofa|lower}};
+                                document.getElementById("stockadd{{role.id}}").checked = {{role.stockadd|lower}};
+                                document.getElementById("account{{role.id}}").checked = {{role.account|lower}};
+                                document.getElementById("role{{role.id}}").checked = {{role.role|lower}};
+                            </script>
+                            {%endfor %} {%else%}
+                            <td colspan="3">No matching records found</td>
+
                         </tr>
+                        {%endif%}
                     </tbody>
                 </table>
             </div>
@@ -91,13 +145,13 @@
 </div>
 
 <div class="col-lg-6">
-    <form class="form-horizontal alert alert-dismissible alert-info">
+    <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
         <fieldset>
             <legend>新建角色</legend>
             <div class="form-group">
                 <label for="inputDefault" class="col-lg-2 control-label">角色名</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputDefault" placeholder="用户名">
+                    <input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="角色名">
                 </div>
             </div>
 
@@ -107,9 +161,9 @@
 
                 <div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
                     <div class="checkbox">
-                        <label><input type="checkbox"> 总览查询</label>
-                        <label><input type="checkbox"> 明细查询</label>
-                        <label><input type="checkbox"> 录入</label>
+                        <label><input type="checkbox" name="sales" value="1"> 总览查询</label>
+                        <label><input type="checkbox" name="salesdetail" value="1"> 明细查询</label>
+                        <label><input type="checkbox" name="salesadd" value="1"> 录入</label>
                     </div>
 
 
@@ -117,22 +171,22 @@
 
                     <label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
                     <div class="checkbox">
-                        <label><input type="checkbox"> 运费估算</label>
+                        <label><input type="checkbox" name="freight" value="1"> 运费估算</label>
                     </div>
 
                     <label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
                     <div class="checkbox">
-                        <label><input type="checkbox"> 所有宝贝</label>
-                        <label><input type="checkbox"> 柜/箱</label>
-                        <label><input type="checkbox"> 椅/凳</label>
-                        <label><input type="checkbox"> 桌/几</label>
-                        <label><input type="checkbox"> 沙发</label>
-                        <label><input type="checkbox"> 新增</label>
+                        <label><input type="checkbox" name="stock" value="1"> 所有宝贝</label>
+                        <label><input type="checkbox" name="stockcabinets" value="1"> 柜/箱</label>
+                        <label><input type="checkbox" name="stockchairs" value="1"> 椅/凳</label>
+                        <label><input type="checkbox" name="stockdesks" value="1"> 桌/几</label>
+                        <label><input type="checkbox" name="stocksofa" value="1"> 沙发</label>
+                        <label><input type="checkbox" name="stockadd" value="1"> 新增</label>
                     </div>
                     <label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
                     <div class="checkbox">
-                        <label><input type="checkbox"> 账号管理</label>
-                        <label><input type="checkbox"> 角色管理</label>
+                        <label><input type="checkbox" name="account" value="1"> 账号管理</label>
+                        <label><input type="checkbox" name="role" value="1"> 角色管理</label>
                     </div>
                 </div>
 
@@ -141,7 +195,7 @@
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                     <button type="reset" class="btn btn-default">重置</button>
-                    <button type="submit" class="btn btn-primary">添加</button>
+                    <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
                 </div>
             </div>
         </fieldset>

@@ -3,7 +3,7 @@
 from flask import * 
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User
+from models import User,Role,db
 from hashlib import sha512
 @app.errorhandler(404)
 def page_not_found(e):
@@ -40,7 +40,6 @@ def exit():
 @app.route("/main",methods=['POST','GET'])
 @login_required
 def main():
-    print g.user
     user = current_user
     return render_template('main.html',user=user)
 
@@ -62,7 +61,9 @@ def salesadd():
 @app.route("/users",methods=['POST','GET'])
 @login_required
 def users():
-    return render_template('users.html',session=session,nav = u"用户管理")
+    userlist = User.query.order_by(User.username)
+    rolelist = Role.query.order_by(Role.rolename)
+    return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist)
 
 @app.route("/freight",methods=['POST','GET'])
 @login_required
@@ -102,6 +103,39 @@ def stocksadd():
 @app.route("/roles",methods=['POST','GET'])
 @login_required
 def roles():
-    return render_template('roles.html',session=session,nav = u"角色管理")
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            rolename = request.form['rolename']
+            try:sales = int(request.form['sales'])
+            except:sales = False
+            try:salesdetail = int(request.form['salesdetail'])
+            except:salesdetail = False
+            try:salesadd = int(request.form['salesadd'])
+            except:salesadd = False
+            try:freight = int(request.form['freight'])
+            except:freight = False
+            try:stock = int(request.form['stock'])
+            except:stock = False
+            try:stockcabinets = int(request.form['stockcabinets'])
+            except:stockcabinets = False
+            try:stockchairs = int(request.form['stockchairs'])
+            except:stockchairs = False
+            try:stockdesks = int(request.form['stockdesks'])
+            except:stockdesks = False
+            try:stocksofa = int(request.form['stocksofa'])
+            except:stocksofa = False
+            try:stockadd = int(request.form['stockadd'])
+            except:stockadd = False
+            try:account = int(request.form['account'])
+            except:account = False
+            try:role = int(request.form['role'])
+            except:role = False
+            addrole = Role(rolename,sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role)
+            db.session.add(addrole)
+            db.session.commit()
+
+
+    rolelist = Role.query.order_by(Role.rolename)
+    return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist)
 
  
