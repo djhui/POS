@@ -9,10 +9,10 @@ ROLE_ADMIN = 1
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
-    nickname = db.Column(db.String(80), unique=True)
-    mobile = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(320), unique=True)
-    role = db.Column(db.String(32), nullable=False)
+    nickname = db.Column(db.String(80))
+    mobile = db.Column(db.String(80))
+    password = db.Column(db.String(320))
+    role = db.Column(db.String(32))
   
     def __init__(self, username, password, role, mobile, nickname):
         self.username = username

@@ -8,7 +8,6 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><label><input type="checkbox" data-field="id" value="1" checked="checked"> 账号</label></li>
                         <li><label><input type="checkbox" data-field="name" value="2" checked="checked"> 岗位</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 权限</label></li>
                         <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 操作</label></li>
 
 
@@ -35,14 +34,19 @@
                                 <div class="fht-cell"></div>
                             </th>
                             <th style="">
+                                <div class="th-inner sortable">别名</div>
+                                <div class="fht-cell"></div>
+                            </th>
+                            <th style="">
+                                <div class="th-inner sortable">手机</div>
+                                <div class="fht-cell"></div>
+                            </th>
+                            <th style="">
                                 <div class="th-inner sortable">角色<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
                                 </div>
                                 <div class="fht-cell"></div>
                             </th>
-                            <th style="">
-                                <div class="th-inner sortable">权限</div>
-                                <div class="fht-cell"></div>
-                            </th>
+
                             <th style="">
                                 <div class="th-inner sortable">操作</div>
                                 <div class="fht-cell"></div>
@@ -57,8 +61,10 @@
 
                             <td>{{user.id}}</td>
                             <td>{{user.username}}</td>
+                            <td>{{user.nickname}}</td>
+                            <td>{{user.mobile}}</td>
                             <td>{{user.role}}</td>
-                            <td>{{user.role}}</td>
+
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
@@ -111,40 +117,41 @@
 
 
 <div class="col-lg-6">
-    <form class="form-horizontal alert alert-dismissible alert-info">
+    <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
         <fieldset>
             <legend>新建帐号</legend>
             <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">用户名</label>
+                <label for="inputDefault" class="col-lg-2 control-label" >用户名</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputDefault" placeholder="用户名">
+                    <input type="text" class="form-control" name="username" id="inputDefault" placeholder="用户名" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword" class="col-lg-2 control-label">密码</label>
                 <div class="col-lg-10">
-                    <input type="password" class="form-control" id="inputPassword" placeholder="密码">
+                    <input type="password" class="form-control" name="password" id="inputPassword" placeholder="密码" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDefault" class="col-lg-2 control-label">别名</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="nickname" id="inputDefault" placeholder="别名">
                 </div>
             </div>
 
-
             <div class="form-group">
-                <label for="select" class="col-lg-2 control-label">岗位</label>
+                <label for="inputDefault" class="col-lg-2 control-label">手机</label>
                 <div class="col-lg-10">
-                    <select class="form-control" id="select">
-          <option>客服</option>
-          <option>美工</option>
-          <option>仓库</option>
-        </select>
+                    <input type="text" class="form-control" id="inputDefault" name="mobile" placeholder="手机">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="select" class="col-lg-2 control-label">角色</label>
                 <div class="col-lg-10">
-                    <select class="form-control" id="select">
+                    <select class="form-control" id="select" name="role" required>
                          {% if rolelist %} {% for role in rolelist %}
-          <option>{{role.rolename}}</option>
+          <option value="{{role.rolename}}">{{role.rolename}}</option>
     {%endfor %} {%else%}
     <option>请先建角色</option>
      {%endif%}
@@ -155,7 +162,7 @@
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                     <button type="reset" class="btn btn-default">重置</button>
-                    <button type="submit" class="btn btn-primary">添加</button>
+                    <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
                 </div>
             </div>
         </fieldset>

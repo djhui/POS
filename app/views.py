@@ -61,6 +61,20 @@ def salesadd():
 @app.route("/users",methods=['POST','GET'])
 @login_required
 def users():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            username = request.form['username']
+            password = sha512(request.form['password']).hexdigest()
+            nickname = request.form['nickname']
+            mobile = request.form['mobile']
+            role = request.form['role']
+
+            adduser=User(username=username, password=password, role=role,nickname=nickname,mobile=mobile)
+            db.session.add(adduser)
+            db.session.commit()
+
+
+
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist)
