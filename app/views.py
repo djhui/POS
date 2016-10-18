@@ -80,7 +80,7 @@ def salesadd():
             Tnumber = request.form['Tnumber']
             Aprice = float(request.form['Aprice'])
             Recashes = float(request.form['Recashes'])
-            Commission = float(request.form['Commission'])
+            Commission = request.form['Commission']
             try:memo = request.form['memo']
             except:memo="no comments"
             addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, Tnumber, Aprice,Recashes,Commission, memo)
