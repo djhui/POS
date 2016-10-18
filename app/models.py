@@ -123,7 +123,7 @@ class Sales(db.Model):
     Tnumber = db.Column(db.String(120)) #transportation number
     Aprice = db.Column(db.Float) #Actual price
     Recashes = db.Column(db.Float) #Cash back
-    Commission = db.Column(db.Float)
+    Commission = db.Column(db.Date)
     memo = db.Column(db.VARCHAR(520))
 
   
@@ -157,8 +157,11 @@ class Trans(db.Model):
 
 class Cates(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ecate = db.Column(db.String(80), unique=True)
     categroies = db.Column(db.String(80), unique=True)
-    def __init__(self, categroies):
+
+    def __init__(self, ecate,categroies):
+        self.ecate=ecate
         self.categroies = categroies
 
 class Delivery(db.Model):

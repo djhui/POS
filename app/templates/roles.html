@@ -4,43 +4,33 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<table class="table table-striped" data-toggle="table"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-						data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+					<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+						data-search="true"  data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
 						<thead>
 							<tr>
 								<th data-field="id" data-sortable="true">ID</th>
 								<th data-field="role" data-sortable="true">角色</th>
 								<th data-field="permission" data-sortable="true">权限</th>
 								<th data-field="control" data-sortable="true">操作</th>
-
-
-
 							</tr>
 						</thead>
 						{% if rolelist %} {% for role in rolelist %}
-						
 						<tr class="no-records-found">
-
 							<td>{{role.id}} </td>
 							<td>{{role.rolename}} </td>
 							<td>
-								<label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
-								<div class="checkbox">
+								<label for="inputDefault" class="col-lg-2 control-label">销售情况</label>
+								<div class="container">
 									<label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
 									<label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
 									<label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
 								</div>
-
-
-
-
-								<label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
-								<div class="checkbox">
+								<label for="inputDefault" class="col-lg-2 control-label">运费查询</label>
+								<div class="container">
 									<label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
 								</div>
-
-								<label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
-								<div class="checkbox">
+								<label for="inputDefault" class="col-lg-2 control-label">库存情况</label>
+								<div class="container">
 									<label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
 									<label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
 									<label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
@@ -48,8 +38,8 @@
 									<label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
 									<label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
 								</div>
-								<label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
-								<div class="checkbox">
+								<label for="inputDefault" class="col-lg-2 control-label">系统设置</label>
+								<div class="container">
 									<label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
 									<label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
 								</div>
@@ -65,9 +55,7 @@
 										<li><a href="#"><i class="icon-trash"></i>删除</a></li>
 										<li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
 									</ul>
-								</div>
-							</td>
-							<script>
+								</div><script>
                                 document.getElementById("sales{{role.id}}").checked = {{role.sales|lower}};
                                 document.getElementById("salesdetail{{role.id}}").checked = {{role.salesdetail|lower}};
                                 document.getElementById("salesadd{{role.id}}").checked = {{role.salesadd|lower }};
@@ -80,21 +68,20 @@
                                 document.getElementById("stockadd{{role.id}}").checked = {{role.stockadd|lower}};
                                 document.getElementById("account{{role.id}}").checked = {{role.account|lower}};
                                 document.getElementById("role{{role.id}}").checked = {{role.role|lower}};
-                            </script> {%endfor %}
-							
-
+                            </script>
+							</td>
+							{%endfor %}
 						</tr>
 						{%endif%}
-						
+
 					</table>
 				</div>
 
 			</div>
 		</div>
 	</div>
-</div>
-<div class="clearfix "></div>
-</div>
+
+
 
 <div class="col-lg-6">
 	<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">

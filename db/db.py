@@ -89,7 +89,7 @@ class Sales(db.Model):
     picture = db.Column(db.VARCHAR(520), unique=True)
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
-    cdeliverydate = db.Column(db.Date #Cumstomer wants to delivery data
+    cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
     type = db.Column(db.String(120))
     color = db.Column(db.String(120))
     number = db.Column(db.Integer)
@@ -103,7 +103,7 @@ class Sales(db.Model):
     Tnumber = db.Column(db.String(120)) #transportation number
     Aprice = db.Column(db.Float) #Actual price
     Recashes = db.Column(db.Float) #Cash back
-    Commission = db.Column(db.Float)
+    Commission = db.Column(db.Date)
     memo = db.Column(db.VARCHAR(520))
 
   
@@ -139,9 +139,11 @@ class Trans(db.Model):
 
 class Cates(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    ecate = db.Column(db.String(80), unique=True)
     categroies = db.Column(db.String(80), unique=True)
 
-    def __init__(self, categroies):
+    def __init__(self, ecate,categroies):
+        self.ecate=ecate
         self.categroies = categroies
 
 class Delivery(db.Model):
@@ -159,10 +161,10 @@ if __name__ == '__main__':
     insetrole=Role('admin',1,1,1,1,1,1,1,1,1,1,1,1)
     insettrans = Trans(u"新邦物流")
     insettrans1 = Trans(u"德邦物流")
-    db.session.add(Cates(u"柜/箱"))
-    db.session.add(Cates(u"椅/凳"))
-    db.session.add(Cates(u"桌/几"))
-    db.session.add(Cates(u"沙发"))
+    db.session.add(Cates("cabinets",u"柜/箱"))
+    db.session.add(Cates("chairs",u"椅/凳"))
+    db.session.add(Cates("desks",u"桌/几"))
+    db.session.add(Cates("sofa",u"沙发"))
     db.session.add(Delivery(u"预付-自提"))
     db.session.add(Delivery(u"预付-送货到楼下"))
     db.session.add(Delivery(u"到付-自提"))

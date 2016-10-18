@@ -122,6 +122,16 @@ def stocks():
     stocklist = Stock.query.order_by(Stock.id)
     return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist)
 
+#------------------------------------------------------------------------------------------------------------
+@app.route("/stocks/<postcate>",methods=['POST','GET'])
+@login_required
+def postcate(postcate):
+
+    cate1 = Cates.query.filter_by(ecate=postcate).first()
+    stocklist = Stock.query.filter_by(categroies=cate1.categroies).all()
+    return render_template('stocks.html',session=session,nav = u"库存->柜/箱",stocklist=stocklist)
+#------------------------------------------------------------------------------------------------------------
+
 @app.route("/stocks/cabinets",methods=['POST','GET'])
 @login_required
 def stockscabinets():
