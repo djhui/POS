@@ -148,3 +148,22 @@ class Sales(db.Model):
         self.Commission = Commission
         self.memo = memo
         
+class Trans(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    corpname = db.Column(db.String(80), unique=True)
+ 
+    def __init__(self, corpname):
+        self.corpname = corpname
+
+class Cates(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    categroies = db.Column(db.String(80), unique=True)
+    def __init__(self, categroies):
+        self.categroies = categroies
+
+class Delivery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    delivery = db.Column(db.String(80), unique=True)
+
+    def __init__(self, delivery):
+        self.delivery = delivery

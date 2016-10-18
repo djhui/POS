@@ -57,8 +57,9 @@
                             <label class="col-lg-2 control-label">送货方式</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="select" name="transportation" required>
-										<option value="佳吉物流">Option 1</option>
-										<option value="德帮物流">Option 2</option>
+                                    {% for deli in delilist %}
+										<option value="{{deli.delivery}}">{{deli.delivery}}</option>
+										{%endfor %}
 									</select>
                             </div>
                         </div>
@@ -80,8 +81,9 @@
                             <label class="col-lg-2 control-label">销售客服</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="select" name="CSE" required>
-										<option value="客服1">Option 1</option>
-										<option value="客服2">Option 2</option>
+										 {% for nick in nickname %}
+										<option value="{{nick.nickname}}">{{nick.nickname}}</option>
+                                        {% endfor %}
 									</select>
                             </div>
                             <label class="col-lg-2 control-label">发货日期</label>

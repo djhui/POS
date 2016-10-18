@@ -3,7 +3,7 @@
 from flask import * 
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User,Role,db,Sales,Stock
+from models import User,Role,db,Sales,Stock,Trans,Cates,Delivery
 from hashlib import sha512
 @app.errorhandler(404)
 def page_not_found(e):
@@ -86,7 +86,9 @@ def salesadd():
             addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, Tnumber, Aprice,Recashes,Commission, memo)
             db.session.add(addsales)
             db.session.commit()
-    return render_template('salesadd.html',session=session,nav = u"添加")
+    nickname=User.query.order_by(User.username)
+    delilist = Delivery.query.order_by(Delivery.id)
+    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -161,7 +163,8 @@ def stocksadd():
             addstock = Stock(picture, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
             db.session.add(addstock)
             db.session.commit()
-    return render_template('stocksadd.html',session=session,nav = u"库存->新增")
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=catelist)
 
 @app.route("/roles",methods=['POST','GET'])
 @login_required
@@ -202,3 +205,21 @@ def roles():
     return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist)
 
  
+@app.route("/trans",methods=['POST','GET'])
+@login_required
+def trans():
+    translist = Trans.query.order_by(Trans.id)
+    return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist)
+
+
+@app.route("/cates",methods=['POST','GET'])
+@login_required
+def cates():
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('categroies.html',session=session,nav = u"产品分类",catelist=catelist)
+
+@app.route("/delivery",methods=['POST','GET'])
+@login_required
+def delivery():
+    delilist = Delivery.query.order_by(Delivery.id)
+    return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist)

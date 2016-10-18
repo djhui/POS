@@ -127,15 +127,48 @@ class Sales(db.Model):
         self.Recashes = Recashes
         self.Commission = Commission
         self.memo = memo
-        
+
+
+class Trans(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    corpname = db.Column(db.String(80), unique=True)
+   
+  
+    def __init__(self, corpname):
+        self.corpname = corpname
+
+class Cates(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    categroies = db.Column(db.String(80), unique=True)
+
+    def __init__(self, categroies):
+        self.categroies = categroies
+
+class Delivery(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    delivery = db.Column(db.String(80), unique=True)
+
+    def __init__(self, delivery):
+        self.delivery = delivery
+
 if __name__ == '__main__':
     db.create_all()
     #Create init account,username=admin password=admin encrypted by sha256
     insetuser=User(username='admin', password='c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', role='admin',nickname='系统管理员',mobile="")
     #create init role
     insetrole=Role('admin',1,1,1,1,1,1,1,1,1,1,1,1)
-
+    insettrans = Trans(u"新邦物流")
+    insettrans1 = Trans(u"德邦物流")
+    db.session.add(Cates(u"柜/箱"))
+    db.session.add(Cates(u"椅/凳"))
+    db.session.add(Cates(u"桌/几"))
+    db.session.add(Cates(u"沙发"))
+    db.session.add(Delivery(u"预付-自提"))
+    db.session.add(Delivery(u"预付-送货到楼下"))
+    db.session.add(Delivery(u"到付-自提"))
+    db.session.add(Delivery(u"到付-送货到楼下"))
+    db.session.add(insettrans)
+    db.session.add(insettrans1)
     db.session.add(insetuser)
     db.session.add(insetrole)
-
     db.session.commit()

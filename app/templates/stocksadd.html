@@ -58,8 +58,9 @@
                             <label class="col-lg-2 control-label">类别</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="select" name="categroies" required>
-										<option value="1">Option 1</option>
-										<option value="2">Option 2</option>
+                                    {% for cate in catelist %}
+										<option value="{{cate.categroies}}">{{cate.categroies}}</option>
+                                    {% endfor %}
 									</select>
                             </div>
                         </div>
