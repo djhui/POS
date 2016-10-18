@@ -107,9 +107,9 @@ class Stock(db.Model):
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     picture = db.Column(db.VARCHAR(520), unique=True)
-    orderdate = db.Column(db.DateTime)
+    orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
-    cdeliverydate = db.Column(db.DateTime) #Cumstomer wants to delivery data
+    cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
     type = db.Column(db.String(120))
     color = db.Column(db.String(120))
     number = db.Column(db.Integer)
@@ -119,7 +119,7 @@ class Sales(db.Model):
     price = db.Column(db.Float) #sales price
     advprice = db.Column(db.Float) #Advance fee
     CSE = db.Column(db.String(120)) #Customer Service Employee
-    deliverydate = db.Column(db.DateTime) #actual delivery date
+    deliverydate = db.Column(db.Date) #actual delivery date
     Tnumber = db.Column(db.String(120)) #transportation number
     Aprice = db.Column(db.Float) #Actual price
     Recashes = db.Column(db.Float) #Cash back
