@@ -1,101 +1,73 @@
  {% extends "base.html" %} {% block content %}
 <div class="panel-body">
-    <div class="bootstrap-table">
-        <div class="fixed-table-toolbar">
-            <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button><button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
-                <div class="keep-open btn-group" title="Columns"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><label><input type="checkbox" data-field="id" value="1" checked="checked"> 角色</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 权限</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 操作</label></li>
-
-
-                    </ul>
-                </div>
-            </div>
-            <div class="pull-right search"><input class="form-control" type="text" placeholder="Search"></div>
-        </div>
-        <div class="fixed-table-container">
-            <div class="fixed-table-header">
-                <table></table>
-            </div>
-            <div class="fixed-table-body">
-                <div class="fixed-table-loading" style="top: 37px; display: none;">Loading, please wait…</div>
-                <table data-toggle="table" data-url="tables/data1.json" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="bs-checkbox " style="width: 36px; ">
-                                <div class="th-inner "><input name="btSelectAll" type="checkbox"></div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">角色</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">权限</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">操作</div>
-                                <div class="fht-cell"></div>
-                            </th>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<table class="table table-striped" data-toggle="table"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+						data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+						<thead>
+							<tr>
+								<th data-field="id" data-sortable="true">ID</th>
+								<th data-field="role" data-sortable="true">角色</th>
+								<th data-field="permission" data-sortable="true">权限</th>
+								<th data-field="control" data-sortable="true">操作</th>
 
 
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if rolelist %} {% for role in rolelist %}
-                        <tr class="no-records-found">
+							</tr>
+						</thead>
+						{% if rolelist %} {% for role in rolelist %}
+						<tbody>
+						<tr class="no-records-found">
 
-                            <td>{{role.id}} </td>
-                            <td>{{role.rolename}} </td>
-                            <td>
-                                <label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
-                                    <label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
-                                    <label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
-                                </div>
+							<td>{{role.id}} </td>
+							<td>{{role.rolename}} </td>
+							<td>
+								<label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
+								<div class="checkbox">
+									<label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
+									<label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
+									<label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
+								</div>
 
 
 
 
-                                <label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
-                                </div>
+								<label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
+								<div class="checkbox">
+									<label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
+								</div>
 
-                                <label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
-                                    <label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
-                                    <label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
-                                    <label><input type="checkbox" disabled id="stockdesks{{role.id}}"> 桌/几</label>
-                                    <label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
-                                    <label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
-                                </div>
-                                <label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
-                                    <label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
-                                </div>
+								<label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
+								<div class="checkbox">
+									<label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
+									<label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
+									<label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
+									<label><input type="checkbox" disabled id="stockdesks{{role.id}}"> 桌/几</label>
+									<label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
+									<label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
+								</div>
+								<label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
+								<div class="checkbox">
+									<label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
+									<label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
+								</div>
 
-                            </td>
+							</td>
 
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
-                                    <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-pencil"></i>修改</a></li>
-                                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
-                                        <li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <script>
+							<td>
+								<div class="btn-group">
+									<a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
+									<a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#"><i class="icon-pencil"></i>修改</a></li>
+										<li><a href="#"><i class="icon-trash"></i>删除</a></li>
+										<li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
+									</ul>
+								</div>
+							</td>
+							<script>
                                 document.getElementById("sales{{role.id}}").checked = {{role.sales|lower}};
                                 document.getElementById("salesdetail{{role.id}}").checked = {{role.salesdetail|lower}};
                                 document.getElementById("salesadd{{role.id}}").checked = {{role.salesadd|lower }};
@@ -108,98 +80,78 @@
                                 document.getElementById("stockadd{{role.id}}").checked = {{role.stockadd|lower}};
                                 document.getElementById("account{{role.id}}").checked = {{role.account|lower}};
                                 document.getElementById("role{{role.id}}").checked = {{role.role|lower}};
-                            </script>
-                            {%endfor %} {%else%}
-                            <td colspan="3">No matching records found</td>
+                            </script> {%endfor %}
+							
 
-                        </tr>
-                        {%endif%}
-                    </tbody>
-                </table>
-            </div>
-            <div class="fixed-table-pagination ">
-                <div class="pull-left pagination-detail "><span class="pagination-info ">Showing 1 to 0 of 0 rows</span><span class="page-list "><span class="btn-group dropup "><button type="button " class="btn btn-default dropdown-toggle
-                                " data-toggle="dropdown "><span class="page-size ">10</span>
-                    <span class="caret "></span>
-                    </button>
-                    <ul class="dropdown-menu " role="menu ">
-                        <li class="active "><a href="javascript:void(0) ">10</a></li>
-                        <li><a href="javascript:void(0) ">25</a></li>
-                        <li><a href="javascript:void(0) ">50</a></li>
-                        <li><a href="javascript:void(0) ">100</a></li>
-                    </ul>
-                    </span> records per page</span>
-                </div>
-                <div class="pull-right pagination ">
-                    <ul class="pagination ">
-                        <li class="page-first disabled "><a href="javascript:void(0) ">&lt;&lt;</a></li>
-                        <li class="page-pre disabled "><a href="javascript:void(0) ">&lt;</a></li>
-                        <li class="page-next disabled "><a href="javascript:void(0) ">&gt;</a></li>
-                        <li class="page-last disabled "><a href="javascript:void(0) ">&gt;&gt;</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="clearfix "></div>
+						</tr>
+						{%endif%}
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix "></div>
 </div>
 
 <div class="col-lg-6">
-    <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-        <fieldset>
-            <legend>新建角色</legend>
-            <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">角色名</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="角色名" required>
-                </div>
-            </div>
+	<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+		<fieldset>
+			<legend>新建角色</legend>
+			<div class="form-group">
+				<label for="inputDefault" class="col-lg-2 control-label">角色名</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="角色名" required>
+				</div>
+			</div>
 
 
-            <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">权限</label>
+			<div class="form-group">
+				<label for="inputDefault" class="col-lg-2 control-label">权限</label>
 
-                <div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="sales" value="1"> 总览查询</label>
-                        <label><input type="checkbox" name="salesdetail" value="1"> 明细查询</label>
-                        <label><input type="checkbox" name="salesadd" value="1"> 录入</label>
-                    </div>
-
-
+				<div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
+					<div class="checkbox">
+						<label><input type="checkbox" name="sales" value="1"> 总览查询</label>
+						<label><input type="checkbox" name="salesdetail" value="1"> 明细查询</label>
+						<label><input type="checkbox" name="salesadd" value="1"> 录入</label>
+					</div>
 
 
-                    <label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="freight" value="1"> 运费估算</label>
-                    </div>
 
-                    <label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="stock" value="1"> 所有宝贝</label>
-                        <label><input type="checkbox" name="stockcabinets" value="1"> 柜/箱</label>
-                        <label><input type="checkbox" name="stockchairs" value="1"> 椅/凳</label>
-                        <label><input type="checkbox" name="stockdesks" value="1"> 桌/几</label>
-                        <label><input type="checkbox" name="stocksofa" value="1"> 沙发</label>
-                        <label><input type="checkbox" name="stockadd" value="1"> 新增</label>
-                    </div>
-                    <label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="account" value="1"> 账号管理</label>
-                        <label><input type="checkbox" name="role" value="1"> 角色管理</label>
-                    </div>
-                </div>
 
-            </div>
+					<label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
+					<div class="checkbox">
+						<label><input type="checkbox" name="freight" value="1"> 运费估算</label>
+					</div>
 
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default">重置</button>
-                    <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+					<label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
+					<div class="checkbox">
+						<label><input type="checkbox" name="stock" value="1"> 所有宝贝</label>
+						<label><input type="checkbox" name="stockcabinets" value="1"> 柜/箱</label>
+						<label><input type="checkbox" name="stockchairs" value="1"> 椅/凳</label>
+						<label><input type="checkbox" name="stockdesks" value="1"> 桌/几</label>
+						<label><input type="checkbox" name="stocksofa" value="1"> 沙发</label>
+						<label><input type="checkbox" name="stockadd" value="1"> 新增</label>
+					</div>
+					<label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
+					<div class="checkbox">
+						<label><input type="checkbox" name="account" value="1"> 账号管理</label>
+						<label><input type="checkbox" name="role" value="1"> 角色管理</label>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="form-group">
+				<div class="col-lg-10 col-lg-offset-2">
+					<button type="reset" class="btn btn-default">重置</button>
+					<button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
 </div>
 
 

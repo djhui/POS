@@ -61,6 +61,31 @@ def salesdetail():
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
 def salesadd():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            picture = request.form['picture']
+            orderdate = request.form['orderdate']
+            wangwang = request.form['wangwang']
+            cdeliverydate = request.form['cdeliverydate']
+            type = request.form['type']
+            color = request.form['color']
+            number = int(request.form['number'])
+            address = request.form['address']
+            transportation = request.form['transportation']
+            Inprice = float(request.form['Inprice'])
+            price = float(request.form['price'])
+            advprice = float(request.form['advprice'])
+            CSE = request.form['CSE']
+            deliverydate = request.form['deliverydate']
+            Tnumber = request.form['Tnumber']
+            Aprice = float(request.form['Aprice'])
+            Recashes = float(request.form['Recashes'])
+            Commission = float(request.form['Commission'])
+            try:memo = request.form['memo']
+            except:memo="no comments"
+            addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, Tnumber, Aprice,Recashes,Commission, memo)
+            db.session.add(addsales)
+            db.session.commit()
     return render_template('salesadd.html',session=session,nav = u"添加")
 
 @app.route("/users",methods=['POST','GET'])
@@ -118,6 +143,24 @@ def stockssofa():
 @app.route("/stocks/add",methods=['POST','GET'])
 @login_required
 def stocksadd():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            picture = request.form['picture']
+            products = request.form['products']
+            code = request.form['code']
+            specification = request.form['specification']
+            color = request.form['color']
+            exstock = int(request.form['exstock'])
+            whstock = int(request.form['whstock'])
+            fastock = int(request.form['fastock'])
+            pkgsize = request.form['pkgsize']
+            pgkbulk = request.form['pgkbulk']
+            categroies = request.form['categroies']
+            try:memo= request.form['memo']
+            except:memo="no comments"
+            addstock = Stock(picture, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
+            db.session.add(addstock)
+            db.session.commit()
     return render_template('stocksadd.html',session=session,nav = u"库存->新增")
 
 @app.route("/roles",methods=['POST','GET'])

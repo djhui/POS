@@ -1,185 +1,69 @@
  {% extends "base.html" %} {% block content %}
 <div class="panel-body">
-    <div class="bootstrap-table">
-        <div class="fixed-table-toolbar">
-            <div class="columns btn-group pull-right"><button class="btn btn-default" type="button" name="refresh" title="Refresh"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button><button class="btn btn-default" type="button" name="toggle" title="Toggle"><i class="glyphicon glyphicon glyphicon-list-alt icon-list-alt"></i></button>
-                <div class="keep-open btn-group" title="Columns"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><label><input type="checkbox" data-field="date" value="1" checked="checked"> 产品</label></li>
-                        <li><label><input type="checkbox" data-field="date" value="1" checked="checked"> 下单日期</label></li>
-                        <li><label><input type="checkbox" data-field="wangwang" value="2" checked="checked"> 旺旺号</label></li>
-                        <li><label><input type="checkbox" data-field="production" value="3" checked="checked"> 产品</label></li>
-                        <li><label><input type="checkbox" data-field="type" value="3" checked="checked"> 规格</label></li>
-                        <li><label><input type="checkbox" data-field="color" value="3" checked="checked"> 颜色</label></li>
-                        <li><label><input type="checkbox" data-field="qty" value="3" checked="checked"> 数量</label></li>
-                        <li><label><input type="checkbox" data-field="ep" value="3" checked="checked"> 保价</label></li>
-                        <li><label><input type="checkbox" data-field="tp" value="3" checked="checked"> 物流送货方式</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 商品价格</label></li>
-                        <li><label><input type="checkbox" data-field="preprice" value="3" checked="checked"> 预收运费</label></li>
-                        <li><label><input type="checkbox" data-field="cs" value="3" checked="checked"> 销售客服</label></li>
-                        <li><label><input type="checkbox" data-field="sdate" value="3" checked="checked"> 发货日期</label></li>
-                        <li><label><input type="checkbox" data-field="t" value="3" checked="checked"> 物流单号</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 实际运费</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 返现</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 提成结算</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 开发票</label></li>
-                        <li><label><input type="checkbox" data-field="price" value="3" checked="checked"> 操作</label></li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="pull-right search"><input class="form-control" type="text" placeholder="Search"></div>
-        </div>
-        <div class="fixed-table-container">
-            <div class="fixed-table-header">
-                <table></table>
-            </div>
-            <div class="fixed-table-body">
-                <div class="fixed-table-loading" style="top: 37px; display: none;">Loading, please wait…</div>
-                <table data-toggle="table" data-url="tables/data1.json" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="bs-checkbox " style="width: 36px; ">
-                                <div class="th-inner "><input name="btSelectAll" type="checkbox"></div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">产品</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">下单日期</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">旺旺号<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
-                                </div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">客户要求发货时间</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">规格</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">颜色<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
-                                </div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">数量</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">保价</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">物流送货方式<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
-                                </div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">商品价格</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">预收运费</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">销售客服<span class="order"><span class="caret" style="margin: 10px 5px;"></span></span>
-                                </div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">发货日期</div>
-                                <div class="fht-cell"></div>
-                            </th>
-
-
-
-                            <th style="">
-                                <div class="th-inner sortable">物流单号</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">实际运费</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">返现</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">提成结算</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">备注</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                            <th style="">
-                                <div class="th-inner sortable">操作</div>
-                                <div class="fht-cell"></div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>{% if saleslist %} {% for sales in saleslist %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                        <thead>
+                            <tr>
+                                <th data-field="id" data-sortable="true">ID</th>
+                                <th data-field="picture" data-sortable="true">产品</th>
+                                <th data-field="orderdate" data-sortable="true">下单日期</th>
+                                <th data-field="wangwang" data-sortable="true">旺旺号</th>
+                                <th data-field="cdeliverydate" data-sortable="true">客户要求发货时间</th>
+                                <th data-field="type" data-sortable="true">规格</th>
+                                <th data-field="color" data-sortable="true">颜色</th>
+                                <th data-field="number" data-sortable="true">数量</th>
+                                <th data-field="address" data-sortable="true">客户收货信息</th>
+                                <th data-field="transportation" data-sortable="true">物流送货方式</th>
+                                <th data-field="Inprice" data-sortable="true">保价</th>
+                                <th data-field="price" data-sortable="true">商品价格</th>
+                                <th data-field="advprice" data-sortable="true">预收运费</th>
+                                <th data-field="CSE" data-sortable="true">销售客服</th>
+                                <th data-field="deliverydate" data-sortable="true">发货日期</th>
+                                <th data-field="Tnumber" data-sortable="true">物流单号</th>
+                                <th data-field="Aprice" data-sortable="true">实际运费</th>
+                                <th data-field="Recashes" data-sortable="true">返现</th>
+                                <th data-field="Commission" data-sortable="true">提成结算</th>
+                                <th data-field="memo" data-sortable="true">备注</th>
+                                <th data-field="control" data-sortable="true">操作</th>
+                            </tr>
+                        </thead>
+                        {% if saleslist %} {% for sales in saleslist %}
                         <tr class="no-records-found">
-                           <td>{{sales.id}}</td>
-<td>{{sales.picture}}</td>
-<td>{{sales.orderdate}}</td>
-<td>{{sales.wangwang}}</td>
-<td>{{sales.cdeliverydate}}</td>
-<td>{{sales.type}}</td>
-<td>{{sales.color}}</td>
-<td>{{sales.number}}</td>
-<td>{{sales.address}}</td>
-<td>{{sales.transportation}}</td>
-<td>{{sales.Inprice}}</td>
-<td>{{sales.advprice}}</td>
-<td>{{sales.CSE}}</td>
-<td>{{sales.deliverydate}}</td>
-<td>{{sales.Tnumber}}</td>
-<td>{{sales.Aprice}}</td>
-<td>{{sales.Recashes}}</td>
-<td>{{sales.Commission}}</td>
-<td>{{sales.memo}}</td>
-                            
+                            <td>{{sales.id}}</td>
+                            <td>{{sales.picture}}</td>
+                            <td>{{sales.orderdate}}</td>
+                            <td>{{sales.wangwang}}</td>
+                            <td>{{sales.cdeliverydate}}</td>
+                            <td>{{sales.type}}</td>
+                            <td>{{sales.color}}</td>
+                            <td>{{sales.number}}</td>
+                            <td>{{sales.address}}</td>
+                            <td>{{sales.transportation}}</td>
+                            <td>{{sales.Inprice}}</td>
+                            <td>{{sales.price}}</td>
+                            <td>{{sales.advprice}}</td>
+                            <td>{{sales.CSE}}</td>
+                            <td>{{sales.deliverydate}}</td>
+                            <td>{{sales.Tnumber}}</td>
+                            <td>{{sales.Aprice}}</td>
+                            <td>{{sales.Recashes}}</td>
+                            <td>{{sales.Commission}}</td>
+                            <td>{{sales.memo}}</td>
+
                             <td><a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a></td>
-                            {% endfor %} {% else %}<td colspan="18">No matching records found</td>
+                            {% endfor %}
+
                         </tr>{% endif %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="fixed-table-pagination">
-                <div class="pull-left pagination-detail"><span class="pagination-info">Showing 1 to 0 of 0 rows</span><span class="page-list"><span class="btn-group dropup"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="page-size">10</span>
-                    <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="active"><a href="javascript:void(0)">10</a></li>
-                        <li><a href="javascript:void(0)">25</a></li>
-                        <li><a href="javascript:void(0)">50</a></li>
-                        <li><a href="javascript:void(0)">100</a></li>
-                    </ul>
-                    </span> records per page</span>
+
+                    </table>
                 </div>
-                <div class="pull-right pagination">
-                    <ul class="pagination">
-                        <li class="page-first"><a href="javascript:void(0)">&lt;&lt;</a></li>
-                        <li class="page-pre"><a href="javascript:void(0)">&lt;</a></li>
-                        <li class="page-next"><a href="javascript:void(0)">&gt;</a></li>
-                        <li class="page-last"><a href="javascript:void(0)">&gt;&gt;</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
-    <div class="clearfix"></div>
 </div>
 
 

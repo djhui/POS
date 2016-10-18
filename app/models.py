@@ -116,6 +116,7 @@ class Sales(db.Model):
     address = db.Column(db.VARCHAR(520))
     transportation = db.Column(db.VARCHAR(520))
     Inprice = db.Column(db.Float) #Insurance price
+    price = db.Column(db.Float) #sales price
     advprice = db.Column(db.Float) #Advance fee
     CSE = db.Column(db.String(120)) #Customer Service Employee
     deliverydate = db.Column(db.DateTime) #actual delivery date
@@ -126,7 +127,7 @@ class Sales(db.Model):
     memo = db.Column(db.VARCHAR(520))
 
   
-    def __init__(self, picture="0", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,advprice=0,ces=0,deliverydate="0000-00-00", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
+    def __init__(self, picture="0", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
         self.picture = picture
         self.orderdate = orderdate
         self.wangwang = wangwang
@@ -137,12 +138,13 @@ class Sales(db.Model):
         self.address = address
         self.transportation = transportation
         self.Inprice = Inprice
+        self.price = price
         self.advprice = advprice
-        self.CES = CES
+        self.CSE = CSE
         self.deliverydate = deliverydate
         self.Tnumber = Tnumber
         self.Aprice = Aprice
         self.Recashes = Recashes
-        self.sCommission = Commission
+        self.Commission = Commission
         self.memo = memo
         
