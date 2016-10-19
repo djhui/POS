@@ -80,13 +80,14 @@ def salesadd():
             advprice = float(request.form['advprice'])
             CSE = request.form['CSE']
             deliverydate = request.form['deliverydate']
+            trancorp = request.form['trancorp']
             Tnumber = request.form['Tnumber']
             Aprice = float(request.form['Aprice'])
             Recashes = float(request.form['Recashes'])
             Commission = request.form['Commission']
             try:memo = request.form['memo']
             except:memo="no comments"
-            addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, Tnumber, Aprice,Recashes,Commission, memo)
+            addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
             db.session.add(addsales)
             db.session.commit()
     nickname=User.query.order_by(User.username)
