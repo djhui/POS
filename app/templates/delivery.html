@@ -1,77 +1,92 @@
  {% extends "base.html" %} {% block content %}
-<div class="panel-body">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-                        <thead>
-                            <tr>
-                                <th data-field="id" data-sortable="true">ID</th>
-                                <th data-field="role" data-sortable="true">送货方式</th>
-                                <th data-field="control" data-sortable="true">操作</th>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建送货方式</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="home">
+        <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+            <thead>
+                <tr>
+                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="delivery" data-sortable="true">送货方式</th>
+                    <th data-field="control" data-sortable="true">操作</th>
 
 
 
-                            </tr>
-                        </thead>
-                        {% if delilist %} {% for deli in delilist %}
+                </tr>
+            </thead>
+            {% if delilist %} {% for deli in delilist %}
 
-                        <tr class="no-records-found">
+            <tr class="no-records-found">
 
-                            <td>{{deli.id}} </td>
-                            <td>{{deli.delivery}} </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
-                                    <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-pencil"></i>修改</a></li>
-                                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
-                                        <li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            {%endfor %}
-                        </tr>
-                        {%endif%}
+                <td>{{deli.id}} </td>
+                <td>{{deli.delivery}} </td>
+                <td>
+                    <a href="#update" class="btn btn-primary btn-xs" data-toggle="modal" role="button">修改</a>
+                    <a href="#delete" class="btn btn-danger btn-xs" data-toggle="modal" role="button">删除</a>
+                </td>
+                {%endfor %}
+            </tr>
+            {%endif%}
 
-                    </table>
+        </table>
+    </div>
+
+
+
+    <div class="tab-pane fade" id="profile">
+        <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+            <fieldset>
+                <legend>添加送货方式</legend>
+                <div class="form-group">
+                    <label for="inputDefault" class="col-lg-2 control-label">送货方式</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式" required>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 
+
+    <div class="modal" id="update">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改送货方式</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="inputDefault " class="control-label ">送货方式</label>
+                    <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式 " required value=data-id>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" name="submit" value="update">保存更新</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="clearfix "></div>
-</div>
 
-<div class="col-lg-6">
-    <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-        <fieldset>
-            <legend>添加送货方式</legend>
-            <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">送货方式</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="送货方式" required>
+    <div class="modal" id="delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="deleteid" onclick="doDel(这里需要传入上面data-id对应的value)">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
+        </div>
+    </div>
 
-
-
-
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default">重置</button>
-                    <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-</div>
-
-
-
-
-
-{% endblock %}
+    {% endblock %}

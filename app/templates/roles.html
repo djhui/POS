@@ -1,9 +1,10 @@
  {% extends "base.html" %} {% block content %}
-<div class="panel-body">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-body">
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建角色</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="home">
 					<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
 						data-search="true"  data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
 						<thead>
@@ -69,13 +70,7 @@
 					</table>
 				</div>
 
-			</div>
-		</div>
-	</div>
-
-
-
-<div class="col-lg-6">
+    <div class="tab-pane fade" id="profile">
 	<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
 		<fieldset>
 			<legend>新建角色</legend>

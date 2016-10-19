@@ -45,18 +45,21 @@ def exit():
 @login_required
 def main():
     user = current_user
-    return render_template('main.html',user=user)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('main.html',user=user,catelist=catelist)
 
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
-    return render_template('sales.html',session=session,nav = u"销售总览")
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('sales.html',session=session,nav = u"销售总览",catelist=catelist)
 
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required
 def salesdetail():
     saleslist = Sales.query.order_by(Sales.id)
-    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=catelist)
 
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
@@ -88,7 +91,9 @@ def salesadd():
             db.session.commit()
     nickname=User.query.order_by(User.username)
     delilist = Delivery.query.order_by(Delivery.id)
-    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist)
+    catelist = Cates.query.order_by(Cates.id)
+    translist = Trans.query.order_by(Trans.id)
+    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=catelist,translist=translist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -109,48 +114,32 @@ def users():
 
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
-    return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=catelist)
 
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
-    return render_template('freight.html',session=session,nav = u"运费估算")
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('freight.html',session=session,nav = u"运费估算",catelist=catelist)
 
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
 def stocks():
     stocklist = Stock.query.order_by(Stock.id)
-    return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=catelist)
 
 #------------------------------------------------------------------------------------------------------------
 @app.route("/stocks/<postcate>",methods=['POST','GET'])
 @login_required
 def postcate(postcate):
-
     cate1 = Cates.query.filter_by(ecate=postcate).first()
     stocklist = Stock.query.filter_by(categroies=cate1.categroies).all()
-    return render_template('stocks.html',session=session,nav = u"库存->柜/箱",stocklist=stocklist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('stocks.html',session=session,nav = cate1.categroies,stocklist=stocklist,catelist=catelist)
 #------------------------------------------------------------------------------------------------------------
 
-@app.route("/stocks/cabinets",methods=['POST','GET'])
-@login_required
-def stockscabinets():
-    return render_template('stocks.html',session=session,nav = u"库存->柜/箱")
-
-@app.route("/stocks/chairs",methods=['POST','GET'])
-@login_required
-def stockschairs():
-    return render_template('stocks.html',session=session,nav = u"库存->椅/凳")
-
-@app.route("/stocks/desks",methods=['POST','GET'])
-@login_required
-def stocksdesks():
-    return render_template('stocks.html',session=session,nav = u"库存->桌/几")
-
-@app.route("/stocks/sofa",methods=['POST','GET'])
-@login_required
-def stockssofa():
-    return render_template('stocks.html',session=session,nav = u"库存->沙发")
 
 @app.route("/stocks/add",methods=['POST','GET'])
 @login_required
@@ -212,24 +201,44 @@ def roles():
 
 
     rolelist = Role.query.order_by(Role.rolename)
-    return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=catelist)
 
  
 @app.route("/trans",methods=['POST','GET'])
 @login_required
 def trans():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            corpname = request.form['corpname']
+            db.session.add(Trans(corpname))
+            db.session.commit()
     translist = Trans.query.order_by(Trans.id)
-    return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist,catelist=catelist)
 
 
 @app.route("/cates",methods=['POST','GET'])
 @login_required
 def cates():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            ecate=request.form['ecate']
+            categroies=request.form['categroies']
+            db.session.add(Cates(ecate,categroies))
+            db.session.commit()
+
     catelist = Cates.query.order_by(Cates.id)
     return render_template('categroies.html',session=session,nav = u"产品分类",catelist=catelist)
 
 @app.route("/delivery",methods=['POST','GET'])
 @login_required
 def delivery():
+    if request.method == 'POST':
+        if request.form['submit']=="add":
+            delivery = request.form['delivery']
+            db.session.add(Delivery(delivery))
+            db.session.commit()
     delilist = Delivery.query.order_by(Delivery.id)
-    return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist)
+    catelist = Cates.query.order_by(Cates.id)
+    return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=catelist)

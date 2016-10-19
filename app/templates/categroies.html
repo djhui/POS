@@ -1,77 +1,70 @@
  {% extends "base.html" %} {% block content %}
-<div class="panel-body">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-                        <thead>
-                            <tr>
-                                <th data-field="id" data-sortable="true">ID</th>
-                                <th data-field="role" data-sortable="true">产品类别</th>
-                                <th data-field="control" data-sortable="true">操作</th>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">添加产品类别</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="home">
+        <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+            <thead>
+                <tr>
+                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="ecate" data-sortable="true">产品类别EN</th>
+                    <th data-field="categroies" data-sortable="true">产品类别</th>
+                    <th data-field="control" data-sortable="true">操作</th>
 
 
 
-                            </tr>
-                        </thead>
-                        {% if catelist %} {% for cate in catelist %}
+                </tr>
+            </thead>
+            {% if catelist %} {% for cate in catelist %}
 
-                        <tr class="no-records-found">
+            <tr class="no-records-found">
 
-                            <td>{{cate.id}} </td>
-                            <td>{{cate.categroies}} </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary btn-xs" href="#"><i class="icon-user icon-white"></i>操作</a>
-                                    <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-pencil"></i>修改</a></li>
-                                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
-                                        <li><a href="#"><i class="icon-ban-circle"></i>禁用</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            {%endfor %}
-                        </tr>
-                        {%endif%}
+                <td>{{cate.id}} </td>
+                <td>{{cate.ecate}} </td>
+                <td>{{cate.categroies}}</td>
+                <td>
+                    <a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a>
+                </td>
+                {%endfor %}
+            </tr>
+            {%endif%}
 
-                    </table>
-                </div>
-
-            </div>
-        </div>
+        </table>
     </div>
-</div>
-<div class="clearfix "></div>
-</div>
-
-<div class="col-lg-6">
-    <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-        <fieldset>
-            <legend>添加产品类别</legend>
-            <div class="form-group">
-                <label for="inputDefault" class="col-lg-2 control-label">产品类别</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="产品类别" required>
+    <div class="tab-pane fade" id="profile">
+        <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+            <fieldset>
+                <legend>添加产品类别</legend>
+                <div class="form-group">
+                    <label for="inputDefault" class="col-lg-2 control-label">产品类别EN</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputDefault" name="ecate" placeholder="产品类别" required>
+                    </div>
                 </div>
-            </div>
-
-
-
-
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default">重置</button>
-                    <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+                <div class="form-group">
+                    <label for="inputDefault" class="col-lg-2 control-label">产品类别</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputDefault" name="categroies" placeholder="产品类别" required>
+                    </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
-</div>
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 
 
 
 
 
-{% endblock %}
+    {% endblock %}
