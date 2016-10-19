@@ -253,5 +253,5 @@ def upload_file():
         f = request.files['files[]']
         filename = f.filename
         minetype = f.content_type
-        f.save(os.getcwd()+'\\app\\static\\upload\\' + filename) 
+        f.save(os.getcwd()+'/app/static/upload/' + filename) 
         return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
