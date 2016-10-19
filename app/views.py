@@ -241,6 +241,8 @@ def delivery():
             delivery = request.form['delivery']
             db.session.add(Delivery(delivery))
             db.session.commit()
+    print request.args
+    print request.args.get("id")
     delilist = Delivery.query.order_by(Delivery.id)
     catelist = Cates.query.order_by(Cates.id)
     return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=catelist)

@@ -9,8 +9,8 @@
         <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
             <thead>
                 <tr>
-                    <th data-field="id" data-sortable="true">ID</th>
-                    <th data-field="delivery" data-sortable="true">送货方式</th>
+                    <th data-field="id" id="ID" data-sortable="true">ID</th>
+                    <th data-field="delivery" id="delivery" data-sortable="true">送货方式</th>
                     <th data-field="control" data-sortable="true">操作</th>
                 </tr>
             </thead>
@@ -49,9 +49,6 @@
         </form>
     </div>
 </div>
-
-
-
 <div class="modal" id="update">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -61,7 +58,7 @@
             </div>
             <div class="modal-body">
                 <label for="inputDefault " class="control-label ">送货方式</label>
-                <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式 " required value=data-id>
+                <input type="text" class="form-control" id="delivery" name="delivery" placeholder="送货方式 " required>
             </div>
             <div class="modal-footer ">
                 <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
@@ -78,7 +75,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="deleteid" onclick="doDel(这里需要传入上面data-id对应的value)">确认</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
