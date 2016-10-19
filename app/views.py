@@ -5,6 +5,7 @@ from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
 from models import User,Role,db,Sales,Stock,Trans,Cates,Delivery
 from hashlib import sha512
+import os
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',methods=['POST','GET']), 404
@@ -243,3 +244,14 @@ def delivery():
     delilist = Delivery.query.order_by(Delivery.id)
     catelist = Cates.query.order_by(Cates.id)
     return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=catelist)
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['files[]']
+        filename = f.filename
+        minetype = f.content_type
+        f.save(os.getcwd()+'\\app\\static\\upload\\' + filename) 
+        return json.dumps({"files": [{"name": filename, "minetype": minetype}]})

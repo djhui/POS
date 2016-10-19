@@ -1,4 +1,5 @@
  {% extends "base.html" %} {% block content %}
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <ul class="nav nav-tabs">
     <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
     <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建送货方式</a></li>
@@ -11,13 +12,9 @@
                     <th data-field="id" data-sortable="true">ID</th>
                     <th data-field="delivery" data-sortable="true">送货方式</th>
                     <th data-field="control" data-sortable="true">操作</th>
-
-
-
                 </tr>
             </thead>
             {% if delilist %} {% for deli in delilist %}
-
             <tr class="no-records-found">
 
                 <td>{{deli.id}} </td>
@@ -32,9 +29,6 @@
 
         </table>
     </div>
-
-
-
     <div class="tab-pane fade" id="profile">
         <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
             <fieldset>
@@ -54,39 +48,41 @@
             </fieldset>
         </form>
     </div>
+</div>
 
 
-    <div class="modal" id="update">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">修改送货方式</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="inputDefault " class="control-label ">送货方式</label>
-                    <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式 " required value=data-id>
-                </div>
-                <div class="modal-footer ">
-                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" name="submit" value="update">保存更新</button>
-                </div>
+
+<div class="modal" id="update">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">修改送货方式</h4>
+            </div>
+            <div class="modal-body">
+                <label for="inputDefault " class="control-label ">送货方式</label>
+                <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式 " required value=data-id>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" name="submit" value="update">保存更新</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal" id="delete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="deleteid" onclick="doDel(这里需要传入上面data-id对应的value)">确认</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
+<div class="modal" id="delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="deleteid" onclick="doDel(这里需要传入上面data-id对应的value)">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}
