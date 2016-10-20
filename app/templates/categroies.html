@@ -26,7 +26,8 @@
                 <td>{{cate.ecate}} </td>
                 <td>{{cate.categroies}}</td>
                 <td>
-                    <a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a>
+                    <a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{cate.id}}','{{cate.ecate}}','{{cate.categroies}}' )">修改</a>
+                    <a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{cate.id}}' )">删除</a>
                 </td>
                 {%endfor %}
             </tr>
@@ -65,7 +66,76 @@
     </div>
 
 
+    <!-- update the record-->
+    <div class="modal" id="update">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">产品类别</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="inputDefault " class="control-label ">ID</label>
+                    <input type="text" class="form-control" id="ID1" name="ID" placeholder="ID " required readonly>
+                    <label for="inputDefault " class="control-label ">产品类别EN</label>
+                    <input type="text" class="form-control" id="ecate1" name="ecate" placeholder="产品类别EN " required>
+                    <label for="inputDefault" class="control-label">产品类别</label>
+                    <input type="text" class="form-control" id="categroies1" name="categroies" placeholder="产品类别" required>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- delete the record-->
+    <div class="modal" id="delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    你确认要删除么？
+                    <input type="text" class="form-control hide" id="ID1" name="ID" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        function editInfo(obj1, obj2, obj3) {
+            $('#ID1').val(obj1);
+            $('#ecate1').val(obj2);
+            $('#categroies1').val(obj3);
+            $('#submit').val("update")
+            $('#update').modal('show');
+        }
 
+        function delInfo(obj1) {
+            $('#ID1').val(obj1);
+            $('#submit').val("delete")
+            $('#delete').modal('show');
+        }
 
+        function update() {
+            //获取模态框数据  
+            var id = $('#ID1').val();
+            var ecate = $('#ecate1').val();
+            var categroies = $('#categroies1').val();
+            var submit = $('#submit').val();
+            $.ajax({
+                type: "post",
+                url: "{{ url_for('cates') }}",
+                data: "id=" + id + "&ecate=" + ecate + "&categroies=" + categroies + "&submit=" + submit,
+                dataType: 'html',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
+    </script>
     {% endblock %}

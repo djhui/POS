@@ -6,7 +6,7 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade active in" id="home">
-        <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+        <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
             <thead>
                 <tr>
                     <th data-field="id" id="ID" data-sortable="true">ID</th>
@@ -20,8 +20,8 @@
                 <td>{{deli.id}} </td>
                 <td>{{deli.delivery}} </td>
                 <td>
-                    <a href="#update" class="btn btn-primary btn-xs" data-toggle="modal" role="button">修改</a>
-                    <a href="#delete" class="btn btn-danger btn-xs" data-toggle="modal" role="button">删除</a>
+                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" onclick="editInfo('{{deli.id}}','{{deli.delivery}}' )" role="button">修改</a>
+                    <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" onclick="delInfo('{{deli.id}}' )" role="button">删除</a>
                 </td>
                 {%endfor %}
             </tr>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label for="inputDefault" class="col-lg-2 control-label">送货方式</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputDefault" name="delivery" placeholder="送货方式" required>
+                        <input type="text" class="form-control" id="delivery" name="delivery" placeholder="送货方式" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -49,6 +49,7 @@
         </form>
     </div>
 </div>
+<!-- update the record-->
 <div class="modal" id="update">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -57,29 +58,62 @@
                 <h4 class="modal-title">修改送货方式</h4>
             </div>
             <div class="modal-body">
+                <label for="inputDefault " class="control-label ">ID</label>
+                <input type="text" class="form-control" id="ID1" name="ID" placeholder="ID " required readonly>
                 <label for="inputDefault " class="control-label ">送货方式</label>
-                <input type="text" class="form-control" id="delivery" name="delivery" placeholder="送货方式 " required>
+                <input type="text" class="form-control" id="delivery1" name="delivery" placeholder="送货方式 " required>
             </div>
             <div class="modal-footer ">
                 <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" name="submit" value="update">保存更新</button>
+                <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
             </div>
         </div>
     </div>
 </div>
-
+<!-- delete the record-->
 <div class="modal" id="delete">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+                <input type="text" class="form-control hide" id="ID1" name="ID" required>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function editInfo(obj1, obj2) {
+        $('#ID1').val(obj1);
+        $('#delivery1').val(obj2);
+        $('#submit').val("update")
+        $('#update').modal('show');
+    }
 
+    function delInfo(obj1) {
+        $('#ID1').val(obj1);
+        $('#submit').val("delete")
+        $('#delete').modal('show');
+    }
+
+    function update() {
+        //获取模态框数据  
+        var id = $('#ID1').val();
+        var delivery = $('#delivery1').val();
+        var submit = $('#submit').val();
+        $.ajax({
+            type: "post",
+            url: "{{ url_for('delivery') }}",
+            data: "id=" + id + "&delivery=" + delivery + "&submit=" + submit,
+            dataType: 'html',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function(result) {
+                location.reload();
+            }
+        });
+    }
+</script>
 {% endblock %}

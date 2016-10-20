@@ -21,7 +21,8 @@
                 <td>{{trans.id}} </td>
                 <td>{{trans.corpname}} </td>
                 <td>
-                    <a href="#" class="btn btn-primary btn-xs">修改</a> <a href="?delete=true&id={{trans.id}}" class="btn btn-danger btn-xs">删除</a>
+                    <a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{trans.id}}','{{trans.corpname}}' )">修改</a>
+                    <a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{trans.id}}' )">删除</a>
                 </td>
                 {%endfor %}
             </tr>
@@ -57,7 +58,73 @@
     </div>
 
 
+    <!-- update the record-->
+    <div class="modal" id="update">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改物流公司</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="inputDefault " class="control-label ">ID</label>
+                    <input type="text" class="form-control" id="ID1" name="ID" placeholder="ID " required readonly>
+                    <label for="inputDefault " class="control-label ">物流公司</label>
+                    <input type="text" class="form-control" id="corpname1" name="corpname" placeholder="物流公司 " required>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- delete the record-->
+    <div class="modal" id="delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+                    <input type="text" class="form-control hide" id="ID1" name="ID" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function editInfo(obj1, obj2) {
+            $('#ID1').val(obj1);
+            $('#corpname1').val(obj2);
+            $('#submit').val("update")
+            $('#update').modal('show');
+        }
 
+        function delInfo(obj1) {
+            $('#ID1').val(obj1);
+            $('#submit').val("delete")
+            $('#delete').modal('show');
+        }
+
+        function update() {
+            //获取模态框数据  
+            var id = $('#ID1').val();
+            var corpname = $('#corpname1').val();
+            var submit = $('#submit').val();
+            $.ajax({
+                type: "post",
+                url: "{{ url_for('trans') }}",
+                data: "id=" + id + "&corpname=" + corpname + "&submit=" + submit,
+                dataType: 'html',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
+    </script>
 
 
     {% endblock %}

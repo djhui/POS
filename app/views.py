@@ -3,12 +3,12 @@
 from flask import * 
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
-from models import User,Role,db,Sales,Stock,Trans,Cates,Delivery
+from models import *
 from hashlib import sha512
 import os
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html',methods=['POST','GET']), 404
+    return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
 
 @app.errorhandler(403)
 def page_not_found(e):
@@ -17,27 +17,32 @@ def page_not_found(e):
 @lm.user_loader
 def load_user(id):
     return User.query.filter_by(username=session['name']).first()
+    
 
 @app.before_request
 def before_request():
     g.user = current_user
+    g.catelist = Cates.query.order_by(Cates.id)
 
 @app.route("/",methods=['POST','GET'])
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        session['name'] = request.form['username']
-        session['nickname'] = user.nickname
-        if request.form['username'] == user.username and sha512(request.form['password']).hexdigest() == user.password: 
+        
+        if user != None and sha512(request.form['password']).hexdigest() == user.password: 
             login_user(user)
+            session['name'] = request.form['username']
+            session['nickname'] = user.nickname
             return redirect(request.args.get('next') or url_for('main'))
+        else:
+            return render_template('error.html',error=u"用户名或者密码错误")
     return render_template('index.html')
  
 @app.route("/exit",methods=['POST','GET'])
 @login_required
 def exit():
     
-    session['name']=None
+    del session['name']
     logout_user()
     return redirect(url_for('login'))
 
@@ -45,22 +50,19 @@ def exit():
 @app.route("/main",methods=['POST','GET'])
 @login_required
 def main():
-    user = current_user
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('main.html',user=user,catelist=catelist)
+    
+    return render_template('main.html',user=g.user,catelist=g.catelist)
 
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('sales.html',session=session,nav = u"销售总览",catelist=catelist)
+    return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist)
 
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required
 def salesdetail():
     saleslist = Sales.query.order_by(Sales.id)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=catelist)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist)
 
 @app.route("/sales/add",methods=['POST','GET'])
 @login_required
@@ -93,44 +95,49 @@ def salesadd():
             db.session.commit()
     nickname=User.query.order_by(User.username)
     delilist = Delivery.query.order_by(Delivery.id)
-    catelist = Cates.query.order_by(Cates.id)
     translist = Trans.query.order_by(Trans.id)
-    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=catelist,translist=translist)
+    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
 def users():
     if request.method == 'POST':
+        try:
+            id = request.form['id']
+            newuser = User.query.get(id)
+        except:pass
+        try:username = request.form['username']
+        except:pass
+        try:password = sha512(request.form['password']).hexdigest()
+        except:pass
+        try:nickname = request.form['nickname']
+        except:pass
+        try:mobile = request.form['mobile']
+        except:pass
+        try:role = request.form['role']
+        except:pass
         if request.form['submit']=="add":
-            username = request.form['username']
-            password = sha512(request.form['password']).hexdigest()
-            nickname = request.form['nickname']
-            mobile = request.form['mobile']
-            role = request.form['role']
-
-            adduser=User(username=username, password=password, role=role,nickname=nickname,mobile=mobile)
-            db.session.add(adduser)
-            db.session.commit()
+            db.session.add(User(username, password, role,mobile, nickname))
+        if request.form['submit']=="delete":
+            db.session.delete(newuser)
+        db.session.commit()
 
 
 
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=catelist)
+    return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=g.catelist)
 
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('freight.html',session=session,nav = u"运费估算",catelist=catelist)
+    return render_template('freight.html',session=session,nav = u"运费估算",catelist=g.catelist)
 
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
 def stocks():
     stocklist = Stock.query.order_by(Stock.id)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=catelist)
+    return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=g.catelist)
 
 #------------------------------------------------------------------------------------------------------------
 @app.route("/stocks/<postcate>",methods=['POST','GET'])
@@ -138,8 +145,7 @@ def stocks():
 def postcate(postcate):
     cate1 = Cates.query.filter_by(ecate=postcate).first()
     stocklist = Stock.query.filter_by(categroies=cate1.categroies).all()
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('stocks.html',session=session,nav = cate1.categroies,stocklist=stocklist,catelist=catelist)
+    return render_template('stocks.html',session=session,nav = cate1.categroies,stocklist=stocklist,catelist=g.catelist)
 #------------------------------------------------------------------------------------------------------------
 
 
@@ -164,90 +170,118 @@ def stocksadd():
             addstock = Stock(picture, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
             db.session.add(addstock)
             db.session.commit()
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=catelist)
+    return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=g.catelist)
 
 @app.route("/roles",methods=['POST','GET'])
 @login_required
 def roles():
     if request.method == 'POST':
+        try:
+            id=request.form['id']
+            newrole = Role.query.get(id)
+        except:pass
+        try:rolename = request.form['rolename']
+        except:pass
+        try:sales = int(request.form['sales'])
+        except:sales = False
+        try:salesdetail = int(request.form['salesdetail'])
+        except:salesdetail = False
+        try:salesadd = int(request.form['salesadd'])
+        except:salesadd = False
+        try:freight = int(request.form['freight'])
+        except:freight = False
+        try:stock = int(request.form['stock'])
+        except:stock = False
+        try:stockcabinets = int(request.form['stockcabinets'])
+        except:stockcabinets = False
+        try:stockchairs = int(request.form['stockchairs'])
+        except:stockchairs = False
+        try:stockdesks = int(request.form['stockdesks'])
+        except:stockdesks = False
+        try:stocksofa = int(request.form['stocksofa'])
+        except:stocksofa = False
+        try:stockadd = int(request.form['stockadd'])
+        except:stockadd = False
+        try:account = int(request.form['account'])
+        except:account = False
+        try:role = int(request.form['role'])
+        except:role = False
         if request.form['submit']=="add":
-            rolename = request.form['rolename']
-            try:sales = int(request.form['sales'])
-            except:sales = False
-            try:salesdetail = int(request.form['salesdetail'])
-            except:salesdetail = False
-            try:salesadd = int(request.form['salesadd'])
-            except:salesadd = False
-            try:freight = int(request.form['freight'])
-            except:freight = False
-            try:stock = int(request.form['stock'])
-            except:stock = False
-            try:stockcabinets = int(request.form['stockcabinets'])
-            except:stockcabinets = False
-            try:stockchairs = int(request.form['stockchairs'])
-            except:stockchairs = False
-            try:stockdesks = int(request.form['stockdesks'])
-            except:stockdesks = False
-            try:stocksofa = int(request.form['stocksofa'])
-            except:stocksofa = False
-            try:stockadd = int(request.form['stockadd'])
-            except:stockadd = False
-            try:account = int(request.form['account'])
-            except:account = False
-            try:role = int(request.form['role'])
-            except:role = False
-            addrole = Role(rolename,sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role)
-            db.session.add(addrole)
-            db.session.commit()
+            db.session.add(Role(rolename,sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role))
+        if request.form['submit']=="delete":
+            db.session.delete(newrole)
+        db.session.commit()
 
 
     rolelist = Role.query.order_by(Role.rolename)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=catelist)
+    return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=g.catelist)
 
- 
+#------------------------------categroies----------------------------------------
 @app.route("/trans",methods=['POST','GET'])
 @login_required
 def trans():
     if request.method == 'POST':
+        try:corpname = request.form['corpname']
+        except:pass
+        try:
+            id=request.form['id']
+            newcorp = Trans.query.get(id)
+        except:pass
         if request.form['submit']=="add":
-            corpname = request.form['corpname']
             db.session.add(Trans(corpname))
-            db.session.commit()
+        if request.form['submit']=="update":
+            newcorp.corpname = corpname
+        if request.form['submit']=="delete":
+            db.session.delete(newcorp)
+        db.session.commit()
     translist = Trans.query.order_by(Trans.id)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist,catelist=catelist)
+    return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist,catelist=g.catelist)
 
-
+#------------------------------categroies----------------------------------------
 @app.route("/cates",methods=['POST','GET'])
 @login_required
 def cates():
     if request.method == 'POST':
+        try:ecate=request.form['ecate']
+        except:pass
+        try:
+            id=request.form['id']
+            newcate = Cates.query.get(id)
+        except:pass
+        try:categroies=request.form['categroies']
+        except:pass
         if request.form['submit']=="add":
-            ecate=request.form['ecate']
-            categroies=request.form['categroies']
             db.session.add(Cates(ecate,categroies))
-            db.session.commit()
+        if request.form['submit']=="update":
+            newcate.ecate = ecate
+            newcate.categroies = categroies
+        if request.form['submit']=="delete":
+            
+            db.session.delete(newcate)
+        db.session.commit()
 
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('categroies.html',session=session,nav = u"产品分类",catelist=catelist)
-
+    return render_template('categroies.html',session=session,nav = u"产品分类",catelist=g.catelist)
+#------------------------------delivery----------------------------------------
 @app.route("/delivery",methods=['POST','GET'])
 @login_required
 def delivery():
     if request.method == 'POST':
+        try:delivery = request.form['delivery']
+        except:pass
+        try:
+            id = request.form['id']
+            newdeli = Delivery.query.get(id)
+        except:pass
         if request.form['submit']=="add":
-            delivery = request.form['delivery']
             db.session.add(Delivery(delivery))
-            db.session.commit()
-    print request.args
-    print request.args.get("id")
+        if request.form['submit']=="update":
+            newdeli.delivery = delivery
+        if request.form['submit']=="delete":
+            db.session.delete(newdeli)
+        db.session.commit()
     delilist = Delivery.query.order_by(Delivery.id)
-    catelist = Cates.query.order_by(Cates.id)
-    return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=catelist)
-
-
+    return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=g.catelist)
+#----------------------------------------------------------------------
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_file():

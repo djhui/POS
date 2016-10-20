@@ -74,6 +74,7 @@ class Role(db.Model):
         self.stockadd = stockadd
         self.account = account
         self.role = role
+    
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
