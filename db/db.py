@@ -155,6 +155,40 @@ class Delivery(db.Model):
     def __init__(self, delivery):
         self.delivery = delivery
 
+class Logs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime,default=db.func.CURRENT_TIMESTAMP())
+    events = db.Column(db.VARCHAR(520))
+    eventlevel = db.Column(db.String(80))
+
+    def __init__(self, date, events):
+        self.date  = date
+        self.events  = events
+        self.eventlevel  = eventlevel
+
+class Freight(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    deliveryplace = db.Column(db.String(80), unique=True)
+    destprovice = db.Column(db.String(80))
+    destcity = db.Column(db.String(80))
+    price = db.Column(db.Float)
+    dropofffee = db.Column(db.Float)
+    cheapest = db.Column(db.Float)
+    transtype = db.Column(db.String(80))
+    TBOST = db.Column(db.String(80))
+    #发货地，目的省，目的市，每方价格，送货费，最低一票，快慢类型，自提时效
+
+    def __init__(self, deliveryplace,destprovice,destcity,price,dropofffee,cheapest,transtype,TBOST):
+        self.deliveryplace=deliveryplace
+        self.destprovice = destprovice
+        self.destcity = destcity
+        self.price = price
+        self.dropofffee = dropofffee
+        self.cheapest = cheapest
+        self.transtype = transtype
+        self.TBOST = TBOST
+
+
 if __name__ == '__main__':
     db.drop_all()
     db.create_all()

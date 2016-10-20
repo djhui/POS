@@ -170,7 +170,10 @@ def stocksadd():
             addstock = Stock(picture, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
             db.session.add(addstock)
             db.session.commit()
-    return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=g.catelist)
+            stocklist = Stock.query.order_by(Stock.id)
+            return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=g.catelist)
+    else:
+        return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=g.catelist)
 #------------------------------------------------------------------------------------------------------------
 @app.route("/roles",methods=['POST','GET'])
 @login_required
@@ -291,3 +294,9 @@ def upload_file():
         minetype = f.content_type
         f.save(os.getcwd()+'/app/static/upload/' + filename) 
         return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
+
+@app.route("/log",methods=['POST','GET'])
+@login_required
+def log():
+    loglist = Logs.query.order_by(Logs.id)
+    return render_template('log.html',session=session,nav = u"操作日志",catelist=g.catelist,loglist=loglist)

@@ -174,24 +174,35 @@ class Delivery(db.Model):
     def __init__(self, delivery):
         self.delivery = delivery
 
-if __name__ == '__main__':
-    db.create_all()
-    #Create init account,username=admin password=admin encrypted by sha256
-    insetuser=User(username='admin', password='c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', role='admin',nickname='系统管理员',mobile="")
-    #create init role
-    insetrole=Role('admin',1,1,1,1,1,1,1,1,1,1,1,1)
-    insettrans = Trans(u"新邦物流")
-    insettrans1 = Trans(u"德邦物流")
-    db.session.add(Cates("cabinets",u"柜/箱"))
-    db.session.add(Cates("chairs",u"椅/凳"))
-    db.session.add(Cates("desks",u"桌/几"))
-    db.session.add(Cates("sofa",u"沙发"))
-    db.session.add(Delivery(u"预付-自提"))
-    db.session.add(Delivery(u"预付-送货到楼下"))
-    db.session.add(Delivery(u"到付-自提"))
-    db.session.add(Delivery(u"到付-送货到楼下"))
-    db.session.add(insettrans)
-    db.session.add(insettrans1)
-    db.session.add(insetuser)
-    db.session.add(insetrole)
-    db.session.commit()
+class Logs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime)
+    events = db.Column(db.VARCHAR(520))
+    eventlevel = db.Column(db.String(80))
+
+    def __init__(self, date, events):
+        self.date  = date
+        self.events  = events
+        self.eventlevel  = eventlevel
+
+class Freight(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    deliveryplace = db.Column(db.String(80), unique=True)
+    destprovice = db.Column(db.String(80))
+    destcity = db.Column(db.String(80))
+    price = db.Column(db.Float)
+    dropofffee = db.Column(db.Float)
+    cheapest = db.Column(db.Float)
+    transtype = db.Column(db.String(80))
+    TBOST = db.Column(db.String(80))
+    #发货地，目的省，目的市，每方价格，送货费，最低一票，快慢类型，自提时效
+
+    def __init__(self, deliveryplace,destprovice,destcity,price,dropofffee,cheapest,transtype,TBOST):
+        self.deliveryplace=deliveryplace
+        self.destprovice = destprovice
+        self.destcity = destcity
+        self.price = price
+        self.dropofffee = dropofffee
+        self.cheapest = cheapest
+        self.transtype = transtype
+        self.TBOST = TBOST
