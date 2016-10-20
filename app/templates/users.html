@@ -1,91 +1,197 @@
  {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
-    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建帐号</a></li>
+	<li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+	<li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建帐号</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="home">
-        <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-            <thead>
-                <tr>
-                    <th data-field="id" data-sortable="true">ID</th>
-                    <th data-field="username" data-sortable="true">账号</th>
-                    <th data-field="nickname" data-sortable="true">别名</th>
-                    <th data-field="mobile" data-sortable="true">手机</th>
-                    <th data-field="role" data-sortable="true">角色</th>
-                    <th data-field="control" data-sortable="true">操作</th>
-                </tr>
-            </thead>
-            {% if userlist %} {% for user in userlist %}
-            <tr class="no-records-found">
+	<div class="tab-pane fade active in" id="home">
+		<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+			data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+			<thead>
+				<tr>
+					<th data-field="id" data-sortable="true">ID</th>
+					<th data-field="username" data-sortable="true">账号</th>
+					<th data-field="nickname" data-sortable="true">别名</th>
+					<th data-field="mobile" data-sortable="true">手机</th>
+					<th data-field="role" data-sortable="true">角色</th>
+					<th data-field="control" data-sortable="true">操作</th>
+				</tr>
+			</thead>
+			{% if userlist %} {% for user in userlist %}
+			<tr class="no-records-found">
 
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.nickname}}</td>
-                <td>{{user.mobile}}</td>
-                <td>{{user.role}}</td>
+				<td>{{user.id}}</td>
+				<td>{{user.username}}</td>
+				<td>{{user.nickname}}</td>
+				<td>{{user.mobile}}</td>
+				<td>{{user.role}}</td>
 
-                <td>
-                    <a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a>
-                </td>
-                {% endfor %}
+				<td>
+					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{user.id}}','{{user.username}}','{{user.nickname}}','{{user.mobile}}','{{user.role}}' )">修改</a>
+					<a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{user.id}}')">删除</a>
+				</td>
+				{% endfor %}
 
-            </tr>{% endif %}
-        </table>
-    </div>
+			</tr>{% endif %}
+		</table>
+	</div>
 
-    <div class="tab-pane fade" id="profile">
-        <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-            <fieldset>
-                <legend>新建帐号</legend>
-                <div class="form-group">
-                    <label for="inputDefault" class="col-lg-2 control-label">用户名</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" name="username" id="inputDefault" placeholder="用户名" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">密码</label>
-                    <div class="col-lg-10">
-                        <input type="password" class="form-control" name="password" id="inputPassword" placeholder="密码" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputDefault" class="col-lg-2 control-label">别名</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" name="nickname" id="inputDefault" placeholder="别名,推荐写真名,跟销售表里面的客服对应" required>
-                    </div>
-                </div>
+	<div class="tab-pane fade" id="profile">
+		<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+			<fieldset>
+				<legend>新建帐号</legend>
+				<div class="form-group">
+					<label for="inputDefault" class="col-lg-2 control-label">用户名</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" name="username" id="inputDefault" placeholder="用户名" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="col-lg-2 control-label">密码</label>
+					<div class="col-lg-10">
+						<input type="password" class="form-control" name="password" id="inputPassword" placeholder="密码" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDefault" class="col-lg-2 control-label">别名</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" name="nickname" id="inputDefault" placeholder="别名,推荐写真名,跟销售表里面的客服对应" required>
+					</div>
+				</div>
 
-                <div class="form-group">
-                    <label for="inputDefault" class="col-lg-2 control-label">手机</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputDefault" name="mobile" placeholder="手机">
-                    </div>
-                </div>
+				<div class="form-group">
+					<label for="inputDefault" class="col-lg-2 control-label">手机</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" id="inputDefault" name="mobile" placeholder="手机">
+					</div>
+				</div>
 
-                <div class="form-group">
-                    <label for="select" class="col-lg-2 control-label">角色</label>
-                    <div class="col-lg-10">
-                        <select class="form-control" id="select" name="role" required>
+				<div class="form-group">
+					<label for="select" class="col-lg-2 control-label">角色</label>
+					<div class="col-lg-10">
+						<select class="form-control" id="select" name="role" required>
                          {% if rolelist %} {% for role in rolelist %}
           <option value="{{role.rolename}}">{{role.rolename}}</option>
     {%endfor %} {%else%}
     <option>请先建角色</option>
      {%endif%}
         </select>
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<button type="reset" class="btn btn-default">重置</button>
+						<button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
 
+<!-- update the record-->
+<div class="modal" id="update">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">修改帐号</h4>
+			</div>
+			<div class="modal-body">
+				<label for="inputDefault " class="control-label ">ID</label>
+				<input type="text" class="form-control" id="ID1" name="ID" placeholder="ID" readonly>
+
+
+				<label for="inputDefault" class="control-label">用户名</label>
+
+				<input type="text" class="form-control" id="username1" name="username"  readonly>
+
+				<label for="inputPassword" class="control-label">密码</label>
+
+				<input type="password" class="form-control" id="password1" name="password"  placeholder="留空表示不更改密码">
+
+				<label for="inputDefault" class="control-label">别名</label>
+
+				<input type="text" class="form-control" id="nickname1" name="nickname" >
+
+				<label for="inputDefault" class="control-label">手机</label>
+
+				<input type="text" class="form-control" id="mobile1" name="mobile" placeholder="手机">
+
+				<label for="select" class="control-label">角色</label>
+
+				<select class="form-control" id="role1" name="role" required>
+                         {% if rolelist %} {% for role in rolelist %}
+          <option value="{{role.rolename}}">{{role.rolename}}</option>
+    {%endfor %} {%else%}
+    <option>请先建角色</option>
+     {%endif%}
+        </select>
+
+
+
+				<div class="modal-footer ">
+					<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- delete the record-->
+<div class="modal" id="delete">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				你确认要删除么？
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+        function editInfo(obj1, obj2,obj3,obj4,obj5) {
+            $('#ID1').val(obj1);
+            $('#username1').val(obj2);
+            $('#nickname1').val(obj3);
+            $('#mobile1').val(obj4);
+            $('#role1').val(obj5);
+
+            $('#submit').val("update")
+            $('#update').modal('show');
+        }
+
+        function delInfo(obj1) {
+            $('#ID1').val(obj1);
+            $('#submit').val("delete")
+            $('#delete').modal('show');
+        }
+
+        function update() {
+            //获取模态框数据  
+            var id = $('#ID1').val();
+            var username = $('#username1').val();
+            var password = $('#password1').val();
+            var nickname = $('#nickname1').val();
+            var mobile = $('#mobile1').val();
+            var role = $('#role1').val();
+            var submit = $('#submit').val();
+
+            $.ajax({
+                type: "post",
+                url: "{{ url_for('users') }}",
+                data: "id=" + id + "&username=" + username + "&password=" + password + "&nickname=" + nickname+ "&mobile=" + mobile + "&role=" + role  + "&submit=" + submit,
+                dataType: 'html',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
     </script> {% endblock %}

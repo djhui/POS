@@ -118,12 +118,12 @@ def users():
         except:pass
         if request.form['submit']=="add":
             db.session.add(User(username, password, role,mobile, nickname))
+        if request.form['submit']=="update":
+            if request.form['password']:newuser.password=password
+            newuser.nickname, newuser.mobile, newuser.role =nickname, mobile, role
         if request.form['submit']=="delete":
             db.session.delete(newuser)
         db.session.commit()
-
-
-
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=g.catelist)
@@ -171,7 +171,7 @@ def stocksadd():
             db.session.add(addstock)
             db.session.commit()
     return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=g.catelist)
-
+#------------------------------------------------------------------------------------------------------------
 @app.route("/roles",methods=['POST','GET'])
 @login_required
 def roles():
@@ -208,11 +208,11 @@ def roles():
         except:role = False
         if request.form['submit']=="add":
             db.session.add(Role(rolename,sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role))
+        if request.form['submit']=="update":
+            newrole.sales,newrole.salesdetail,newrole.salesadd,newrole.freight,newrole.stock,newrole.stockcabinets,newrole.stockchairs,newrole.stockdesks,newrole.stocksofa,newrole.stockadd,newrole.account,newrole.role = sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role
         if request.form['submit']=="delete":
             db.session.delete(newrole)
         db.session.commit()
-
-
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=g.catelist)
 

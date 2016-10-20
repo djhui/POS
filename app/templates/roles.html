@@ -1,55 +1,58 @@
  {% extends "base.html" %} {% block content %}
- <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
-    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建角色</a></li>
+	<li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+	<li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建角色</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="home">
-					<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-						data-search="true"  data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-						<thead>
-							<tr>
-								<th data-field="id" data-sortable="true">ID</th>
-								<th data-field="role" data-sortable="true">角色</th>
-								<th data-field="permission" data-sortable="true">权限</th>
-								<th data-field="control" data-sortable="true">操作</th>
-							</tr>
-						</thead>
-						{% if rolelist %} {% for role in rolelist %}
-						<tr class="no-records-found">
-							<td>{{role.id}} </td>
-							<td>{{role.rolename}} </td>
-							<td>
-								<label for="inputDefault" class="col-lg-2 control-label">销售情况</label>
-								<div class="container">
-									<label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
-									<label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
-									<label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
-								</div>
-								<label for="inputDefault" class="col-lg-2 control-label">运费查询</label>
-								<div class="container">
-									<label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
-								</div>
-								<label for="inputDefault" class="col-lg-2 control-label">库存情况</label>
-								<div class="container">
-									<label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
-									<label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
-									<label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
-									<label><input type="checkbox" disabled id="stockdesks{{role.id}}"> 桌/几</label>
-									<label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
-									<label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
-								</div>
-								<label for="inputDefault" class="col-lg-2 control-label">系统设置</label>
-								<div class="container">
-									<label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
-									<label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
-								</div>
+	<div class="tab-pane fade active in" id="home">
+		<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+			data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+			<thead>
+				<tr>
+					<th data-field="id" data-sortable="true">ID</th>
+					<th data-field="role" data-sortable="true">角色</th>
+					<th data-field="permission" data-sortable="true">权限</th>
+					<th data-field="control" data-sortable="true">操作</th>
+				</tr>
+			</thead>
+			{% if rolelist %} {% for role in rolelist %}
+			<tr class="no-records-found">
+				<td>{{role.id}} </td>
+				<td>{{role.rolename}} </td>
+				<td>
+					<label for="inputDefault" class="col-lg-2 control-label">销售情况</label>
+					<div class="container">
+						<label><input type="checkbox"  disabled id="sales{{role.id}}"> 总览查询</label>
+						<label><input type="checkbox" disabled id="salesdetail{{role.id}}"> 明细查询</label>
+						<label><input type="checkbox" disabled id="salesadd{{role.id}}"> 录入</label>
+					</div>
+					<label for="inputDefault" class="col-lg-2 control-label">运费查询</label>
+					<div class="container">
+						<label><input type="checkbox" disabled id="freight{{role.id}}"> 运费估算</label>
+					</div>
+					<label for="inputDefault" class="col-lg-2 control-label">库存情况</label>
+					<div class="container">
+						<label><input type="checkbox" disabled id="stock{{role.id}}"> 所有宝贝</label>
+						<label><input type="checkbox" disabled id="stockcabinets{{role.id}}"> 柜/箱</label>
+						<label><input type="checkbox" disabled id="stockchairs{{role.id}}"> 椅/凳</label>
+						<label><input type="checkbox" disabled id="stockdesks{{role.id}}"> 桌/几</label>
+						<label><input type="checkbox" disabled id="stocksofa{{role.id}}"> 沙发</label>
+						<label><input type="checkbox" disabled id="stockadd{{role.id}}"> 新增</label>
+					</div>
+					<label for="inputDefault" class="col-lg-2 control-label">系统设置</label>
+					<div class="container">
+						<label><input type="checkbox" disabled id="account{{role.id}}"> 账号管理</label>
+						<label><input type="checkbox" disabled id="role{{role.id}}"> 角色管理</label>
+					</div>
 
-							</td>
+				</td>
 
-							<td>
-								<a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a><script>
+				<td>
+					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{role.id}}','{{role.rolename}}','{{role.sales|lower}}','{{role.salesdetail|lower}}','{{role.salesadd|lower}}','{{role.freight|lower}}','{{role.stock|lower}}','{{role.stockcabinets|lower}}','{{role.stockchairs|lower}}','{{role.stockdesks|lower}}','{{role.stocksofa|lower}}','{{role.stockadd|lower}}','{{role.account|lower}}','{{role.role|lower}}')">修改</a>
+					<a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{role.id}}')">删除</a>
+					<script>
+
                                 document.getElementById("sales{{role.id}}").checked = {{role.sales|lower}};
                                 document.getElementById("salesdetail{{role.id}}").checked = {{role.salesdetail|lower}};
                                 document.getElementById("salesadd{{role.id}}").checked = {{role.salesadd|lower }};
@@ -63,74 +66,213 @@
                                 document.getElementById("account{{role.id}}").checked = {{role.account|lower}};
                                 document.getElementById("role{{role.id}}").checked = {{role.role|lower}};
                             </script>
-							</td>
-							{%endfor %}
-						</tr>
-						{%endif%}
+				</td>
+				{%endfor %}
+			</tr>
+			{%endif%}
 
-					</table>
+		</table>
+	</div>
+
+	<div class="tab-pane fade" id="profile">
+		<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+			<fieldset>
+				<legend>新建角色</legend>
+				<div class="form-group">
+					<label for="inputDefault" class="col-lg-2 control-label">角色名</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="角色名" required>
+					</div>
 				</div>
 
-    <div class="tab-pane fade" id="profile">
-	<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-		<fieldset>
-			<legend>新建角色</legend>
-			<div class="form-group">
-				<label for="inputDefault" class="col-lg-2 control-label">角色名</label>
-				<div class="col-lg-10">
-					<input type="text" class="form-control" id="inputDefault" name="rolename" placeholder="角色名" required>
+
+				<div class="form-group">
+					<label for="inputDefault" class="col-lg-2 control-label">权限</label>
+
+					<div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
+						<div class="checkbox">
+							<label><input type="checkbox" name="sales" value="1"> 总览查询</label>
+							<label><input type="checkbox" name="salesdetail" value="1"> 明细查询</label>
+							<label><input type="checkbox" name="salesadd" value="1"> 录入</label>
+						</div>
+
+
+
+
+						<label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
+						<div class="checkbox">
+							<label><input type="checkbox" name="freight" value="1"> 运费估算</label>
+						</div>
+
+						<label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
+						<div class="checkbox">
+							<label><input type="checkbox" name="stock" value="1"> 所有宝贝</label>
+							<label><input type="checkbox" name="stockcabinets" value="1"> 柜/箱</label>
+							<label><input type="checkbox" name="stockchairs" value="1"> 椅/凳</label>
+							<label><input type="checkbox" name="stockdesks" value="1"> 桌/几</label>
+							<label><input type="checkbox" name="stocksofa" value="1"> 沙发</label>
+							<label><input type="checkbox" name="stockadd" value="1"> 新增</label>
+						</div>
+						<label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
+						<div class="checkbox">
+							<label><input type="checkbox" name="account" value="1"> 账号管理</label>
+							<label><input type="checkbox" name="role" value="1"> 角色管理</label>
+						</div>
+					</div>
+
 				</div>
+
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<button type="reset" class="btn btn-default">重置</button>
+						<button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+
+<!-- update the record-->
+<div class="modal" id="update">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">修改角色</h4>
 			</div>
 
+			<label for="inputDefault " class="control-label ">ID</label>
+			<input type="text" class="form-control" id="ID1" name="ID" placeholder="ID" readonly>
 
+
+			<label for="inputDefault" class="control-label">角色名</label>
+
+			<input type="text" class="form-control" id="crolename" name="rolename">
 			<div class="form-group">
 				<label for="inputDefault" class="col-lg-2 control-label">权限</label>
 
 				<div class="col-lg-10"><label for="inputDefault" class="col-lg-3 control-label">销售情况</label>
 					<div class="checkbox">
-						<label><input type="checkbox" name="sales" value="1"> 总览查询</label>
-						<label><input type="checkbox" name="salesdetail" value="1"> 明细查询</label>
-						<label><input type="checkbox" name="salesadd" value="1"> 录入</label>
+						<label><input type="checkbox" name="sales" id="csales"> 总览查询</label>
+						<label><input type="checkbox" name="salesdetail" id="csalesdetail"> 明细查询</label>
+						<label><input type="checkbox" name="salesadd" id="csalesadd"> 录入</label>
 					</div>
-
-
-
-
 					<label for="inputDefault" class="col-lg-3 control-label">运费查询</label>
 					<div class="checkbox">
-						<label><input type="checkbox" name="freight" value="1"> 运费估算</label>
+						<label><input type="checkbox" name="freight" id="cfreight"> 运费估算</label>
 					</div>
 
 					<label for="inputDefault" class="col-lg-3 control-label">库存情况</label>
 					<div class="checkbox">
-						<label><input type="checkbox" name="stock" value="1"> 所有宝贝</label>
-						<label><input type="checkbox" name="stockcabinets" value="1"> 柜/箱</label>
-						<label><input type="checkbox" name="stockchairs" value="1"> 椅/凳</label>
-						<label><input type="checkbox" name="stockdesks" value="1"> 桌/几</label>
-						<label><input type="checkbox" name="stocksofa" value="1"> 沙发</label>
-						<label><input type="checkbox" name="stockadd" value="1"> 新增</label>
+						<label><input type="checkbox" name="stock" id="cstock"> 所有宝贝</label>
+						<label><input type="checkbox" name="stockcabinets" id="cstockcabinets"> 柜/箱</label>
+						<label><input type="checkbox" name="stockchairs" id="cstockchairs"> 椅/凳</label>
+						<label><input type="checkbox" name="stockdesks" id="cstockdesks"> 桌/几</label>
+						<label><input type="checkbox" name="stocksofa" id="cstocksofa"> 沙发</label>
+						<label><input type="checkbox" name="stockadd" id="cstockadd"> 新增</label>
 					</div>
 					<label for="inputDefault" class="col-lg-3 control-label">系统设置</label>
 					<div class="checkbox">
-						<label><input type="checkbox" name="account" value="1"> 账号管理</label>
-						<label><input type="checkbox" name="role" value="1"> 角色管理</label>
+						<label><input type="checkbox" name="account" id="caccount"> 账号管理</label>
+						<label><input type="checkbox" name="role" id="crole"> 角色管理</label>
 					</div>
 				</div>
 
-			</div>
 
-			<div class="form-group">
-				<div class="col-lg-10 col-lg-offset-2">
-					<button type="reset" class="btn btn-default">重置</button>
-					<button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+
+				<div class="modal-footer ">
+					<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
 				</div>
 			</div>
-		</fieldset>
-	</form>
+		</div>
+	</div>
 </div>
+<!-- delete the record-->
+<div class="modal" id="delete">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				你确认要删除么？
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+        function editInfo(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9,obj10,obj11,obj12,obj13,obj14) {
+			document.getElementById("csales").checked = obj3;
+            document.getElementById("csalesdetail").checked = obj4;
+            document.getElementById("csalesadd").checked = obj5;
+            document.getElementById("cfreight").checked = obj6;
+            document.getElementById("cstock").checked = obj7;
+            document.getElementById("cstockcabinets").checked = obj8;
+            document.getElementById("cstockchairs").checked = obj9;
+            document.getElementById("cstockdesks").checked = obj10;
+            document.getElementById("cstocksofa").checked = obj11;
+            document.getElementById("cstockadd").checked = obj12;
+            document.getElementById("caccount").checked = obj13;
+            document.getElementById("crole").checked = obj14;
+                            
+            $('#ID1').val(obj1);
+            $('#crolename').val(obj2);
+            $('#csales').val(obj3);
+            $('#csalesdetail').val(obj4);
+			$('#csalesadd').val(obj5);
+            $('#cfreight').val(obj6);
+			$('#cstock').val(obj7);
+			$('#cstockcabinets').val(obj8);
+			$('#cstockchairs').val(obj9);
+			$('#cstockdesks').val(obj10);
+			$('#cstocksofa').val(obj11);
+			$('#cstockadd').val(obj12);
+			$('#caccount').val(obj13);
+			$('#crole').val(obj14);
 
+            $('#submit').val("update")
+            $('#update').modal('show');
+        }
 
+        function delInfo(obj1) {
+            $('#ID1').val(obj1);
+            $('#submit').val("delete")
+            $('#delete').modal('show');
+        }
 
+        function update() {
+            //获取模态框数据  
+            var id = $('#ID1').val();
+            var rolename = $('#crolename').val();
+            var sales= $('#csales').val();
+            var salesdetail = $('#csalesdetail').val();
+			var salesadd = $('#csalesadd').val();
+            var freight = $('#cfreight').val();
+			var stock = $('#cstock').val();
+			var stockcabinets = $('#cstockcabinets').val();
+			var stockchairs = $('#cstockchairs').val();
+			var stockdesks = $('#cstockdesks').val();
+			var stocksofa = $('#cstocksofa').val();
+			var stockadd = $('#cstockadd').val();
+			var account = $('#caccount').val();
+			var role= $('#crole').val();
 
+            var submit = $('#submit').val();
 
-{% endblock %}
+            $.ajax({
+                type: "post",
+                url: "{{ url_for('roles') }}",
+                data: "id=" + id + "&rolename=" + rolename + "&sales=" + sales + "&salesdetail=" + salesdetail + "salesadd=" + salesadd + "freight=" + freight + "stock=" + stock + "stockcabinets=" + stockcabinets
++ "stockchairs=" + stockchairs + "stockdesks=" + stockdesks + "stocksofa=" + stocksofa + "stockadd=" + stockadd + "account=" + account + "&role=" + role  + "&submit=" + submit,
+                dataType: 'html',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
+    </script> {% endblock %}
