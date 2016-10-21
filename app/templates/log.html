@@ -1,30 +1,31 @@
  {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <div class="row">
-	<div class="col-lg-12">
-		<table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-			data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-			<thead>
-				<tr>
-					<th data-field="id" id="ID" data-sortable="true">ID</th>
-					<th data-field="date" id="date" data-sortable="true">时间</th>
-					<th data-field="events" data-sortable="true">事件</th>
+    <div class="col-lg-12">
+        <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="date" data-sort-order="desc">
+            <thead>
+                <tr>
+                    <th data-field="id" id="ID" data-sortable="true">ID</th>
+                    <th data-field="date" id="date" data-sortable="true">时间</th>
+                    <th data-field="events" data-sortable="true">事件</th>
                     <th data-field="eventlevel" data-sortable="true">事件级别</th>
-				</tr>
-			</thead>
-			{% if loglist %} {% for log in loglist %}
-			<tr class="no-records-found">
+                    <th data-field="user" data-sortable="true">操作人</th>
+                </tr>
+            </thead>
+            {% if loglist %} {% for log in loglist %}
+            <tr class="no-records-found">
 
-				<td>{{log.id}} </td>
+                <td>{{log.id}} </td>
                 <td>{{log.date}} </td>
-				<td>{{log.events}} </td>
-				<td>{{log.eventlevel}}</td>
-				{%endfor %}
-			</tr>
-			{%endif%}
+                <td>{{log.events}} </td>
+                <td>{{log.eventlevel}}</td>
+                <td>{{log.user}}</td>
+                {%endfor %}
+            </tr>
+            {%endif%}
 
-		</table>
-	</div>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

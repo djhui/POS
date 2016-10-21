@@ -118,12 +118,19 @@ def users():
         except:pass
         if request.form['submit']=="add":
             db.session.add(User(username, password, role,mobile, nickname))
+            log = u"添加用户:%s-角色:%s-手机:%s-别名:%s" % (username,role,mobile,nickname)
         if request.form['submit']=="update":
-            if request.form['password']:newuser.password=password
+            if request.form['password']:
+                newuser.password=password
+                log = u"更新用户%s的信息为-手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
             newuser.nickname, newuser.mobile, newuser.role =nickname, mobile, role
+            log = u"更新用户%s的信息为-手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
         if request.form['submit']=="delete":
             db.session.delete(newuser)
+            log = u"删除用户:%s" % (newuser.username)
+        db.session.add(Logs(log,u"用户管理",session['nickname'])) 
         db.session.commit()
+        
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=g.catelist)
@@ -215,6 +222,8 @@ def roles():
             newrole.sales,newrole.salesdetail,newrole.salesadd,newrole.freight,newrole.stock,newrole.stockcabinets,newrole.stockchairs,newrole.stockdesks,newrole.stocksofa,newrole.stockadd,newrole.account,newrole.role = sales,salesdetail,salesadd,freight,stock,stockcabinets,stockchairs,stockdesks,stocksofa,stockadd,account,role
         if request.form['submit']=="delete":
             db.session.delete(newrole)
+            log = u"删除角色:%s" % newrole.rolename
+        db.session.add(Logs(log,u"角色管理",session['nickname'])) 
         db.session.commit()
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=g.catelist)
@@ -232,10 +241,14 @@ def trans():
         except:pass
         if request.form['submit']=="add":
             db.session.add(Trans(corpname))
+            log=u"添加物流公司[%s]" % (corpname)
         if request.form['submit']=="update":
             newcorp.corpname = corpname
+            log=u"更新物流公司[%s]为[%s]" % (newcorp.corpname,corpname)
         if request.form['submit']=="delete":
             db.session.delete(newcorp)
+            log=u"删除物流公司%s" % newcorp.corpname
+        db.session.add(Logs(log,u"物流公司",session['nickname'])) 
         db.session.commit()
     translist = Trans.query.order_by(Trans.id)
     return render_template('transcorp.html',session=session,nav = u"物流公司",translist=translist,catelist=g.catelist)
@@ -255,12 +268,15 @@ def cates():
         except:pass
         if request.form['submit']=="add":
             db.session.add(Cates(ecate,categroies))
+            log = u"添加产品类别[%s-%s]" % ecate,categroies
         if request.form['submit']=="update":
             newcate.ecate = ecate
             newcate.categroies = categroies
+            log = u"更新产品类别[%s->%s][%s->%s]" % (newcate.ecate,ecate,newcate.categroies,categroies)
         if request.form['submit']=="delete":
-            
+            log = u"删除产品类别[%s-%s]" % (newcate.ecate,newcate.categroies)
             db.session.delete(newcate)
+        db.session.add(Logs(log,u"产品类别",session['nickname'])) 
         db.session.commit()
 
     return render_template('categroies.html',session=session,nav = u"产品分类",catelist=g.catelist)
@@ -277,10 +293,14 @@ def delivery():
         except:pass
         if request.form['submit']=="add":
             db.session.add(Delivery(delivery))
+            log = u"添加送货方式[%s]" % delivery
         if request.form['submit']=="update":
             newdeli.delivery = delivery
+            log = u"更新送货方式[%s->%s]" % (newdeli.delivery,delivery)
         if request.form['submit']=="delete":
             db.session.delete(newdeli)
+            log = u"删除送货方式[%s]" % newdeli.delivery
+        db.session.add(Logs(log,u"送货方式",session['nickname'])) 
         db.session.commit()
     delilist = Delivery.query.order_by(Delivery.id)
     return render_template('delivery.html',session=session,nav = u"送货方式",delilist=delilist,catelist=g.catelist)
@@ -294,6 +314,9 @@ def upload_file():
         minetype = f.content_type
         f.save(os.getcwd()+'/app/static/upload/' + filename) 
         return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
+        log = u"上传文件%s" %filename
+        db.session.add(Logs(log,u"上传文件",session['nickname'])) 
+        db.session.commit()
 
 @app.route("/log",methods=['POST','GET'])
 @login_required

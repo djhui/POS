@@ -157,14 +157,15 @@ class Delivery(db.Model):
 
 class Logs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime,default=db.func.CURRENT_TIMESTAMP())
+    date = db.Column(db.DateTime, server_default = db.func.now())
     events = db.Column(db.VARCHAR(520))
     eventlevel = db.Column(db.String(80))
+    user = db.Column(db.String(80))
 
-    def __init__(self, date, events):
-        self.date  = date
+    def __init__(self, events,eventlevel,user):
         self.events  = events
         self.eventlevel  = eventlevel
+        self.user  = user
 
 class Freight(db.Model):
     id = db.Column(db.Integer, primary_key=True)
