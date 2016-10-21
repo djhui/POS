@@ -198,7 +198,8 @@ class Logs(db.Model):
 
 class Freight(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    deliveryplace = db.Column(db.String(80), unique=True)
+    corpname = db.Column(db.String(80))
+    deliveryplace = db.Column(db.String(80))
     destprovice = db.Column(db.String(80))
     destcity = db.Column(db.String(80))
     price = db.Column(db.Float)
@@ -208,7 +209,8 @@ class Freight(db.Model):
     TBOST = db.Column(db.String(80))
     #发货地，目的省，目的市，每方价格，送货费，最低一票，快慢类型，自提时效
 
-    def __init__(self, deliveryplace,destprovice,destcity,price,dropofffee,cheapest,transtype,TBOST):
+def __init__(self,corpname, deliveryplace,destprovice,destcity,price,dropofffee,cheapest,transtype,TBOST):
+        self.corpname=corpname
         self.deliveryplace=deliveryplace
         self.destprovice = destprovice
         self.destcity = destcity
