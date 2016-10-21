@@ -66,7 +66,7 @@
                     </li>
                     <li>
                         <a class="" href="{{ url_for('salesadd') }}">
-                            <span class="glyphicon glyphicon-check"></span> 录入
+                            <span class="glyphicon glyphicon-open"></span> 销售订单
                         </a>
                     </li>
                 </ul>
@@ -79,7 +79,25 @@
                 <ul class="children" id="sub-item-2">
                     <li>
                         <a class="" href="{{ url_for('freight') }}">
-                            <span class="glyphicon glyphicon-gbp"></span> 运费估算
+                            <span class="glyphicon glyphicon-book"></span> 运费估算
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="parent ">
+                <a href="#">
+                    <span class="glyphicon glyphicon-th"></span> 产品目录 <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                </a>
+                <ul class="children" id="sub-item-2">
+                    <li>
+                        <a class="" href="{{ url_for('products') }}">
+                            <span class="glyphicon glyphicon-th-large"></span> 全部产品
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="{{ url_for('productsadd') }}">
+                            <span class="glyphicon glyphicon-file"></span> 添加产品
                         </a>
                     </li>
 
@@ -106,7 +124,7 @@
 
                     <li>
                         <a href="{{ url_for('stocksadd') }}">
-                            <span class="glyphicon glyphicon-check"></span> 新增
+                            <span class="glyphicon glyphicon-save"></span> 采购产品
                         </a>
                     </li>
                 </ul>

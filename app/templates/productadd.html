@@ -1,0 +1,91 @@
+ {% extends "base.html" %} {% block content %}
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.ui.widget.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">添加产品</div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <form role="form" class="form-horizontal" action="" method="post">
+
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">产品图片</label>
+                    <div class="col-lg-2">
+                        <span class="btn btn-default fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>选择文件</span>
+                        <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
+                        </span>
+                    </div>
+                    <div class="col-lg-2"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
+
+                    <div id="files" class="files"></div>
+                    <label class="col-lg-1 control-label">名称</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" placeholder="名称" name="products" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">编号</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="编号" name="code" required>
+                    </div>
+                    <label class="col-lg-1 control-label">规格</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="规格" name="specification" required>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">包装尺寸(cm)</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" required>
+                    </div>
+                    <label class="col-lg-1 control-label">包装体积(m³)</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" required>
+                    </div>
+                    <label class="col-lg-1 control-label">类别</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" name="categroies" required>
+                                    {% for cate in catelist %}
+										<option value="{{cate.categroies}}">{{cate.categroies}}</option>
+                                    {% endfor %}
+									</select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">备注</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
+                    </div>
+
+                </div>
+                <button type="reset" class="btn btn-default">重置</button>
+                <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function(e, data) {
+                $.each(data.result.files, function(index, file) {
+
+                    $('<p/>').text(file.name).appendTo(document.body);
+                    document.getElementById("picture").value = file.name;
+                });
+                alert("文件已上传");
+            }
+
+        });
+    });
+</script> {% endblock %}

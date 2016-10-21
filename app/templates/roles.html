@@ -49,7 +49,7 @@
 				</td>
 
 				<td>
-					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{role.id}}','{{role.rolename}}','{{role.sales|lower}}','{{role.salesdetail|lower}}','{{role.salesadd|lower}}','{{role.freight|lower}}','{{role.stock|lower}}','{{role.stockcabinets|lower}}','{{role.stockchairs|lower}}','{{role.stockdesks|lower}}','{{role.stocksofa|lower}}','{{role.stockadd|lower}}','{{role.account|lower}}','{{role.role|lower}}')">修改</a>
+					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{role.id}}','{{role.rolename}}','{{role.sales}}','{{role.salesdetail}}','{{role.salesadd}}','{{role.freight}}','{{role.stock}}','{{role.stockcabinets}}','{{role.stockchairs}}','{{role.stockdesks}}','{{role.stocksofa}}','{{role.stockadd}}','{{role.account}}','{{role.role}}')">修改</a>
 					<a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{role.id}}')">删除</a>
 					<script>
 
@@ -206,6 +206,10 @@
 </div>
 <script>
         function editInfo(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9,obj10,obj11,obj12,obj13,obj14) {
+
+                            
+            $('#ID1').val(obj1);
+            $('#crolename').val(obj2);
 			document.getElementById("csales").checked = obj3;
             document.getElementById("csalesdetail").checked = obj4;
             document.getElementById("csalesadd").checked = obj5;
@@ -218,22 +222,6 @@
             document.getElementById("cstockadd").checked = obj12;
             document.getElementById("caccount").checked = obj13;
             document.getElementById("crole").checked = obj14;
-                            
-            $('#ID1').val(obj1);
-            $('#crolename').val(obj2);
-            $('#csales').val(obj3);
-            $('#csalesdetail').val(obj4);
-			$('#csalesadd').val(obj5);
-            $('#cfreight').val(obj6);
-			$('#cstock').val(obj7);
-			$('#cstockcabinets').val(obj8);
-			$('#cstockchairs').val(obj9);
-			$('#cstockdesks').val(obj10);
-			$('#cstocksofa').val(obj11);
-			$('#cstockadd').val(obj12);
-			$('#caccount').val(obj13);
-			$('#crole').val(obj14);
-
             $('#submit').val("update")
             $('#update').modal('show');
         }
@@ -248,26 +236,25 @@
             //获取模态框数据  
             var id = $('#ID1').val();
             var rolename = $('#crolename').val();
-            var sales= $('#csales').val();
-            var salesdetail = $('#csalesdetail').val();
-			var salesadd = $('#csalesadd').val();
-            var freight = $('#cfreight').val();
-			var stock = $('#cstock').val();
-			var stockcabinets = $('#cstockcabinets').val();
-			var stockchairs = $('#cstockchairs').val();
-			var stockdesks = $('#cstockdesks').val();
-			var stocksofa = $('#cstocksofa').val();
-			var stockadd = $('#cstockadd').val();
-			var account = $('#caccount').val();
-			var role= $('#crole').val();
-
+            var sales= document.getElementById("csales").checked;
+            var salesdetail = document.getElementById("csalesdetail").checked;
+			var salesadd = document.getElementById("csalesadd").checked;
+            var freight = document.getElementById("cfreight").checked;
+			var stock = document.getElementById("cstock").checked;
+			var stockcabinets = document.getElementById("cstockcabinets").checked;
+			var stockchairs = document.getElementById("cstockchairs").checked;
+			var stockdesks = document.getElementById("cstockdesks").checked;
+			var stocksofa = document.getElementById("cstocksofa").checked;
+			var stockadd = document.getElementById("cstockadd").checked;
+			var account = document.getElementById("caccount").checked;
+			var role= document.getElementById("crole").checked;
             var submit = $('#submit').val();
 
             $.ajax({
                 type: "post",
                 url: "{{ url_for('roles') }}",
-                data: "id=" + id + "&rolename=" + rolename + "&sales=" + sales + "&salesdetail=" + salesdetail + "salesadd=" + salesadd + "freight=" + freight + "stock=" + stock + "stockcabinets=" + stockcabinets
-+ "stockchairs=" + stockchairs + "stockdesks=" + stockdesks + "stocksofa=" + stocksofa + "stockadd=" + stockadd + "account=" + account + "&role=" + role  + "&submit=" + submit,
+                data: "id=" + id + "&rolename=" + rolename + "&sales=" + sales + "&salesdetail=" + salesdetail + "&salesadd=" + salesadd + "&freight=" + freight + "&stock=" + stock + "&stockcabinets=" + stockcabinets
++ "&stockchairs=" + stockchairs + "&stockdesks=" + stockdesks + "&stocksofa=" + stocksofa + "&stockadd=" + stockadd + "&account=" + account + "&role=" + role  + "&submit=" + submit,
                 dataType: 'html',
                 contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 success: function(result) {

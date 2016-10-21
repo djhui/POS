@@ -14,7 +14,7 @@ class User(db.Model):
     nickname = db.Column(db.String(80))
     mobile = db.Column(db.String(80))
     password = db.Column(db.String(320))
-    role = db.Column(db.String(32))
+    role = db.Column(db.String(32), unique=True)
   
     def __init__(self, username, password, role, mobile, nickname):
         self.username = username
@@ -58,28 +58,37 @@ class Role(db.Model):
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     picture = db.Column(db.VARCHAR(520), unique=True)
-    products = db.Column(db.String(120))
-    categroies = db.Column(db.String(120))
-    code = db.Column(db.String(120))
-    specification = db.Column(db.String(120))
-    color = db.Column(db.String(120))
+    products = db.Column(db.String(120), unique=True)
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
     fastock = db.Column(db.Integer)
+    memo = db.Column(db.VARCHAR(520))
+  
+    def __init__(self, picture="0", products="0", exstock=0,whstock=0,fastock=0,memo="no comments"):
+        self.picture = picture
+        self.products = products
+        self.exstock = exstock
+        self.whstock = whstock
+        self.fastock = fastock
+        self.memo = memo
+
+class Products(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    picture = db.Column(db.VARCHAR(520), unique=True)
+    products = db.Column(db.String(120), unique=True)
+    categroies = db.Column(db.String(120))
+    code = db.Column(db.String(120))
+    specification = db.Column(db.String(120))
     pkgsize = db.Column(db.String(120))
     pgkbulk = db.Column(db.String(120))
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="0",exstock=0,whstock=0,fastock=0,pkgsize="0*0*0",pgkbulk="0*0*0",memo="no comments"):
+    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
         self.picture = picture
         self.products = products
         self.categroies = categroies
         self.code = code
         self.specification = specification
-        self.color = color
-        self.exstock = exstock
-        self.whstock = whstock
-        self.fastock = fastock
         self.pkgsize = pkgsize
         self.pgkbulk = pgkbulk
         self.memo = memo
