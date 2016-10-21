@@ -4,6 +4,7 @@ from flask import *
 from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
 from models import *
+from tools import *
 from hashlib import sha512
 import os
 @app.errorhandler(404)
@@ -198,29 +199,29 @@ def roles():
         except:pass
         try:rolename = request.form['rolename']
         except:rolename="noname"
-        try:sales = request.form['sales']
+        try:sales = to_bool(request.form['sales'])
         except:sales=0
-        try:salesdetail = request.form['salesdetail']
+        try:salesdetail = to_bool(request.form['salesdetail'])
         except:salesdetail=0
-        try:salesadd = request.form['salesadd']
+        try:salesadd = to_bool(request.form['salesadd'])
         except:salesadd=0
-        try:freight = request.form['freight']
+        try:freight = to_bool(request.form['freight'])
         except:freight=0
-        try:stock = request.form['stock']
+        try:stock = to_bool(request.form['stock'])
         except:stock=0
-        try:stockcabinets = request.form['stockcabinets']
+        try:stockcabinets = to_bool(request.form['stockcabinets'])
         except:stockcabinets=0
-        try:stockchairs = request.form['stockchairs']
+        try:stockchairs = to_bool(request.form['stockchairs'])
         except:stockchairs=0
-        try:stockdesks = request.form['stockdesks']
+        try:stockdesks = to_bool(request.form['stockdesks'])
         except:stockdesks=0
-        try:stocksofa = request.form['stocksofa']
+        try:stocksofa = to_bool(request.form['stocksofa'])
         except:stocksofa=0
-        try:stockadd = request.form['stockadd']
+        try:stockadd = to_bool(request.form['stockadd'])
         except:stockadd=0
-        try:account = request.form['account']
+        try:account = to_bool(request.form['account'])
         except:account=0
-        try:role = request.form['role']
+        try:role = to_bool(request.form['role'])
         except:role=0
         print type(role)
         if request.form['submit']=="add":

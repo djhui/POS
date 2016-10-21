@@ -49,7 +49,7 @@
 				</td>
 
 				<td>
-					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{role.id}}','{{role.rolename}}','{{role.sales}}','{{role.salesdetail}}','{{role.salesadd}}','{{role.freight}}','{{role.stock}}','{{role.stockcabinets}}','{{role.stockchairs}}','{{role.stockdesks}}','{{role.stocksofa}}','{{role.stockadd}}','{{role.account}}','{{role.role}}')">修改</a>
+					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{role.id}}','{{role.rolename}}','{{role.sales|lower}}','{{role.salesdetail|lower}}','{{role.salesadd|lower}}','{{role.freight|lower}}','{{role.stock|lower}}','{{role.stockcabinets|lower}}','{{role.stockchairs|lower}}','{{role.stockdesks|lower}}','{{role.stocksofa|lower}}','{{role.stockadd|lower}}','{{role.account|lower}}','{{role.role|lower}}')">修改</a>
 					<a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{role.id}}')">删除</a>
 					<script>
 
@@ -207,21 +207,21 @@
 <script>
         function editInfo(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9,obj10,obj11,obj12,obj13,obj14) {
 
-                            
+
             $('#ID1').val(obj1);
             $('#crolename').val(obj2);
-			document.getElementById("csales").checked = obj3;
-            document.getElementById("csalesdetail").checked = obj4;
-            document.getElementById("csalesadd").checked = obj5;
-            document.getElementById("cfreight").checked = obj6;
-            document.getElementById("cstock").checked = obj7;
-            document.getElementById("cstockcabinets").checked = obj8;
-            document.getElementById("cstockchairs").checked = obj9;
-            document.getElementById("cstockdesks").checked = obj10;
-            document.getElementById("cstocksofa").checked = obj11;
-            document.getElementById("cstockadd").checked = obj12;
-            document.getElementById("caccount").checked = obj13;
-            document.getElementById("crole").checked = obj14;
+			document.getElementById("csales").checked = (obj3 == "true");
+            document.getElementById("csalesdetail").checked = (obj4 == "true");
+            document.getElementById("csalesadd").checked = (obj5 == "true");
+            document.getElementById("cfreight").checked = (obj6 == "true");
+            document.getElementById("cstock").checked = (obj7 == "true");
+            document.getElementById("cstockcabinets").checked = (obj8 == "true");
+            document.getElementById("cstockchairs").checked = (obj9 == "true");
+            document.getElementById("cstockdesks").checked = (obj10 == "true");
+            document.getElementById("cstocksofa").checked = (obj11 == "true");
+            document.getElementById("cstockadd").checked = (obj12 == "true");
+            document.getElementById("caccount").checked = (obj13 == "true");
+            document.getElementById("crole").checked = (obj14 == "true");
             $('#submit').val("update")
             $('#update').modal('show');
         }
