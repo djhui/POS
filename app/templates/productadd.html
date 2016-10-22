@@ -5,86 +5,86 @@
 <script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
 
 <div class="panel panel-default">
-    <div class="panel-heading">添加产品</div>
-    <div class="panel-body">
-        <div class="col-md-12">
-            <form role="form" class="form-horizontal" action="" method="post">
+	<div class="panel-heading">添加产品</div>
+	<div class="panel-body">
+		<div class="col-md-12">
+			<form role="form" class="form-horizontal" action="" method="post">
 
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">产品图片</label>
-                    <div class="col-lg-2">
-                        <span class="btn btn-default fileinput-button">
+				<div class="form-group">
+					<label class="col-lg-1 control-label">产品图片</label>
+					<div class="col-lg-2">
+						<span class="btn btn-default fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>选择文件</span>
-                        <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
-                        </span>
-                    </div>
-                    <div class="col-lg-3"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
+						<input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
+						</span>
+					</div>
+					<div class="col-lg-3"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
 
-                    <div id="files" class="files"></div>
-                    <label class="col-lg-1 control-label">名称</label>
-                    <div class="col-lg-4">
-                        <input class="form-control" placeholder="名称" name="products" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">编号</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="编号" name="code" required>
-                    </div>
-                    <label class="col-lg-1 control-label">规格</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="规格" name="specification" required>
-                    </div>
-<label class="col-lg-1 control-label">颜色</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="颜色" name="color" required>
-                    </div>
-                </div>
+					
+					<label class="col-lg-1 control-label">名称</label>
+					<div class="col-lg-4">
+						<input class="form-control" placeholder="名称" name="products" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">编号</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="编号" name="code" required>
+					</div>
+					<label class="col-lg-1 control-label">规格</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="规格" name="specification" required>
+					</div>
+					<label class="col-lg-1 control-label">颜色</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="颜色" name="color" required>
+					</div>
+				</div>
 
 
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">包装尺寸(cm)</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" required>
-                    </div>
-                    <label class="col-lg-1 control-label">包装体积(m³)</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" required>
-                    </div>
-                    <label class="col-lg-1 control-label">类别</label>
-                    <div class="col-lg-2">
-                        <select class="form-control" id="select" name="categroies" required>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">包装尺寸(cm)</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" required>
+					</div>
+					<label class="col-lg-1 control-label">包装体积(m³)</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" required>
+					</div>
+					<label class="col-lg-1 control-label">类别</label>
+					<div class="col-lg-2">
+						<select class="form-control" id="select" name="categroies" required>
                                     {% for cate in catelist %}
 										<option value="{{cate.categroies}}">{{cate.categroies}}</option>
                                     {% endfor %}
 									</select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">备注</label>
-                    <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
-                    </div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">备注</label>
+					<div class="col-lg-10">
+						<textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
+					</div>
 
-                </div>
-                <button type="reset" class="btn btn-default">重置</button>
-                <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
+				</div>
+				<button type="reset" class="btn btn-default">重置</button>
+				<button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
+			</form>
+		</div>
 
-        </div>
-
-    </div>
+	</div>
 </div>
 <div class="modal" id="upload">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				 文件上传成功
+				文件上传成功
 				<input type="text" class="form-control hide" id="ID1" name="ID" required>
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal">确认</button>
-				
+
 			</div>
 		</div>
 	</div>

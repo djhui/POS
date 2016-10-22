@@ -84,8 +84,8 @@ class Stock(db.Model):
     fastock = db.Column(db.Integer)
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", exstock=0,whstock=0,fastock=0,memo="no comments"):
-        self.picture = picture
+    def __init__(self, productid="0", products="0", exstock=0,whstock=0,fastock=0,memo="no comments"):
+        self.productid = productid
         self.products = products
         self.exstock = exstock
         self.whstock = whstock
@@ -107,8 +107,8 @@ class Products(db.Model):
     pgkbulk = db.Column(db.String(120))
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, productid="0", products="0", categroies="0", code="0", specification="0",color="" , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
-        self.productid = productid
+    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="" , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
+        self.picture = picture
         self.products = products
         self.categroies = categroies
         self.code = code

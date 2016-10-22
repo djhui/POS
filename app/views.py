@@ -36,6 +36,7 @@ def login():
         
         if user != None and sha512(request.form['password']).hexdigest() == user.password: 
             login_user(user)
+            session['id'] = user.id
             session['name'] = request.form['username']
             session['nickname'] = user.nickname
             return redirect(request.args.get('next') or url_for('main'))
@@ -153,7 +154,7 @@ def freight():
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
 def stocks():
-    stocklist = Stock.query.order_by(Stock.id)
+    stocklist = Products.query.order_by(Products.id)
     return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=g.catelist)
 
 #------------------------------------------------------------------------------------------------------------
@@ -161,7 +162,7 @@ def stocks():
 @login_required
 def postcate(postcate):
     cate1 = Cates.query.filter_by(ecate=postcate).first()
-    stocklist = Stock.query.filter_by(categroies=cate1.categroies).all()
+    stocklist = Products.query.filter_by(categroies=cate1.categroies).all()
     return render_template('stocks.html',session=session,nav = cate1.categroies,stocklist=stocklist,catelist=g.catelist)
 #------------------------------------------------------------------------------------------------------------
 
@@ -331,10 +332,11 @@ def upload_file():
         filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
         f.save(os.getcwd()+'/app/static/upload/' + filename) 
-        return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
         log = u"上传文件%s" %filename
         db.session.add(Logs(log,u"上传文件",session['nickname'])) 
         db.session.commit()
+        return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
+        
 
 @app.route("/log",methods=['POST','GET'])
 @login_required
@@ -366,6 +368,7 @@ def products():
         except:pass
         try:memo = request.form['memo']
         except:pass
+        print picture
         if request.form['submit']=="update":
             if request.form['picture']:
                 newpro.picture=picture
@@ -383,7 +386,6 @@ def products():
 @login_required
 def productsadd():
     if request.method == 'POST':
-    
         try:picture = request.form['picture']
         except:pass
         try:products = request.form['products']
@@ -402,8 +404,8 @@ def productsadd():
         except:pass
         if request.form['submit']=="add":
             
-            db.session.add(Products(picture, products,categroies,code,specification,pkgsize,pgkbulk,memo))
-            log = u"新建产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (products,categroies,code,specification,pkgsize,pgkbulk,memo)
+            db.session.add(Products(picture,products,categroies,code,specification,pkgsize,pgkbulk,memo))
+            log = u"新建产品:产品图片->%s,名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (picture,products,categroies,code,specification,pkgsize,pgkbulk,memo)
         db.session.add(Logs(log,u"新建产品",session['nickname']))
         db.session.commit()
     return render_template('productadd.html',session=session,nav = u"添加产品",catelist=g.catelist)

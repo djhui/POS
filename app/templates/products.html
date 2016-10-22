@@ -4,47 +4,48 @@
 <script src="{{ url_for('static', filename='js/jquery.ui.widget.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
 <div class="panel-body">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-                        <thead>
-                            <tr>
-                                <th data-field="id" data-sortable="true">ID</th>
-                                <th data-field="picture" data-sortable="true">产品</th>
-                                <th data-field="products" data-sortable="true">名称</th>
-                                <th data-field="code" data-sortable="true">编号</th>
-                                <th data-field="specification" data-sortable="true">规格</th>
-                                <th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
-                                <th data-field="pgkbulk" data-sortable="true">包装体积(m³)</th>
-                                <th data-field="categroies" data-sortable="true">类别</th>
-                                <th data-field="memo" data-sortable="true">备注</th>
-                                <th data-field="control" data-sortable="true">操作</th>
-                            </tr>
-                        </thead>
-                        {% if prolist %} {% for pro in prolist %}
-                        <tr class="no-records-found">
-                            <td>{{pro.id}}</td>
-                            <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-                            <td>{{pro.products}}</td>
-                            <td>{{pro.code}}</td>
-                            <td>{{pro.specification}}</td>
-                            <td>{{pro.pkgsize}}</td>
-                            <td>{{pro.pgkbulk}}</td>
-                            <td>{{pro.categroies}}</td>
-                            <td>{{pro.memo}}</td>
-                            <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.pkgsize}}','{{pro.pgkbulk}}','{{pro.categroies}}','{{pro.memo}}' )">修改</a>
-                                <a href="# " class="btn btn-danger btn-xs" onclick="delInfo('{{pro.id}}' )">删除</a></td>
-                            {% endfor %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+						data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+						<thead>
+							<tr>
+								<th data-field="id" data-sortable="true">ID</th>
+								<th data-field="picture" data-sortable="true">产品</th>
+								<th data-field="products" data-sortable="true">名称</th>
+								<th data-field="code" data-sortable="true">编号</th>
+								<th data-field="specification" data-sortable="true">规格</th>
+								<th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
+								<th data-field="pgkbulk" data-sortable="true">包装体积(m³)</th>
+								<th data-field="categroies" data-sortable="true">类别</th>
+								<th data-field="memo" data-sortable="true">备注</th>
+								<th data-field="control" data-sortable="true">操作</th>
+							</tr>
+						</thead>
+						{% if prolist %} {% for pro in prolist %}
+						<tr class="no-records-found">
+							<td>{{pro.id}}</td>
+							<td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+							<td>{{pro.products}}</td>
+							<td>{{pro.code}}</td>
+							<td>{{pro.specification}}</td>
+							<td>{{pro.pkgsize}}</td>
+							<td>{{pro.pgkbulk}}</td>
+							<td>{{pro.categroies}}</td>
+							<td>{{pro.memo}}</td>
+							<td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.pkgsize}}','{{pro.pgkbulk}}','{{pro.categroies}}','{{pro.memo}}' )">修改</a>
+								<a href="# " class="btn btn-danger btn-xs" onclick="delInfo('{{pro.id}}' )">删除</a></td>
+							{% endfor %}
 
-                        </tr>{% endif %}
-                    </table>
-                </div>
+						</tr>{% endif %}
+					</table>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -52,64 +53,63 @@
 
 <!-- update the record-->
 <div class="modal" id="update">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                
-                <h4 class="modal-title">修改产品</h4>
-            </div>
-            <div class="modal-body">
-                <label class="control-label">ID</label>
-                <input class="form-control" placeholder="编号" name="ID" readonly id="ID1">
-                <label class="control-label">产品图片</label>
-                <span class="btn btn-default fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span>选择文件</span>
-                 <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
-                </span>
-                <input class="form-control" id="picture1" name="picture" readonly placeholder="上传成功后在此显示文件名">
-                <div id="files1" class="files">
-                    <label class="control-label">名称</label>
-                    <input class="form-control" placeholder="名称" name="products" id="products1" required>
-                    <label class="control-label">编号</label>
-                    <input class="form-control" placeholder="编号" name="code" id="code1" required>
-                    <label class="control-label">规格</label>
-                    <input class="form-control" placeholder="规格" name="specification" id="specification1" required>
-                    <label class="control-label">包装尺寸(cm)</label>
-                    <input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" id="pkgsize1" required>
-                    <label class="control-label">包装体积(m³)</label>
-                    <input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" id="pgkbulk1" required>
-                    <label class="control-label">类别</label>
-                    <select class="form-control" id="categroies1" name="categroies" required>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<h4 class="modal-title">修改产品</h4>
+			</div>
+			<div class="modal-body">
+				<label class="control-label">ID</label>
+				<input class="form-control" placeholder="编号" name="ID" readonly id="ID1">
+				<span class="btn btn-default fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>产品图片</span>
+				<input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
+				</span>
+				<input class="form-control" id="picture" name="picture" readonly placeholder="上传成功后在此显示文件名">
+
+				<label class="control-label">名称</label>
+				<input class="form-control" placeholder="名称" name="products" id="products1" required>
+				<label class="control-label">编号</label>
+				<input class="form-control" placeholder="编号" name="code" id="code1" required>
+				<label class="control-label">规格</label>
+				<input class="form-control" placeholder="规格" name="specification" id="specification1" required>
+				<label class="control-label">包装尺寸(cm)</label>
+				<input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" id="pkgsize1" required>
+				<label class="control-label">包装体积(m³)</label>
+				<input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" id="pgkbulk1" required>
+				<label class="control-label">类别</label>
+				<select class="form-control" id="categroies1" name="categroies" required>
 {% for cate in catelist %}
 <option value="{{cate.categroies}}">{{cate.categroies}}</option>
 {% endfor %}
 </select>
-                    <label class="control-label">备注</label>
-                    <textarea class="form-control" rows="3" id="memo1" name="memo"></textarea>
-                </div>
-                <div class="modal-footer ">
-                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
-                </div>
-            </div>
-        </div>
-    </div>
+				<label class="control-label">备注</label>
+				<textarea class="form-control" rows="3" id="memo1" name="memo"></textarea>
+			</div>
+			<div class="modal-footer ">
+				<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+			</div>
+		</div>
+	</div>
+</div>
 </div>
 <!-- delete the record-->
 <div class="modal" id="delete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
-                <input type="text" class="form-control hide" id="ID1" name="ID" required>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
     function editInfo(id, products, code, specification, pkgsize, pgkbulk, categroies, memo) {
@@ -134,7 +134,7 @@
     function update() {
         //获取模态框数据  
         var id = $('#ID1').val();
-        var picture = $('#picture1').val();
+        var picture = $('#picture').val();
         var products = $('#products1').val();
         var code = $('#code1').val();
         var specification = $('#specification1').val();
@@ -154,19 +154,18 @@
             }
         });
     }
-    $(function() {
+      $(function() {
         $('#fileupload').fileupload({
             dataType: 'json',
             done: function(e, data) {
                 $.each(data.result.files, function(index, file) {
 
                     $('<p/>').text(file.name).appendTo(document.body);
-                    document.getElementById("picture1").value = file.name;
+                    document.getElementById("picture").value = file.name;
                 });
-                alert("文件已上传");
+                alert("文件上传成功");
             }
 
         });
     });
-</script>
-{% endblock %}
+</script> {% endblock %}

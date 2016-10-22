@@ -21,7 +21,6 @@
                                 <th data-field="pgkbulk" data-sortable="true">包装体积(m³)</th>
                                 <th data-field="categroies" data-sortable="true">类别</th>
                                 <th data-field="memo" data-sortable="true">备注</th>
-                                <th data-field="control" data-sortable="true">操作</th>
 
                             </tr>
                         </thead>
@@ -40,7 +39,6 @@
                             <td>{{stocks.pgkbulk}}</td>
                             <td>{{stocks.categroies}}</td>
                             <td>{{stocks.memo}}</td>
-                            <td><a href=" # " class="btn btn-primary btn-xs ">修改</a> <a href="# " class="btn btn-danger btn-xs ">删除</a></td>
                             {% endfor %}
 
                         </tr>{% endif %}
@@ -51,6 +49,6 @@
         </div>
     </div>
 </div>
-</div>
+
 
 {% endblock %}
