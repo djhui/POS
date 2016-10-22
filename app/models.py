@@ -77,8 +77,8 @@ class Role(db.Model):
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    picture = db.Column(db.VARCHAR(520), unique=True)
-    products = db.Column(db.String(120), unique=True)
+    picture = db.Column(db.VARCHAR(520))
+    products = db.Column(db.String(120))
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
     fastock = db.Column(db.Integer)
@@ -115,7 +115,7 @@ class Products(db.Model):
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    picture = db.Column(db.VARCHAR(520), unique=True)
+    picture = db.Column(db.VARCHAR(520))
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data

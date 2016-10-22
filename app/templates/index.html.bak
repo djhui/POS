@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>请登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/Logo.jpg') }}">
+</head>
+
+<body >
+    <div class="row" style="padding-top: 10%">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                
+                <div class="panel-body" >
+                    <form class="form-horizontal" role="form" action="" method="post" >
+                        <fieldset>
+                            <legend>请登录</legend>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-lg-4 control-label">用户名</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="username" class="form-control" id="inputDefault" placeholder="用户名" required autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-lg-4 control-label">密码</label>
+                                <div class="col-lg-6">
+                                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="密码" required>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="remember-me"> 记住我 </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-4">
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                    <button type="submit" value="Login" class="btn btn-primary">登录</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-->
+    </div>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+</body>
+
+</html>

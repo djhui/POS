@@ -12,6 +12,7 @@
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" media="screen">
     <link href="{{ url_for('static', filename='css/bootstrap-table.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/Logo.jpg') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,7 +66,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="" href="{{ url_for('salesadd') }}">
+                        <a class="" href="{{ url_for('salesorder') }}">
                             <span class="glyphicon glyphicon-open"></span> 销售订单
                         </a>
                     </li>
@@ -123,7 +124,7 @@
                     {%endfor %}
 
                     <li>
-                        <a href="{{ url_for('stocksadd') }}">
+                        <a href="{{ url_for('purchase') }}">
                             <span class="glyphicon glyphicon-save"></span> 采购产品
                         </a>
                     </li>

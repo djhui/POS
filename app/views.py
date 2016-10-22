@@ -13,7 +13,11 @@ def page_not_found(e):
 
 @app.errorhandler(403)
 def page_not_found(e):
-    return render_template('404.html',methods=['POST','GET']), 403
+    return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('error.html',methods=['POST','GET'],error=u"内部服务器出错了"), 500
 
 @lm.user_loader
 def load_user(id):
@@ -65,9 +69,9 @@ def salesdetail():
     saleslist = Sales.query.order_by(Sales.id)
     return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist)
 
-@app.route("/sales/add",methods=['POST','GET'])
+@app.route("/salesorder",methods=['POST','GET'])
 @login_required
-def salesadd():
+def salesorder():
     if request.method == 'POST':
         if request.form['submit']=="add":
             picture = request.form['picture']
@@ -99,7 +103,7 @@ def salesadd():
     nickname=User.query.order_by(User.username)
     delilist = Delivery.query.order_by(Delivery.id)
     translist = Trans.query.order_by(Trans.id)
-    return render_template('salesadd.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist)
+    return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -125,9 +129,9 @@ def users():
         if request.form['submit']=="update":
             if request.form['password']:
                 newuser.password=password
-                log = u"更新用户%s的信息为-手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
+                log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
             newuser.nickname, newuser.mobile, newuser.role =nickname, mobile, role
-            log = u"更新用户%s的信息为-手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
+            log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s" % (username,role,mobile,nickname)
         if request.form['submit']=="delete":
             db.session.delete(newuser)
             log = u"删除用户:%s" % (newuser.username)
@@ -141,7 +145,9 @@ def users():
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
-    return render_template('freight.html',session=session,nav = u"运费估算",catelist=g.catelist)
+    translist = Trans.query.order_by(Trans.id)
+    delilist = Delivery.query.order_by(Delivery.id)
+    return render_template('freight.html',session=session,nav = u"运费估算",catelist=g.catelist,delilist=delilist,translist =translist)
 
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
@@ -159,9 +165,9 @@ def postcate(postcate):
 #------------------------------------------------------------------------------------------------------------
 
 
-@app.route("/stocks/add",methods=['POST','GET'])
+@app.route("/purchase",methods=['POST','GET'])
 @login_required
-def stocksadd():
+def purchase():
     if request.method == 'POST':
         if request.form['submit']=="add":
             picture = request.form['picture']
@@ -187,7 +193,7 @@ def stocksadd():
         if request.form['submit']=="delete":pass
         db.session.add(Logs(log,u"角色管理",session['nickname'])) 
     else:
-        return render_template('stocksadd.html',session=session,nav = u"库存->新增",catelist=g.catelist)
+        return render_template('purchase.html',session=session,nav = u"库存->新增",catelist=g.catelist)
 #------------------------------------------------------------------------------------------------------------
 @app.route("/roles",methods=['POST','GET'])
 @login_required

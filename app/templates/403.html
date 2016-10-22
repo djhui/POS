@@ -1,9 +1,0 @@
-{% extends "base.html" %} {% block content %}
-<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-<div class="page-header" id="banner">
-    <div class="row">
-        <div class="alert alert-dismissible alert-warning">无权限
-            <a href="{{ url_for('main') }}">返回主页</a></div>
-    </div>
-</div>
-{% endblock %}
