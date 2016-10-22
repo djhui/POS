@@ -55,7 +55,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                
                 <h4 class="modal-title">修改产品</h4>
             </div>
             <div class="modal-body">
@@ -65,7 +65,7 @@
                 <span class="btn btn-default fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
                 <span>选择文件</span>
-                <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
+                 <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
                 </span>
                 <input class="form-control" id="picture1" name="picture" readonly placeholder="上传成功后在此显示文件名">
                 <div id="files1" class="files">

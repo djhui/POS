@@ -1,100 +1,102 @@
  {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
-    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建物流公司</a></li>
+	<li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">显示全部</a></li>
+	<li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">新建物流公司</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="home">
-        <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-            <thead>
-                <tr>
-                    <th data-field="id" data-sortable="true">ID</th>
-                    <th data-field="corpname" data-sortable="true">物流公司</th>
-                    <th data-field="control" data-sortable="true">操作</th>
-                </tr>
-            </thead>
-            {% if translist %} {% for trans in translist %}
+	<div class="tab-pane fade active in" id="home">
+		<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+			data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+			<thead>
+				<tr>
+					<th data-field="id" data-sortable="true">ID</th>
+					<th data-field="corpname" data-sortable="true">物流公司</th>
+					<th data-field="control" data-sortable="true">操作</th>
+				</tr>
+			</thead>
+			{% if translist %} {% for trans in translist %}
 
-            <tr class="no-records-found">
+			<tr class="no-records-found">
 
-                <td>{{trans.id}} </td>
-                <td>{{trans.corpname}} </td>
-                <td>
-                    <a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{trans.id}}','{{trans.corpname}}' )">修改</a>
-                    <a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{trans.id}}' )">删除</a>
-                </td>
-                {%endfor %}
-            </tr>
-            {%endif%}
-        </table>
-    </div>
-
-
-
-
-    <div class="tab-pane fade" id="profile">
-        <form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
-            <fieldset>
-                <legend>添加物流公司</legend>
-                <div class="form-group">
-                    <label for="inputDefault" class="col-lg-2 control-label">物流名字</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputDefault" name="corpname" placeholder="物流名字" required>
-                    </div>
-                </div>
+				<td>{{trans.id}} </td>
+				<td>{{trans.corpname}} </td>
+				<td>
+					<a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{trans.id}}','{{trans.corpname}}' )">修改</a>
+					<a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{trans.id}}' )">删除</a>
+				</td>
+				{%endfor %}
+			</tr>
+			{%endif%}
+		</table>
+	</div>
+</div>
 
 
 
 
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+<div class="tab-pane fade" id="profile">
+	<form class="form-horizontal alert alert-dismissible alert-info" action="" method="post">
+		<fieldset>
+			<legend>添加物流公司</legend>
+			<div class="form-group">
+				<label for="inputDefault" class="col-lg-2 control-label">物流名字</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="inputDefault" name="corpname" placeholder="物流名字" required>
+				</div>
+			</div>
 
 
-    <!-- update the record-->
-    <div class="modal" id="update">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">修改物流公司</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="inputDefault " class="control-label ">ID</label>
-                    <input type="text" class="form-control" id="ID1" name="ID" placeholder="ID " required readonly>
-                    <label for="inputDefault " class="control-label ">物流公司</label>
-                    <input type="text" class="form-control" id="corpname1" name="corpname" placeholder="物流公司 " required>
-                </div>
-                <div class="modal-footer ">
-                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- delete the record-->
-    <div class="modal" id="delete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
-                    <input type="text" class="form-control hide" id="ID1" name="ID" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
+
+
+			<div class="form-group">
+				<div class="col-lg-10 col-lg-offset-2">
+					<button type="reset" class="btn btn-default">重置</button>
+					<button type="submit" name="submit" value="add" class="btn btn-primary">添加</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+
+<!-- update the record-->
+<div class="modal" id="update">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">修改物流公司</h4>
+			</div>
+			<div class="modal-body">
+				<label for="inputDefault " class="control-label ">ID</label>
+				<input type="text" class="form-control" id="ID1" name="ID" placeholder="ID " required readonly>
+				<label for="inputDefault " class="control-label ">物流公司</label>
+				<input type="text" class="form-control" id="corpname1" name="corpname" placeholder="物流公司 " required>
+			</div>
+			<div class="modal-footer ">
+				<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- delete the record-->
+<div class="modal" id="delete">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				 你确认要删除么？
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
         function editInfo(obj1, obj2) {
             $('#ID1').val(obj1);
             $('#corpname1').val(obj2);
@@ -124,7 +126,4 @@
                 }
             });
         }
-    </script>
-
-
-    {% endblock %}
+    </script> {% endblock %}

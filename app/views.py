@@ -5,7 +5,7 @@ from app import app,lm
 from flask_login import login_user, logout_user, current_user, login_required
 from models import *
 from tools import *
-from hashlib import sha512
+from hashlib import sha512,md5
 import os
 @app.errorhandler(404)
 def page_not_found(e):
@@ -74,7 +74,7 @@ def salesdetail():
 def salesorder():
     if request.method == 'POST':
         if request.form['submit']=="add":
-            picture = request.form['picture']
+            productid = request.form['productid']
             orderdate = request.form['orderdate']
             wangwang = request.form['wangwang']
             cdeliverydate = request.form['cdeliverydate']
@@ -95,7 +95,7 @@ def salesorder():
             Commission = request.form['Commission']
             try:memo = request.form['memo']
             except:memo="no comments"
-            addsales = Sales(picture, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
+            addsales = Sales(productid, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
             db.session.add(addsales)
             if request.form['submit']=="update":pass
             if request.form['submit']=="delete":pass
@@ -103,7 +103,8 @@ def salesorder():
     nickname=User.query.order_by(User.username)
     delilist = Delivery.query.order_by(Delivery.id)
     translist = Trans.query.order_by(Trans.id)
-    return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist)
+    prolist = Products.query.order_by(Products.id)
+    return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist,prolist=prolist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -170,7 +171,7 @@ def postcate(postcate):
 def purchase():
     if request.method == 'POST':
         if request.form['submit']=="add":
-            picture = request.form['picture']
+            productid = request.form['productid']
             products = request.form['products']
             code = request.form['code']
             specification = request.form['specification']
@@ -183,17 +184,17 @@ def purchase():
             categroies = request.form['categroies']
             try:memo= request.form['memo']
             except:memo="no comments"
-            addstock = Stock(picture, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
+            addstock = Stock(productid, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
             db.session.add(addstock)
             db.session.commit()
             stocklist = Stock.query.order_by(Stock.id)
             return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=g.catelist)
-            log = u"添加库存:%s" % products
+            log = u"添加库存:ID->%s,产品名->%s,规格->%s,编码->%s,颜色->%s,展厅数量->%s,仓库数量->%s,工厂数量->%s" % productid, products,categroies,code,color,exstock,whstock,fastock
         if request.form['submit']=="update":pass
         if request.form['submit']=="delete":pass
-        db.session.add(Logs(log,u"角色管理",session['nickname'])) 
-    else:
-        return render_template('purchase.html',session=session,nav = u"库存->新增",catelist=g.catelist)
+        db.session.add(Logs(log,u"采购产品",session['nickname'])) 
+    prolist = Products.query.order_by(Products.id)
+    return render_template('purchase.html',session=session,nav = u"库存->新增",catelist=g.catelist, prolist = prolist)
 #------------------------------------------------------------------------------------------------------------
 @app.route("/roles",methods=['POST','GET'])
 @login_required
@@ -326,7 +327,8 @@ def delivery():
 def upload_file():
     if request.method == 'POST':
         f = request.files['files[]']
-        filename = f.filename
+        ext = f.filename.split(".")[-1]
+        filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
         f.save(os.getcwd()+'/app/static/upload/' + filename) 
         return json.dumps({"files": [{"name": filename, "minetype": minetype}]})

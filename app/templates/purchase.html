@@ -1,107 +1,109 @@
  {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery.ui.widget.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
 
 <div class="panel panel-default">
-    <div class="panel-heading">添加库存</div>
-    <div class="panel-body">
-        <div class="col-md-12">
-            <form role="form" class="form-horizontal" action="" method="post">
+	<div class="panel-heading">添加库存</div>
+	<div class="panel-body">
+		<div class="col-md-12">
+			<form role="form" class="form-horizontal" action="" method="post">
 
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">产品图片</label>
-                    <div class="col-lg-2">
-                        <span class="btn btn-default fileinput-button">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span>选择文件</span>
-                        <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
-                        </span>
-                    </div>
-                    <div class="col-lg-2"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
-
-                    <div id="files" class="files"></div>
-                    <label class="col-lg-1 control-label">名称</label>
-                    <div class="col-lg-6">
-                        <input class="form-control" placeholder="名称" name="products" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">编号</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="编号" name="code" required>
-                    </div>
-                    <label class="col-lg-1 control-label">规格</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="规格" name="specification" required>
-                    </div>
-                    <label class="col-lg-1 control-label">颜色</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="颜色" name="color" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">展厅数量</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" type="number" placeholder="展厅数量" name="exstock" required>
-                    </div>
-                    <label class="col-lg-1 control-label">仓库数量</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" type="number" placeholder="仓库数量" name="whstock" required>
-                    </div>
-                    <label class="col-lg-1 control-label">工厂数量</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" type="number" placeholder="工厂数量" name="fastock" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">包装尺寸(cm)</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" required>
-                    </div>
-                    <label class="col-lg-1 control-label">包装体积(m³)</label>
-                    <div class="col-lg-2">
-                        <input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" required>
-                    </div>
-                    <label class="col-lg-1 control-label">类别</label>
-                    <div class="col-lg-2">
-                        <select class="form-control" id="select" name="categroies" required>
-                                    {% for cate in catelist %}
-										<option value="{{cate.categroies}}">{{cate.categroies}}</option>
-                                    {% endfor %}
-									</select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-1 control-label">备注</label>
-                    <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
-                    </div>
-
-                </div>
-                <button type="reset" class="btn btn-default">重置</button>
-                <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
-
-        </div>
-
-    </div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">产品图片</label>
+					<div class="col-lg-1">
+						<a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
+					</div>
+					<label class="col-lg-2 control-label">产品ID</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="产品ID" name="productid" id="productid" required readonly>
+					</div>
+					<label class="col-lg-1 control-label">名称</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="名称" name="products" id="products" required readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">编号</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="编号" name="code" id="code" required readonly>
+					</div>
+					<label class="col-lg-1 control-label">规格</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="规格" name="specification" required>
+					</div>
+					<label class="col-lg-1 control-label">颜色</label>
+					<div class="col-lg-2">
+						<input class="form-control" placeholder="颜色" name="color" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">展厅数量</label>
+					<div class="col-lg-2">
+						<input class="form-control" type="number" placeholder="展厅数量" name="exstock" required>
+					</div>
+					<label class="col-lg-1 control-label">仓库数量</label>
+					<div class="col-lg-2">
+						<input class="form-control" type="number" placeholder="仓库数量" name="whstock" required>
+					</div>
+					<label class="col-lg-1 control-label">工厂数量</label>
+					<div class="col-lg-2">
+						<input class="form-control" type="number" placeholder="工厂数量" name="fastock" required>
+					</div>
+				</div>
+		
+		<div class="form-group">
+			<label class="col-lg-1 control-label">备注</label>
+			<div class="col-lg-10">
+				<textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-10">
+				<button type="reset" class="btn btn-default">重置</button>
+				<button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
+			</div>
+		</div>
+	</div>
 </div>
+<div class="modal" id="update">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
 
+				<h4 class="modal-title">选择产品</h4>
+			</div>
+			<div class="modal-body">
+				<table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
+					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+					<thead>
+						<tr>
+							<th data-field="id" id="ID" data-sortable="true">ID</th>
+							<th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+							<th data-field="products" id="products" data-sortable="true">产品名称</th>
+							<th data-field="control" id="control" data-sortable="true">操作</th>
+						</tr>
+					</thead>{% if prolist %} {% for pro in prolist %}
+					<tr class="no-records-found">
+
+						<td>{{pro.id}}</td>
+						<td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+						<td>{{pro.products}}</td>
+						<td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}')">选择</button></td>
+						{% endfor %}
+
+					</tr>{% endif %}
+
+
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
 <script>
-    $(function() {
-        $('#fileupload').fileupload({
-            dataType: 'json',
-            done: function(e, data) {
-                $.each(data.result.files, function(index, file) {
-
-                    $('<p/>').text(file.name).appendTo(document.body);
-                    document.getElementById("picture").value = file.name;
-                });
-                alert("文件已上传");
-            }
-
-        });
-    });
+    function update(id,products,code) {
+        $('#productid').val(id);
+        $('#products').val(products);
+        $('#code').val(code);
+        $('#update').modal('hide');
+    }
 </script> {% endblock %}

@@ -77,7 +77,7 @@ class Role(db.Model):
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    picture = db.Column(db.VARCHAR(520))
+    productid = db.Column(db.Integer, unique=True)
     products = db.Column(db.String(120))
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
@@ -99,23 +99,28 @@ class Products(db.Model):
     categroies = db.Column(db.String(120))
     code = db.Column(db.String(120))
     specification = db.Column(db.String(120))
+    color = db.Column(db.String(120))
+    exstock = db.Column(db.Integer)
+    whstock = db.Column(db.Integer)
+    fastock = db.Column(db.Integer)
     pkgsize = db.Column(db.String(120))
     pgkbulk = db.Column(db.String(120))
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
-        self.picture = picture
+    def __init__(self, productid="0", products="0", categroies="0", code="0", specification="0",color="" , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
+        self.productid = productid
         self.products = products
         self.categroies = categroies
         self.code = code
         self.specification = specification
+        self.color = color
         self.pkgsize = pkgsize
         self.pgkbulk = pgkbulk
         self.memo = memo
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    picture = db.Column(db.VARCHAR(520))
+    productid = db.Column(db.Integer, unique=True)
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
@@ -137,8 +142,8 @@ class Sales(db.Model):
     memo = db.Column(db.VARCHAR(520))
 
   
-    def __init__(self, picture="0", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
-        self.picture = picture
+    def __init__(self, productid="0", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
+        self.productid = productid
         self.orderdate = orderdate
         self.wangwang = wangwang
         self.cdeliverydate = cdeliverydate

@@ -16,14 +16,14 @@
                         <span class="btn btn-default fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>选择文件</span>
-                        <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
+                        <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
                         </span>
                     </div>
-                    <div class="col-lg-2"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
+                    <div class="col-lg-3"><input class="form-control" id="picture" name="picture" required readonly placeholder="上传成功后在此显示文件名"></div>
 
                     <div id="files" class="files"></div>
                     <label class="col-lg-1 control-label">名称</label>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <input class="form-control" placeholder="名称" name="products" required>
                     </div>
                 </div>
@@ -36,7 +36,10 @@
                     <div class="col-lg-2">
                         <input class="form-control" placeholder="规格" name="specification" required>
                     </div>
-
+<label class="col-lg-1 control-label">颜色</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="颜色" name="color" required>
+                    </div>
                 </div>
 
 
@@ -72,7 +75,20 @@
 
     </div>
 </div>
-
+<div class="modal" id="upload">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				 文件上传成功
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal">确认</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
 <script>
     $(function() {
         $('#fileupload').fileupload({
@@ -83,7 +99,7 @@
                     $('<p/>').text(file.name).appendTo(document.body);
                     document.getElementById("picture").value = file.name;
                 });
-                alert("文件已上传");
+                $('#upload').modal('show');
             }
 
         });

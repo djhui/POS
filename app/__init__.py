@@ -18,7 +18,7 @@ lm.init_app(app)
 lm.login_view = 'login'
 
 
-file_handler = RotatingFileHandler('app.log', 'a', 1 * 1024 * 1024, 10)
+file_handler = RotatingFileHandler('/var/log/YFapp.log', 'a', 1 * 1024 * 1024, 10)
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
 app.logger.addHandler(file_handler)
