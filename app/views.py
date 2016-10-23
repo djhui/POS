@@ -356,7 +356,8 @@ def upload_file():
         ext = f.filename.split(".")[-1]
         filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
-        f.save(os.getcwd()+'/app/static/upload/' + filename) 
+        filename = os.getcwd()+'/app/static/upload/' + filename
+        f.save(filename) 
         log = u"上传文件%s" %filename
         db.session.add(Logs(log,u"上传文件",session['nickname'])) 
         db.session.commit()
