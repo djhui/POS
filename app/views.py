@@ -14,7 +14,9 @@ def page_not_found(e):
 @app.errorhandler(403)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
-
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('error.html',methods=['POST','GET'],error=u"服务器出错了"), 400
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"内部服务器出错了"), 500
@@ -63,24 +65,43 @@ def main():
 @login_required
 def sales():
     return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist)
-
+#---------------------------------------------------------------------------------------
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required
 def salesdetail():
-    saleslist = Sales.query.order_by(Sales.id)
-    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist)
+    if request.method == 'POST':
+        try:
+            id = request.form['id']
+            newsales = Sales.query.get(id)
+        except:pass
+        if request.form['submit']=="update":
+            print "ff"
+            log = u"更新订单" 
+                #log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
 
+            #log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s" % (username,role,mobile,nickname)
+        if request.form['submit']=="delete":
+            db.session.delete(newsales)
+            log = u"删除订单:%s" % (newsales.id)
+        db.session.add(Logs(log,u"销售管理",session['nickname'])) 
+    db.session.commit()
+    saleslist = Sales.query.order_by(Sales.id)
+    prolist = Products.query.order_by(Products.id)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist,prolist=prolist)
+#--------------------------------------------------------------------------------------------------------------------
 @app.route("/salesorder",methods=['POST','GET'])
 @login_required
 def salesorder():
     if request.method == 'POST':
         if request.form['submit']=="add":
             productid = request.form['productid']
+            newpro = Products.query.filter_by(id=productid).first()
             orderdate = request.form['orderdate']
             wangwang = request.form['wangwang']
             cdeliverydate = request.form['cdeliverydate']
             type = request.form['type']
             color = request.form['color']
+            warehouse = request.form['warehouse']
             number = int(request.form['number'])
             address = request.form['address']
             transportation = request.form['transportation']
@@ -98,8 +119,11 @@ def salesorder():
             except:memo="no comments"
             addsales = Sales(productid, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
             db.session.add(addsales)
-            if request.form['submit']=="update":pass
-            if request.form['submit']=="delete":pass
+            if warehouse == "exstock" : newpro.exstock = newpro.exstock - number
+            if warehouse == "whstock" : newpro.whstock = newpro.whstock - number
+            if warehouse == "fastock" : newpro.fastock = newpro.fastock - number
+            log = u"添加订单:产品ID->%s,下单日期->%s,旺旺->%s,客户要求发货日期->%s,规格->%s,颜色->%s,发货仓库->%s,下单数量->%s,发货地址->%s,物流送货方式->%s,保费->%s,商品价格->%s,预收运费->%s,客服->%s,实际发货日期->%s,物流公司->%s,物流单号->%s,,实际运费->%s,返现->%s,提成结算日期->%s,备注->%s" % (productid,orderdate,wangwang,cdeliverydate,type,color,warehouse,number,address,transportation,Inprice,price,advprice,CSE,deliverydate,trancorp,Tnumber,Aprice,Recashes,Commission,memo)
+        db.session.add(Logs(log,u"销售订单",session['nickname'])) 
         db.session.commit()
     nickname=User.query.order_by(User.username)
     delilist = Delivery.query.order_by(Delivery.id)
@@ -149,7 +173,8 @@ def users():
 def freight():
     translist = Trans.query.order_by(Trans.id)
     delilist = Delivery.query.order_by(Delivery.id)
-    return render_template('freight.html',session=session,nav = u"运费估算",catelist=g.catelist,delilist=delilist,translist =translist)
+    prolist = Products.query.order_by(Products.id)
+    return render_template('freight.html',session=session,nav = u"运费估算",catelist=g.catelist,delilist=delilist,translist =translist,prolist =prolist)
 
 @app.route("/stocks",methods=['POST','GET'])
 @login_required
@@ -173,6 +198,7 @@ def purchase():
     if request.method == 'POST':
         if request.form['submit']=="add":
             productid = request.form['productid']
+            newpro = Products.query.filter_by(id=productid).first()
             products = request.form['products']
             code = request.form['code']
             specification = request.form['specification']
@@ -180,20 +206,19 @@ def purchase():
             exstock = int(request.form['exstock'])
             whstock = int(request.form['whstock'])
             fastock = int(request.form['fastock'])
-            pkgsize = request.form['pkgsize']
-            pgkbulk = request.form['pgkbulk']
-            categroies = request.form['categroies']
             try:memo= request.form['memo']
             except:memo="no comments"
-            addstock = Stock(productid, products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo)
-            db.session.add(addstock)
-            db.session.commit()
+            db.session.add(Stock(productid, products,exstock,whstock,fastock,memo))
             stocklist = Stock.query.order_by(Stock.id)
+            exstock += newpro.exstock
+            whstock += newpro.whstock
+            fastock += newpro.fastock
+            newpro.exstock,newpro.whstock,newpro.fastock=exstock,whstock,fastock
+            log = u"添加库存:ID->%s,产品名->%s,颜色->%s,展厅数量->%s,仓库数量->%s,工厂数量->%s" % (productid, products,color,exstock,whstock,fastock)
+
+            db.session.add(Logs(log,u"采购产品",session['nickname'])) 
+            db.session.commit()
             return render_template('stocks.html',session=session,nav = u"库存总览",stocklist=stocklist,catelist=g.catelist)
-            log = u"添加库存:ID->%s,产品名->%s,规格->%s,编码->%s,颜色->%s,展厅数量->%s,仓库数量->%s,工厂数量->%s" % productid, products,categroies,code,color,exstock,whstock,fastock
-        if request.form['submit']=="update":pass
-        if request.form['submit']=="delete":pass
-        db.session.add(Logs(log,u"采购产品",session['nickname'])) 
     prolist = Products.query.order_by(Products.id)
     return render_template('purchase.html',session=session,nav = u"库存->新增",catelist=g.catelist, prolist = prolist)
 #------------------------------------------------------------------------------------------------------------
@@ -394,6 +419,8 @@ def productsadd():
         except:pass
         try:specification = request.form['specification']
         except:pass
+        try:color = request.form['color']
+        except:pass
         try:pkgsize = request.form['pkgsize']
         except:pass
         try:pgkbulk = request.form['pgkbulk']
@@ -403,8 +430,10 @@ def productsadd():
         try:memo= request.form['memo']
         except:pass
         if request.form['submit']=="add":
-            
-            db.session.add(Products(picture,products,categroies,code,specification,pkgsize,pgkbulk,memo))
+            exstock=0
+            whstock=0
+            fastock=0
+            db.session.add(Products(picture,products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo))
             log = u"新建产品:产品图片->%s,名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (picture,products,categroies,code,specification,pkgsize,pgkbulk,memo)
         db.session.add(Logs(log,u"新建产品",session['nickname']))
         db.session.commit()

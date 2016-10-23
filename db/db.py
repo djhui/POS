@@ -57,7 +57,7 @@ class Role(db.Model):
 
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    productid = db.Column(db.Integer, unique=True)
+    productid = db.Column(db.Integer)
     products = db.Column(db.String(120))
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
@@ -87,20 +87,23 @@ class Products(db.Model):
     pgkbulk = db.Column(db.String(120))
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="" , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
+    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="",exstock=0,whstock=0,fastock=0 , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
         self.picture = picture
         self.products = products
         self.categroies = categroies
         self.code = code
         self.specification = specification
         self.color = color
+        self.exstock=exstock
+        self.whstock=whstock
+        self.fastock=fastock
         self.pkgsize = pkgsize
         self.pgkbulk = pgkbulk
         self.memo = memo
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    productid = db.Column(db.Integer, unique=True)
+    productid = db.Column(db.Integer)
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data

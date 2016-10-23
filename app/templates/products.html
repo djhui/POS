@@ -17,6 +17,7 @@
 								<th data-field="products" data-sortable="true">名称</th>
 								<th data-field="code" data-sortable="true">编号</th>
 								<th data-field="specification" data-sortable="true">规格</th>
+								<th data-field="color" data-sortable="true">颜色</th>
 								<th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
 								<th data-field="pgkbulk" data-sortable="true">包装体积(m³)</th>
 								<th data-field="categroies" data-sortable="true">类别</th>
@@ -31,6 +32,7 @@
 							<td>{{pro.products}}</td>
 							<td>{{pro.code}}</td>
 							<td>{{pro.specification}}</td>
+							<td>{{pro.color}}</td>
 							<td>{{pro.pkgsize}}</td>
 							<td>{{pro.pgkbulk}}</td>
 							<td>{{pro.categroies}}</td>
@@ -38,7 +40,6 @@
 							<td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.pkgsize}}','{{pro.pgkbulk}}','{{pro.categroies}}','{{pro.memo}}' )">修改</a>
 								<a href="# " class="btn btn-danger btn-xs" onclick="delInfo('{{pro.id}}' )">删除</a></td>
 							{% endfor %}
-
 						</tr>{% endif %}
 					</table>
 				</div>

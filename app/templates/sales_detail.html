@@ -35,7 +35,7 @@
                         {% if saleslist %} {% for sales in saleslist %}
                         <tr class="no-records-found">
                             <td>{{sales.id}}</td>
-                            <td><img class="img-responsive" src="../static/upload/{{sales.picture}}" width="200" /> </td>
+                            <td><img class="img-responsive" src="../static/upload/" width="200" /> </td>
                             <td>{{sales.orderdate}}</td>
                             <td>{{sales.wangwang}}</td>
                             <td>{{sales.cdeliverydate}}</td>
@@ -55,17 +55,121 @@
                             <td>{{sales.Recashes}}</td>
                             <td>{{sales.Commission}}</td>
                             <td>{{sales.memo}}</td>
-
-                            <td><a href="#" class="btn btn-primary btn-xs">修改</a> <a href="#" class="btn btn-danger btn-xs">删除</a></td>
+                            <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.orderdate}}','{{sales.wangwang}}','{{sales.cdeliverydate}}','{{sales.type}}','{{sales.color}}','{{sales.number}}','{{sales.address}}','{{sales.transportation}}','{{sales.Inprice}}' ,'{{sales.price}}','{{sales.advprice}}','{{sales.CSE}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
+								<a href="# " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">删除</a></td></td>
                             {% endfor %}
-
                         </tr>{% endif %}
-
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- update the record-->
+<div class="modal" id="update">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<h4 class="modal-title">修改产品</h4>
+			</div>
+			<div class="modal-body">
+				<label class="control-label">ID</label>
+				<input class="form-control" placeholder="编号" name="ID" readonly id="ID1">
+				<span class="btn btn-default fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>产品图片</span>
+				<input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control">
+				</span>
+				<input class="form-control" id="picture" name="picture" readonly placeholder="上传成功后在此显示文件名">
+
+				<label class="control-label">名称</label>
+				<input class="form-control" placeholder="名称" name="products" id="products1" required>
+				<label class="control-label">编号</label>
+				<input class="form-control" placeholder="编号" name="code" id="code1" required>
+				<label class="control-label">规格</label>
+				<input class="form-control" placeholder="规格" name="specification" id="specification1" required>
+				<label class="control-label">包装尺寸(cm)</label>
+				<input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" id="pkgsize1" required>
+				<label class="control-label">包装体积(m³)</label>
+				<input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" id="pgkbulk1" required>
+				<label class="control-label">类别</label>
+				<select class="form-control" id="categroies1" name="categroies" required>
+{% for cate in catelist %}
+<option value="{{cate.categroies}}">{{cate.categroies}}</option>
+{% endfor %}
+</select>
+				<label class="control-label">备注</label>
+				<textarea class="form-control" rows="3" id="memo1" name="memo"></textarea>
+			</div>
+			<div class="modal-footer ">
+				<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!-- delete the record-->
+<div class="modal" id="delete">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+				<input type="text" class="form-control hide" id="ID1" name="ID" required>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    function editInfo(id, products, code, specification, pkgsize, pgkbulk, categroies, memo) {
+        $('#ID1').val(id);
+        $('#products1').val(products);
+        $('#code1').val(code);
+        $('#specification1').val(specification);
+        $('#pkgsize1').val(pkgsize);
+        $('#pgkbulk1').val(pgkbulk);
+        $('#categroies1').val(categroies);
+        $('#memo1').val(memo);
+        $('#submit').val("update")
+        $('#update').modal('show');
+    }
+
+    function delInfo(id) {
+        $('#ID1').val(id);
+        $('#submit').val("delete")
+        $('#delete').modal('show');
+    }
+
+    function update() {
+        //获取模态框数据  
+        var id = $('#ID1').val();
+        var picture = $('#picture').val();
+        var products = $('#products1').val();
+        var code = $('#code1').val();
+        var specification = $('#specification1').val();
+        var pkgsize = $('#pkgsize1').val();
+        var pgkbulk = $('#pgkbulk1').val();
+        var categroies = $('#categroies1').val();
+        var memo = $('#memo1').val();
+        var submit = $('#submit').val();
+        $.ajax({
+            type: "post",
+            url: "{{ url_for('salesdetail') }}",
+            data: "id=" + id + "&picture=" + picture + "&products=" + products + "&code=" + code + "&specification=" + specification + "&pkgsize=" + pkgsize + "&pgkbulk=" + pgkbulk + "&categroies=" + categroies + "&memo=" + memo + "&submit=" + submit,
+            dataType: 'html',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function(result) {
+                location.reload();
+            }
+        });
+    }
+      
+</script>
 {% endblock %}
