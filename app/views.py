@@ -75,6 +75,18 @@ def salesdetail():
             newsales = Sales.query.get(id)
             newpro = Products.query.filter_by(id=newsales.productid).first()
         except:pass
+        if request.form['submit']=="update":
+            transportation = request.form['transportation']
+            Inprice = float(request.form['Inprice'])
+            Aprice = float(request.form['Aprice'])
+            Recashes = float(request.form['Recashes'])
+            Commission = request.form['Commission']
+            deliverydate = request.form['deliverydate']
+            trancorp = request.form['trancorp']
+            Tnumber = request.form['Tnumber']
+            memo = request.form['memo']
+            newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo = transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo
+            log = u"更新订单:%s" % newsales.id
         if request.form['submit']=="delete":
             newsales.offset=1
             memo=u"冲销订单%s" % id
@@ -84,13 +96,12 @@ def salesdetail():
             if newsales.warehouse == "fastock" : newpro.fastock = newpro.fastock + newsales.number
             log = u"冲销订单:%s" % newsales.id
         db.session.add(Logs(log,u"销售管理",session['nickname'])) 
-    db.session.commit()
+        db.session.commit()
     saleslist = Sales.query.order_by(Sales.id)
     prolist = Products.query.order_by(Products.id)
     delilist = Delivery.query.order_by(Delivery.id)
     translist = Trans.query.order_by(Trans.id)
-    nickname=User.query.order_by(User.username)
-    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,delilist=delilist,catelist=g.catelist,translist=translist,prolist=prolist)
 #--------------------------------------------------------------------------------------------------------------------
 @app.route("/salesorder",methods=['POST','GET'])
 @login_required
@@ -113,8 +124,8 @@ def salesorder():
         advprice = float(request.form['advprice'])
         CSE = request.form['CSE']
         deliverydate = "0000-00-00"
-        trancorp = request.form['trancorp']
-        Tnumber = request.form['Tnumber']
+        trancorp = ""
+        Tnumber = ""
         Aprice = 0
         Recashes = 0
         Commission = "0000-00-00"
@@ -131,10 +142,8 @@ def salesorder():
         db.session.add(Logs(log,u"销售订单",session['nickname'])) 
         db.session.commit()
     nickname=User.query.order_by(User.username)
-    delilist = Delivery.query.order_by(Delivery.id)
-    translist = Trans.query.order_by(Trans.id)
     prolist = Products.query.order_by(Products.id)
-    return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,delilist=delilist,catelist=g.catelist,translist=translist,prolist=prolist)
+    return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,catelist=g.catelist,prolist=prolist)
 
 @app.route("/users",methods=['POST','GET'])
 @login_required
@@ -381,6 +390,7 @@ def upload_file():
         ext = f.filename.split(".")[-1]
         filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
+        #filename1 = './app/static/upload/%s' % (filename)
         filename1 = '/opt/POS/app/static/upload/%s' % (filename)
         f.save(filename1) 
         log = u"上传文件%s" %filename
