@@ -125,7 +125,7 @@ def salesorder():
         CSE = request.form['CSE']
         deliverydate = None
         trancorp = None
-        Tnumber = "None
+        Tnumber = None
         Aprice = None
         Recashes = None
         Commission = None
