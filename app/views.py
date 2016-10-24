@@ -123,7 +123,7 @@ def salesorder():
         price = float(request.form['price'])
         advprice = float(request.form['advprice'])
         CSE = request.form['CSE']
-        deliverydate = "0000-00-00"
+        deliverydate = ""
         trancorp = ""
         Tnumber = ""
         Aprice = 0
