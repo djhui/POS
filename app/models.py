@@ -78,18 +78,28 @@ class Role(db.Model):
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     productid = db.Column(db.Integer)
+    picture = db.Column(db.String(120))
     products = db.Column(db.String(120))
+    code = db.Column(db.String(120))
+    specification = db.Column(db.String(120))
+    color = db.Column(db.String(120))
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
     fastock = db.Column(db.Integer)
+    offset = db.Column(db.Boolean(1))
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, productid="0", products="0", exstock=0,whstock=0,fastock=0,memo="no comments"):
+    def __init__(self, productid="0",picture="", products="0",code="",specification="",color="", exstock=0,whstock=0,fastock=0,offset=0,memo="no comments"):
         self.productid = productid
+        self.picture = picture
         self.products = products
+        self.code = code
+        self.specification = specification
+        self.color = color
         self.exstock = exstock
         self.whstock = whstock
         self.fastock = fastock
+        self.offset = offset
         self.memo = memo
 
 class Products(db.Model):
@@ -144,10 +154,12 @@ class Sales(db.Model):
     Aprice = db.Column(db.Float) #Actual price
     Recashes = db.Column(db.Float) #Cash back
     Commission = db.Column(db.Date)
+    offset = db.Column(db.Boolean(1))
     memo = db.Column(db.VARCHAR(520))
+    warehouse = db.Column(db.String(120))
 
   
-    def __init__(self, productid="0",picture="", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
+    def __init__(self, productid="0", picture="",orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  offset=0,memo="no comments",warehouse=""):
         self.productid = productid
         self.picture = picture
         self.orderdate = orderdate
@@ -168,7 +180,9 @@ class Sales(db.Model):
         self.Aprice = Aprice
         self.Recashes = Recashes
         self.Commission = Commission
+        self.offset = offset
         self.memo = memo
+        self.warehouse = warehouse
 
 
 class Trans(db.Model):

@@ -51,7 +51,7 @@
 
             <li class="parent ">
                 <a href="#">
-                    <span class="glyphicon glyphicon-stats"></span> 销售情况 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                    <span class="glyphicon glyphicon-stats"></span> 销售管理 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
                 </a>
                 <ul class="children" id="sub-item-1">
                     <li>
@@ -87,41 +87,41 @@
             </li>
             <li class="parent ">
                 <a href="#">
-                    <span class="glyphicon glyphicon-th"></span> 产品目录 <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                    <span class="glyphicon glyphicon-th"></span> 库存查询 <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
                 </a>
                 <ul class="children" id="sub-item-2">
-                    <li>
-                        <a class="" href="{{ url_for('products') }}">
-                            <span class="glyphicon glyphicon-th-large"></span> 全部产品
-                        </a>
-                    </li>
-                    <li>
-                        <a class="" href="{{ url_for('productsadd') }}">
-                            <span class="glyphicon glyphicon-file"></span> 添加产品
-                        </a>
-                    </li>
-
+                    <ul class="children" id="sub-item-3">
+                        <li>
+                            <a href="{{ url_for('stocks') }}">
+                                <span class="glyphicon glyphicon-align-justify"></span> 所有宝贝
+                            </a>
+                        </li>
+                        {% for cate in catelist %}
+                        <li>
+                            <a href="/stocks/{{cate.ecate}}">
+                                <span class="glyphicon glyphicon-align-left"></span> {{cate.categroies}}
+                            </a>
+                        </li>
+                        {%endfor %}
+                        <li>
+                            <a class="" href="{{ url_for('productsadd') }}">
+                                <span class="glyphicon glyphicon-file"></span> 添加产品
+                            </a>
+                        </li>
+                    </ul>
                 </ul>
             </li>
 
             <li class="parent ">
                 <a href="#">
-                    <span class="glyphicon glyphicon-list"></span> 库存情况 <span data-toggle="collapse" href="#sub-item-3" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                    <span class="glyphicon glyphicon-list"></span> 采购管理 <span data-toggle="collapse" href="#sub-item-3" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
                 </a>
-                <ul class="children" id="sub-item-3">
+                <ul class="children" id="sub-item-6">
                     <li>
-                        <a href="{{ url_for('stocks') }}">
-                            <span class="glyphicon glyphicon-align-justify"></span> 所有宝贝
+                        <a href="{{ url_for('purlist') }}">
+                            <span class="glyphicon glyphicon-save"></span> 订单列表
                         </a>
                     </li>
-                    {% for cate in catelist %}
-                    <li>
-                        <a href="/stocks/{{cate.ecate}}">
-                            <span class="glyphicon glyphicon-align-left"></span> {{cate.categroies}}
-                        </a>
-                    </li>
-                    {%endfor %}
-
                     <li>
                         <a href="{{ url_for('purchase') }}">
                             <span class="glyphicon glyphicon-save"></span> 采购产品

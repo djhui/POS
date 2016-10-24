@@ -1,0 +1,88 @@
+ {% extends "base.html" %} {% block content %}
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                        <thead>
+                            <tr>
+                                <th data-field="id" data-sortable="true">ID</th>
+                                <th data-field="picture" data-sortable="true">产品</th>
+                                <th data-field="products" data-sortable="true">名称</th>
+                                <th data-field="code" data-sortable="true">编号</th>
+                                <th data-field="specification" data-sortable="true">规格</th>
+                                <th data-field="color" data-sortable="true">颜色</th>
+                                <th data-field="exstock" data-sortable="true">展厅数量</th>
+                                <th data-field="whstock" data-sortable="true">仓库数量</th>
+                                <th data-field="fastock" data-sortable="true">工厂数量</th>
+                                <th data-field="memo" data-sortable="true">备注</th>
+                                <th data-field="control" data-sortable="true">操作</th>
+
+                            </tr>
+                        </thead>
+                        {% if stocklist %} {% for stocks in stocklist %} {%if stocks.offset == False%}
+                        <tr class="no-records-found">
+                            <td>{{stocks.id}}</td>
+                            <td><img class="img-responsive" src="../static/upload/{{stocks.picture}}" width="200" /></td>
+                            <td>{{stocks.products}}</td>
+                            <td>{{stocks.code}}</td>
+                            <td>{{stocks.specification}}</td>
+                            <td>{{stocks.color}}</td>
+                            <td>{{stocks.exstock}}</td>
+                            <td>{{stocks.whstock}}</td>
+                            <td>{{stocks.fastock}}</td>
+                            <td>{{stocks.memo}}</td>
+                            <td><a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{stocks.id}}' )">冲销</a></td>
+                            {%endif%} {% endfor %}
+
+                        </tr>{% endif %}
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete the record-->
+<div class="modal" id="delete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+                <input type="text" class="form-control hide" id="ID1" name="ID" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function delInfo(id) {
+        $('#ID1').val(id);
+        $('#submit').val("delete")
+        $('#delete').modal('show');
+    }
+
+    function update() {
+        //获取模态框数据  
+        var id = $('#ID1').val();
+
+        var submit = $('#submit').val();
+        $.ajax({
+            type: "post",
+            url: "{{ url_for('purlist') }}",
+            data: "id=" + id + "&submit=" + submit,
+            dataType: 'html',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function(result) {
+                location.reload();
+            }
+        });
+    }
+</script>
+{% endblock %}

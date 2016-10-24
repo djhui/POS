@@ -11,32 +11,32 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/city.min.js') }}"></script>
 <div class="panel panel-default">
 
-	<div class="panel-heading">条件选择</div>
-	<div class="panel-body">
-		<div class="col-md-12">
-			<form role="form" class="form-horizontal">
+    <div class="panel-heading">条件选择</div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <form role="form" class="form-horizontal">
 
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><a href="#update"  data-toggle="modal" role="button">选择产品</a></label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="名称" name="products" id="products" required readonly>
-					</div>
-					<label class="col-lg-2 control-label">数量</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="数量" required type="number">
-					</div>
-				</div>
-				<div class="form-group">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><a href="#update"  data-toggle="modal" role="button">选择产品</a></label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="名称" name="products" id="products" required readonly>
+                    </div>
+                    <label class="col-lg-2 control-label">数量</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="数量" required type="number">
+                    </div>
+                </div>
+                <div class="form-group">
 
 
-					<label class="col-lg-2 control-label">发货城市</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="发货城市" value="杭州市" required>
-					
+                    <label class="col-lg-2 control-label">发货城市</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="发货城市" value="杭州市" required>
 
-					</div><label class="col-lg-2 control-label">提货方式</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" name="transportation" required>
+
+                    </div><label class="col-lg-2 control-label">提货方式</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" name="transportation" required>
                                     {% for deli in delilist %} {% if deli.delivery=="到付-送货到楼下" %}
 										<option value="{{deli.delivery}}" selected>{{deli.delivery}}</option>
                                         {% else %}
@@ -44,51 +44,51 @@
                                         {%endif %}
 										{%endfor %}
 									</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-2 control-label">目的城市</label>
-					<div class="col-lg-6">
-						<div class="infolist">
-							<div class="liststyle">
-								<span id="Province">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">目的城市</label>
+                    <div class="col-lg-6">
+                        <div class="infolist">
+                            <div class="liststyle">
+                                <span id="Province">
                                     <i>请选择省份</i>
                                     <ul>
                                         <li></li>
                                     </ul>
                                     <input type="hidden" name="cho_Province" value="请选择省份">
                                 </span>
-								<span id="City">
+                                <span id="City">
                                     <i>请选择城市</i>
                                     <ul>
                                         <li></li>
                                     </ul>
                                     <input type="hidden" name="cho_City" value="请选择城市">
                                 </span>
-								<span id="Area">
+                                <span id="Area">
                                     <i>请选择地区</i>
                                     <ul>
                                         <li></li>
                                     </ul>
                                     <input type="hidden" name="cho_Area" value="请选择地区">
                                 </span>
-							</div>
-						</div>
-					</div><label class="col-lg-2 control-label">物流公司</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" name="trancorp" required>
+                            </div>
+                        </div>
+                    </div><label class="col-lg-2 control-label">物流公司</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" name="trancorp" required>
                                     <option value="全部">全部</option>
 										 {% for trans in translist %}
 										<option value="{{trans.corpname}}">{{trans.corpname}}</option>
                                         {% endfor %}
 									</select>
-					</div>
-				</div>
-				<div class="form-group">
+                    </div>
+                </div>
+                <div class="form-group">
 
-					<label class="col-lg-2 control-label">折扣</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" required>
+                    <label class="col-lg-2 control-label">折扣</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" required>
 										<option>无折扣</option>
 										<option value = "0.9">9折</option>
                                         <option selected value = "0.8">8折</option>
@@ -96,91 +96,89 @@
                                         <option value = "0.6">6折</option>
                                         <option value = "0.5">5折</option>
 									</select>
-					</div>
-					<label class="col-lg-2 control-label">打木架</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" required>
+                    </div>
+                    <label class="col-lg-2 control-label">打木架</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" required>
 										<option>是</option>
 										<option selected>否</option>
 									</select>
-					</div>
+                    </div>
 
-				</div>
+                </div>
 
 
 
-				<button type="submit" class="btn btn-primary pull-right">提交</button>
-				<button type="reset" class="btn btn-default">重置</button>
-		</div>
+                <button type="submit" class="btn btn-primary pull-right">提交</button>
+                <button type="reset" class="btn btn-default">重置</button>
+        </div>
 
-	</div>
+    </div>
 </div>
 
 
 
 
 <div class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-					<thead>
-						<tr>
-							<th data-field="id" data-sortable="true">ID</th>
-							<th data-field="id" data-sortable="true">产品</th>
-							<th data-field="id" data-sortable="true">名称</th>
-							<th data-field="id" data-sortable="true">包装尺寸(cm)</th>
-							<th data-field="id" data-sortable="true">包装体积(m³)</th>
-							<th data-field="id" data-sortable="true">物流公司</th>
-							<th data-field="id" data-sortable="true">发货城市</th>
-							<th data-field="id" data-sortable="true">目的城市</th>
-							<th data-field="id" data-sortable="true">运费</th>
-						</tr>
-					</thead>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                    <thead>
+                        <tr>
+                            <th data-field="id" data-sortable="true">ID</th>
+                            <th data-field="id" data-sortable="true">产品</th>
+                            <th data-field="id" data-sortable="true">名称</th>
+                            <th data-field="id" data-sortable="true">包装尺寸(cm)</th>
+                            <th data-field="id" data-sortable="true">包装体积(m³)</th>
+                            <th data-field="id" data-sortable="true">物流公司</th>
+                            <th data-field="id" data-sortable="true">发货城市</th>
+                            <th data-field="id" data-sortable="true">目的城市</th>
+                            <th data-field="id" data-sortable="true">运费</th>
+                        </tr>
+                    </thead>
 
-				</table>
-			</div>
-		</div>
-	</div>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="update">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
 
-				<h4 class="modal-title">选择产品</h4>
-			</div>
-			<div class="modal-body">
-				<table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-					<thead>
-						<tr>
-							<th data-field="id" id="ID" data-sortable="true">ID</th>
-							<th data-field="picture" id="picture" data-sortable="true">产品图片</th>
-							<th data-field="products" id="products" data-sortable="true">产品名称</th>
-							<th data-field="control" id="control" data-sortable="true">操作</th>
-						</tr>
-					</thead>{% if prolist %} {% for pro in prolist %}
-					<tr class="no-records-found">
+                <h4 class="modal-title">选择产品</h4>
+            </div>
+            <div class="modal-body">
+                <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                    <thead>
+                        <tr>
+                            <th data-field="id" id="ID" data-sortable="true">ID</th>
+                            <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+                            <th data-field="products" id="products" data-sortable="true">产品名称</th>
+                            <th data-field="control" id="control" data-sortable="true">操作</th>
+                        </tr>
+                    </thead>{% if prolist %} {% for pro in prolist %}
+                    <tr class="no-records-found">
 
-						<td>{{pro.id}}</td>
-						<td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-						<td>{{pro.products}}</td>
-						<td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}')">选择</button></td>
-						{% endfor %}
+                        <td>{{pro.id}}</td>
+                        <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+                        <td>{{pro.products}}</td>
+                        <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}')">选择</button></td>
+                        {% endfor %}
 
-					</tr>{% endif %}
+                    </tr>{% endif %}
 
 
-				</table>
-			</div>
+                </table>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 <script>
-    function update(id,products,code) {
+    function update(id, products, code) {
         $('#productid').val(id);
         $('#products').val(products);
         $('#code').val(code);

@@ -5,233 +5,234 @@
 <script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
 
 <div class="panel panel-default">
-	<div class="panel-heading">销售添加</div>
-	<div class="panel-body">
-		<div class="col-lg-12">
-			<form role="form" class="form-horizontal" action="" method="post">
-				<div class="form-group">
-					<label class="col-lg-1 control-label">产品图片</label>
-					<div class="col-lg-2">
-						<a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
-					</div>
-					<label class="col-lg-1 control-label">名称</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="名称" name="products" id="products" required readonly>
-						<input class="form-control hide" placeholder="产品ID" name="productid" id="productid" required readonly>
-					</div>
-					<label class="col-lg-1 control-label">下单日期</label>
-					<div class="col-lg-2">
-						<div class="input-group date " data-provide="datepicker">
-							<input class="form-control" type="text" placeholder="下单日期" name="orderdate" required>
-							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-					</div>
-					<label class="col-lg-1 control-label">颜色</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="颜色" name="color" id="color" required readonly>
-					</div>
-					<label class="col-lg-1 control-label">发货仓库</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="warehouse" name="warehouse" required>
+    <div class="panel-heading">销售添加</div>
+    <div class="panel-body">
+        <div class="col-lg-12">
+            <form role="form" class="form-horizontal" action="" method="post">
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">产品图片</label>
+                    <div class="col-lg-2">
+                        <a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
+                    </div>
+                    <label class="col-lg-1 control-label">名称</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="名称" name="products" id="products" required readonly>
+                        <input class="form-control hide" placeholder="产品ID" name="productid" id="productid" required readonly>
+                    </div>
+                    <label class="col-lg-1 control-label">下单日期</label>
+                    <div class="col-lg-2">
+                        <div class="input-group date " data-provide="datepicker">
+                            <input class="form-control" type="text" placeholder="下单日期" name="orderdate" required>
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                    <label class="col-lg-1 control-label">颜色</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="颜色" name="color" id="color" required readonly>
+                    </div>
+                    <label class="col-lg-1 control-label">发货仓库</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="warehouse" name="warehouse" required>
                                     
 										<option value="exstock">展厅</option>
 										<option value="whstock">仓库</option>
 										<option value="fastock">工厂</option>
 									</select>
-						<input class="form-control hide" placeholder="规格" name="type" readonly id="specification">
-					</div>
-					<label class="col-lg-1 control-label">发货日期</label>
-					<div class="col-lg-2">
-						<div class="input-group date " data-provide="datepicker">
-							<input class="form-control" placeholder="客户要求" name="cdeliverydate" required>
-							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-							</div>
-						</div>
-					</div>
+                        <input class="form-control hide" placeholder="规格" name="type" readonly id="specification">
+                    </div>
+                    <label class="col-lg-1 control-label">发货日期</label>
+                    <div class="col-lg-2">
+                        <div class="input-group date " data-provide="datepicker">
+                            <input class="form-control" placeholder="客户要求" name="cdeliverydate" required>
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
 
-				</div>
-				<div class="form-group">
+                </div>
+                <div class="form-group">
 
 
-					<label class="col-lg-1 control-label">旺旺号</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="旺旺号" name="wangwang" required>
-					</div>
-					<label class="col-lg-1 control-label">数量</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="数量" name="number" type="number" required>
-					</div>
-					<label class="col-lg-1 control-label">送货方式</label>
+                    <label class="col-lg-1 control-label">旺旺号</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="旺旺号" name="wangwang" required>
+                    </div>
+                    <label class="col-lg-1 control-label">数量</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="数量" name="number" type="number" required>
+                    </div><label class="col-lg-1 control-label">销售客服</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" name="CSE" required>
+										 {% for nick in nickname %}
+                                        <option value="{{nick.nickname}}">{{nick.nickname}}</option>
+                                        {% endfor %}
+									</select>
+                    </div>
+                    <!--<label class="col-lg-1 control-label">送货方式</label>
 					<div class="col-lg-2">
 						<select class="form-control" id="select" name="transportation" required>
                                     {% for deli in delilist %}
 										<option value="{{deli.delivery}}">{{deli.delivery}}</option>
 										{%endfor %}
 									</select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">收货地址</label>
-					<div class="col-lg-5">
+					</div>-->
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">收货地址</label>
+                    <div class="col-lg-5">
 
-						<textarea class="form-control" placeholder="收货地址" rows="2" id="textArea" name="address" required></textarea>
-					</div><label class="col-lg-1 control-label">销售客服</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" name="CSE" required>
-										 {% for nick in nickname %}
-                                        <option value="{{nick.nickname}}">{{nick.nickname}}</option>
-                                        {% endfor %}
-									</select>
-					</div>
+                        <textarea class="form-control" placeholder="收货地址" rows="2" id="textArea" name="address" required></textarea>
+                    </div>
+                    <label class="col-lg-1 control-label">商品价格</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control" placeholder="商品价格" name="price" required></div>
+                    </div>
 
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">保价</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input class="form-control" placeholder="保价" name="Inprice" required></div>
-					</div>
-					<label class="col-lg-1 control-label">物流公司</label>
-					<div class="col-lg-2">
-						<select class="form-control" id="select" name="trancorp" required>
+                </div>
+                <div class="form-group">
+                    <!--<label class="col-lg-1 control-label">保价</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control" placeholder="保价" name="Inprice" required></div>
+                    </div>-->
+                    <label class="col-lg-1 control-label">物流公司</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="select" name="trancorp" required>
 										 {% for trans in translist %}
 										<option value="{{trans.corpname}}">{{trans.corpname}}</option>
                                         {% endfor %}
 									</select>
-					</div>
-					<label class="col-lg-1 control-label">物流单号</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="物流单号" name="Tnumber" required>
-					</div>
+                    </div>
+                    <label class="col-lg-1 control-label">物流单号</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="物流单号" name="Tnumber" required>
+                    </div>
+
+                    <label class="col-lg-1 control-label">预收运费</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control" placeholder="预收运费" name="advprice" required></div>
+                    </div>
+
+
+
+                </div>
+                <div class="form-group">
 
 
 
 
+                    <!--<label class="col-lg-1 control-label">发货日期</label>
+                    <div class="col-lg-2">
+                        <div class="input-group date " data-provide="datepicker">
+                            <input class="form-control" placeholder="实际日期" name="deliverydate" required>
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+                <!--
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">实际运费</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control" placeholder="实际运费" name="Aprice" required>
+                        </div>
+                    </div>
+                    <label class="col-lg-1 control-label">返现</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control" placeholder="返现" name="Recashes" required></div>
+                    </div>
+                    <label class="col-lg-1 control-label">提成结算</label>
+                    <div class="col-lg-2">
 
-				</div>
-				<div class="form-group">
+                        <div class="input-group date " data-provide="datepicker">
+                            <input class="form-control" type="text" placeholder="提成结算" name="Commission" required>
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">备注</label>
+                    <div class="col-lg-8">
+                        <textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
+                    </div>
 
-					<label class="col-lg-1 control-label">商品价格</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input class="form-control" placeholder="商品价格" name="price" required></div>
-					</div>
-					<label class="col-lg-1 control-label">预收运费</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input class="form-control" placeholder="预收运费" name="advprice" required></div>
-					</div>
-
-					<label class="col-lg-1 control-label">发货日期</label>
-					<div class="col-lg-2">
-						<div class="input-group date " data-provide="datepicker">
-							<input class="form-control" placeholder="实际日期" name="deliverydate" required>
-							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">实际运费</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input class="form-control" placeholder="实际运费" name="Aprice" required>
-						</div>
-					</div>
-					<label class="col-lg-1 control-label">返现</label>
-					<div class="col-lg-2">
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input class="form-control" placeholder="返现" name="Recashes" required></div>
-					</div>
-					<label class="col-lg-1 control-label">提成结算</label>
-					<div class="col-lg-2">
-
-						<div class="input-group date " data-provide="datepicker">
-							<input class="form-control" type="text" placeholder="提成结算" name="Commission" required>
-							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">备注</label>
-					<div class="col-lg-8">
-						<textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
-					</div>
-
-				</div>
-				<div class="form-group">
-					<div class="col-lg-9">
-						<button type="reset" class="btn btn-default">重置</button>
-						<button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button></div>
-				</div>
-			</form>
-		</div>
-	</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-9">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </div>
 
 
 
 <div class="modal" id="update">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
 
-				<h4 class="modal-title">选择产品</h4>
-			</div>
-			<div class="modal-body">
-				<table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
-					<thead>
-						<tr>
-							<th data-field="id" id="ID" data-sortable="true">ID</th>
-							<th data-field="picture" id="picture" data-sortable="true">产品图片</th>
-							<th data-field="products" id="products" data-sortable="true">产品名称</th>
-							<th data-field="specification" id="specification" data-sortable="true">产品规格</th>
-							<th data-field="color" id="color" data-sortable="true">产品颜色</th>
-							<th data-field="exstock" id="exstock" data-sortable="true">展厅数量</th>
-							<th data-field="whstock" id="whstock" data-sortable="true">仓库数量</th>
-							<th data-field="fastock" id="fastock" data-sortable="true">工厂数量</th>
-							<th data-field="control" id="control" data-sortable="true">操作</th>
-						</tr>
-					</thead>{% if prolist %} {% for pro in prolist %}
-					<tr class="no-records-found">
-						<td>{{pro.id}}</td>
-						<td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-						<td>{{pro.products}}</td>
-						<td>{{pro.specification}}</td>
-						<td>{{pro.color}}</td>
-						<td>{{pro.exstock}}</td>
-						<td>{{pro.whstock}}</td>
-						<td>{{pro.fastock}}</td>
-						<td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
-						{% endfor %}
+                <h4 class="modal-title">选择产品</h4>
+            </div>
+            <div class="modal-body">
+                <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
+                    <thead>
+                        <tr>
+                            <th data-field="id" id="ID" data-sortable="true">ID</th>
+                            <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+                            <th data-field="products" id="products" data-sortable="true">产品名称</th>
+                            <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
+                            <th data-field="color" id="color" data-sortable="true">产品颜色</th>
+                            <th data-field="exstock" id="exstock" data-sortable="true">展厅数量</th>
+                            <th data-field="whstock" id="whstock" data-sortable="true">仓库数量</th>
+                            <th data-field="fastock" id="fastock" data-sortable="true">工厂数量</th>
+                            <th data-field="control" id="control" data-sortable="true">操作</th>
+                        </tr>
+                    </thead>{% if prolist %} {% for pro in prolist %}
+                    <tr class="no-records-found">
+                        <td>{{pro.id}}</td>
+                        <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+                        <td>{{pro.products}}</td>
+                        <td>{{pro.specification}}</td>
+                        <td>{{pro.color}}</td>
+                        <td>{{pro.exstock}}</td>
+                        <td>{{pro.whstock}}</td>
+                        <td>{{pro.fastock}}</td>
+                        <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
+                        {% endfor %}
 
-					</tr>{% endif %}
+                    </tr>{% endif %}
 
 
-				</table>
-			</div>
+                </table>
+            </div>
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 <script>
-    function update(id,products,code,specification,color) {
+    function update(id, products, code, specification, color) {
         $('#productid').val(id);
         $('#products').val(products);
         $('#code').val(code);
-		$('#color').val(color);
-		$('#specification').val(specification);
+        $('#color').val(color);
+        $('#specification').val(specification);
         $('#update').modal('hide');
     }
 </script> {% endblock %}
