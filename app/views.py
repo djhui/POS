@@ -74,11 +74,60 @@ def salesdetail():
             id = request.form['id']
             newsales = Sales.query.get(id)
         except:pass
+        try:
+            productid = request.form['productid']
+            newpro = Products.query.filter_by(id=productid).first()
+        except:pass
+        try:orderdate = request.form['orderdate']
+        except:pass
+        try:wangwang = request.form['wangwang']
+        except:pass
+        try:cdeliverydate = request.form['cdeliverydate']
+        except:pass
+        try:type = request.form['type']
+        except:pass
+        try:color = request.form['color']
+        except:pass
+        try:
+            warehouse = request.form['warehouse']
+            #if warehouse == "exstock" : newpro.exstock = newpro.exstock - number
+            #if warehouse == "whstock" : newpro.whstock = newpro.whstock - number
+            #if warehouse == "fastock" : newpro.fastock = newpro.fastock - number
+        except:pass
+        try:number = int(request.form['number'])
+        except:pass
+        try:address = request.form['address']
+        except:pass
+        try:transportation = request.form['transportation']
+        except:pass
+        try:Inprice = float(request.form['Inprice'])
+        except:pass
+        try:price = float(request.form['price'])
+        except:pass
+        try:advprice = float(request.form['advprice'])
+        except:pass
+        try:CSE = request.form['CSE']
+        except:pass
+        try:deliverydate = request.form['deliverydate']
+        except:pass
+        try:trancorp = request.form['trancorp']
+        except:pass
+        try:Tnumber = request.form['Tnumber']
+        except:pass
+        try:Aprice = float(request.form['Aprice'])
+        except:pass
+        try:Recashes = float(request.form['Recashes'])
+        except:pass
+        try:Commission = request.form['Commission']
+        except:pass
+        try:memo = request.form['memo']
+        
+        except:memo="no comments"
+        
         if request.form['submit']=="update":
-            print "ff"
-            log = u"更新订单" 
-                #log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
-
+            newsales.orderdate,newsales.wangwang,newsales.cdeliverydate,newsales.type,newsales.color,newsales.number,newsales.address,newsales.transportation,newsales.Inprice,newsales.price,newsales.advprice,newsales.CSE,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo = orderdate, wangwang, cdeliverydate, type, color, number, address, transportation, Inprice, price, advprice, CSE, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo
+            log = u"更新订单:订单ID->%s,下单日期->%s,旺旺->%s,客户要求发货日期->%s,规格->%s,颜色->%s,发货仓库->%s,下单数量->%s,发货地址->%s,物流送货方式->%s,保费->%s,商品价格->%s,预收运费->%s,客服->%s,实际发货日期->%s,物流公司->%s,物流单号->%s,,实际运费->%s,返现->%s,提成结算日期->%s,备注->%s" % (id,orderdate,wangwang,cdeliverydate,type,color,warehouse,number,address,transportation,Inprice,price,advprice,CSE,deliverydate,trancorp,Tnumber,Aprice,Recashes,Commission,memo)
+        
             #log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s" % (username,role,mobile,nickname)
         if request.form['submit']=="delete":
             db.session.delete(newsales)
@@ -87,37 +136,41 @@ def salesdetail():
     db.session.commit()
     saleslist = Sales.query.order_by(Sales.id)
     prolist = Products.query.order_by(Products.id)
-    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist,prolist=prolist)
+    delilist = Delivery.query.order_by(Delivery.id)
+    translist = Trans.query.order_by(Trans.id)
+    nickname=User.query.order_by(User.username)
+    return render_template('sales_detail.html',session=session,nav = u"销售详情",saleslist=saleslist,catelist=g.catelist,prolist=prolist,nickname=nickname,delilist=delilist,translist=translist)
 #--------------------------------------------------------------------------------------------------------------------
 @app.route("/salesorder",methods=['POST','GET'])
 @login_required
 def salesorder():
     if request.method == 'POST':
+        productid = request.form['productid']
+        newpro = Products.query.filter_by(id=productid).first()
+        picture = newpro.picture
+        orderdate = request.form['orderdate']
+        wangwang = request.form['wangwang']
+        cdeliverydate = request.form['cdeliverydate']
+        type = request.form['type']
+        color = request.form['color']
+        warehouse = request.form['warehouse']
+        number = int(request.form['number'])
+        address = request.form['address']
+        transportation = request.form['transportation']
+        Inprice = float(request.form['Inprice'])
+        price = float(request.form['price'])
+        advprice = float(request.form['advprice'])
+        CSE = request.form['CSE']
+        deliverydate = request.form['deliverydate']
+        trancorp = request.form['trancorp']
+        Tnumber = request.form['Tnumber']
+        Aprice = float(request.form['Aprice'])
+        Recashes = float(request.form['Recashes'])
+        Commission = request.form['Commission']
+        try:memo = request.form['memo']
+        except:memo="no comments"
         if request.form['submit']=="add":
-            productid = request.form['productid']
-            newpro = Products.query.filter_by(id=productid).first()
-            orderdate = request.form['orderdate']
-            wangwang = request.form['wangwang']
-            cdeliverydate = request.form['cdeliverydate']
-            type = request.form['type']
-            color = request.form['color']
-            warehouse = request.form['warehouse']
-            number = int(request.form['number'])
-            address = request.form['address']
-            transportation = request.form['transportation']
-            Inprice = float(request.form['Inprice'])
-            price = float(request.form['price'])
-            advprice = float(request.form['advprice'])
-            CSE = request.form['CSE']
-            deliverydate = request.form['deliverydate']
-            trancorp = request.form['trancorp']
-            Tnumber = request.form['Tnumber']
-            Aprice = float(request.form['Aprice'])
-            Recashes = float(request.form['Recashes'])
-            Commission = request.form['Commission']
-            try:memo = request.form['memo']
-            except:memo="no comments"
-            addsales = Sales(productid, orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
+            addsales = Sales(productid, picture,orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission, memo)
             db.session.add(addsales)
             if warehouse == "exstock" : newpro.exstock = newpro.exstock - number
             if warehouse == "whstock" : newpro.whstock = newpro.whstock - number
@@ -356,8 +409,8 @@ def upload_file():
         ext = f.filename.split(".")[-1]
         filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
-        filename = '%s/app/static/upload/%s' % (os.getcwd(),filename)
-        f.save(filename) 
+        filename1 = '%s/app/static/upload/%s' % (os.getcwd(),filename)
+        f.save(filename1) 
         log = u"上传文件%s" %filename
         db.session.add(Logs(log,u"上传文件",session['nickname'])) 
         db.session.commit()

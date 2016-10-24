@@ -124,7 +124,9 @@ class Products(db.Model):
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     productid = db.Column(db.Integer)
+    picture = db.Column(db.String(500))
     orderdate = db.Column(db.Date)
+    
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
     type = db.Column(db.String(120))
@@ -145,8 +147,9 @@ class Sales(db.Model):
     memo = db.Column(db.VARCHAR(520))
 
   
-    def __init__(self, productid="0", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
+    def __init__(self, productid="0",picture="", orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  memo="no comments"):
         self.productid = productid
+        self.picture = picture
         self.orderdate = orderdate
         self.wangwang = wangwang
         self.cdeliverydate = cdeliverydate
