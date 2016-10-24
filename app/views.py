@@ -185,6 +185,36 @@ def users():
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
+    if request.method == 'POST':
+        try:
+            id = request.form['id']
+            Transfee = Products.query.filter_by(id=id).first
+        except:pass
+        deliverycity = request.form['deliverycity']
+        trancorp = request.form['trancorp']
+        cho_Province = request.form['cho_Province']
+        cho_City = request.form['cho_City']
+        cho_Area = request.form['cho_Area']
+        if trancorp =="all":        
+            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area).all
+            if not transcorps:
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all
+        else:
+            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all
+            if not transcorps:
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all
+        number = request.form['number']
+        transportation = request.form['transportation']
+
+        discount = float(request.form['discount'])
+        wooden = request.form['wooden']
+
+    #总运费=price*体积*0.8+dropofffee，
+    #如果price*体积*0.8<cheapest，
+    #总运费=cheapest+dropofffe
+    #查运费的时候，物流公司输入框默认项为“全部”，默认显示全部物流公司运费 
+    #木架费是200元/m³
+    #发货方式如果选的是自提，就直接是price*体积*折扣，不用加dropofffee了
     translist = Trans.query.order_by(Trans.id)
     delilist = Delivery.query.order_by(Delivery.id)
     prolist = Products.query.order_by(Products.id)

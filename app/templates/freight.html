@@ -7,15 +7,12 @@
 发货方式如果选的是自提，就直接是price*体积*折扣，不用加dropofffee了-->
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-
 <script type="text/javascript" src="{{ url_for('static', filename='js/city.min.js') }}"></script>
 <div class="panel panel-default">
-
     <div class="panel-heading">条件选择</div>
     <div class="panel-body">
         <div class="col-md-12">
-            <form role="form" class="form-horizontal">
-
+            <form role="form" class="form-horizontal" action="" method="post">
                 <div class="form-group">
                     <label class="col-lg-2 control-label"><a href="#update"  data-toggle="modal" role="button">选择产品</a></label>
                     <div class="col-lg-2">
@@ -23,17 +20,13 @@
                     </div>
                     <label class="col-lg-2 control-label">数量</label>
                     <div class="col-lg-2">
-                        <input class="form-control" placeholder="数量" required type="number">
+                        <input class="form-control" placeholder="数量" required type="number" name="number">
                     </div>
                 </div>
                 <div class="form-group">
-
-
                     <label class="col-lg-2 control-label">发货城市</label>
                     <div class="col-lg-2">
-                        <input class="form-control" placeholder="发货城市" value="杭州市" required>
-
-
+                        <input class="form-control" placeholder="发货城市" value="杭州市" required name = "deliverycity">
                     </div><label class="col-lg-2 control-label">提货方式</label>
                     <div class="col-lg-2">
                         <select class="form-control" id="select" name="transportation" required>
@@ -77,7 +70,7 @@
                     </div><label class="col-lg-2 control-label">物流公司</label>
                     <div class="col-lg-2">
                         <select class="form-control" id="select" name="trancorp" required>
-                                    <option value="全部">全部</option>
+                                    <option value="all">全部</option>
 										 {% for trans in translist %}
 										<option value="{{trans.corpname}}">{{trans.corpname}}</option>
                                         {% endfor %}
@@ -88,8 +81,8 @@
 
                     <label class="col-lg-2 control-label">折扣</label>
                     <div class="col-lg-2">
-                        <select class="form-control" id="select" required>
-										<option>无折扣</option>
+                        <select class="form-control" id="select" required name="discount">
+										<option value="1">无折扣</option>
 										<option value = "0.9">9折</option>
                                         <option selected value = "0.8">8折</option>
                                         <option value = "0.7">7折</option>
@@ -99,26 +92,19 @@
                     </div>
                     <label class="col-lg-2 control-label">打木架</label>
                     <div class="col-lg-2">
-                        <select class="form-control" id="select" required>
-										<option>是</option>
-										<option selected>否</option>
+                        <select class="form-control" id="select" name="wooden" required>
+										<option value="yes">是</option>
+										<option value="no" selected>否</option>
 									</select>
                     </div>
 
                 </div>
-
-
-
                 <button type="submit" class="btn btn-primary pull-right">提交</button>
                 <button type="reset" class="btn btn-default">重置</button>
         </div>
 
     </div>
 </div>
-
-
-
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">

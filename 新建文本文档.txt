@@ -1,0 +1,70 @@
+Python代码:
+#简单查询
+#注意User是一个类对象,user_table是数据库中的表
+print(session.query(User).all())
+---相当于SQL语句--->
+select * from user_table
+
+print(session.query(User.name,User.fullname.all()))
+---相当于SQL语句--->
+select user_table.name,user_table.fullname from user_table
+
+print(session.query(User,user.name).all())
+---相当于SQL语句--->
+select user_table.name from user_table
+
+#条件查询
+print (session.query(User).filter_by(name='user1).all())
+---相当于SQL语句--->
+select * from user_table where name = 'user1'
+
+print (session.query(User).filter(User.name == "user).all())
+---相当于SQL语句--->
+select * from user_table where user_table.name = user
+
+print (session.query(User).filter(User.name.like("user%")).all())
+---相当于SQL语句--->
+select * from user_table where user_table.name like user%
+
+#多条件查询
+print (session.query(User).filter(and_(User.name.like("user),User.fullname.like("first%"))).all()
+---相当于SQL语句--->
+select * from user_table where user_table.name like %user and user_table.fullname like first%
+
+print(session.query(User).filter(or_(User.name.like("user%),User.password != None)).all()
+---相当于SQL语句--->
+select * from user_table where user_table.name = user% or user_table.password != none
+
+#sql过滤
+print(session(User).filter("id>:id").params(id=1).all()
+---相当于SQL语句--->
+select * from user_table where user_table.id > 1
+
+#关联查询
+print(session.query(User,Address).filter(User.id == Address.user_id).all()
+---相当于SQL语句--->
+select * from user_table,address_table where user_table.id == address.user_id
+
+print (session.query(User).jion(User.address).all()
+---相当于SQL语句--->
+********************
+print (session.query(User).outerjoin(User.address).all())
+*******************
+
+#聚合查询
+print(session.query(User.name,func.count('*').label("user_count)).group_by(User.name).all())
+---相当于SQL语句--->
+select count(user_table.name) as user_count from user_table where group by(user_table.name)
+
+print(session.query(User.name,func.sum(User.id).label("user_id_sum")).group_by(User.name).all())
+---相当于SQL语句--->
+select user_table.name,sum(user_table.id) from user_table where group by(user_table.name)
+
+#子查询
+stmt = session.query(Address.user_id,func.count('*').label("address_count").group by(Address.user_id).subquery()
+
+print (session.query(User,stmt.c.address_count).outjion((stmt,User.id == stmt.c.user_id.order_by(User_id).all()
+
+#exits
+print (session.query(User).filter(exists().where(Address.user_id == User.id)))
+print (session.query(User).filter(User.addresses.any()))
