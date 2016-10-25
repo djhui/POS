@@ -219,8 +219,11 @@ def freight():
                     totalprice = totalprice + tran.dropofffee + woodenfee
                 else:
                     totalprice = totalprice  + woodenfee
-                Cals.append("{'product':'%s','pkgsize':'%s','pkgbulk':'%s','transcorp':'%s','transtype':%s,delicity':'%s','destcity':'%s','fee':'%s'}" % (Transfee.products,Transfee.pkgsize,Transfee.pkgbulk,tran.corpname,tran.transtype,tran.deliveryplace,tran.destcity,totalprice))
-            return json.dumps(Cals)
+                #Cals ={'product':Transfee.products,'pkgsize':Transfee.pkgsize,'pkgbulk':Transfee.pkgbulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':totalprice}
+                
+                Cals.append("{'product':'%s','pkgsize':'%s','pkgbulk':'%s','transcorp':'%s','transtype':'%s','delicity':'%s','destcity':'%s','fee':'%s'}" % (Transfee.products,Transfee.pkgsize,Transfee.pkgbulk,tran.corpname,tran.transtype,tran.deliveryplace,tran.destcity,totalprice))
+                print json.dumps(Cals).replace("\"","")
+            return json.dumps(Cals).replace("\"","")
         else:
             return json.dumps({"data":"None"})
     #总运费=price*体积*0.8+dropofffee，

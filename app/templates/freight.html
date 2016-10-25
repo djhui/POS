@@ -30,7 +30,7 @@
 					<input class="form-control" placeholder="发货城市" value="杭州市" required name="deliverycity" id="deliverycity">
 				</div><label class="col-lg-2 control-label">提货方式</label>
 				<div class="col-lg-2">
-					<select class="form-control" id="select" name="transportation" required>
+					<select class="form-control" id="transportation" name="transportation" required>
                                     {% for deli in delilist %} {% if deli.delivery=="到付-送货到楼下" %}
 										<option value="{{deli.delivery}}" selected>{{deli.delivery}}</option>
                                         {% else %}
@@ -100,7 +100,7 @@
 				</div>
 
 			</div>
-			<button type="submit" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
+			<button id="button" class="btn btn-primary pull-right">提交</button>
 			<button type="reset" class="btn btn-default">重置</button>
 		</div>
 
@@ -111,7 +111,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+					data-search="true" data-select-item-name="toolbar" data-pagination="true">
 					<thead>
 						<tr>
 
@@ -119,7 +119,7 @@
 							<th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
 							<th data-field="pkgbulk" data-sortable="true">包装体积(m³)</th>
 							<th data-field="transcorp" data-sortable="true">物流公司</th>
-                            <th data-field="transtype" data-sortable="true">快车/慢车</th>
+							<th data-field="transtype" data-sortable="true">快车/慢车</th>
 							<th data-field="delicity" data-sortable="true">发货城市</th>
 							<th data-field="destcity" data-sortable="true">目的城市</th>
 							<th data-field="fee" data-sortable="true">运费</th>
@@ -138,8 +138,8 @@
 				<h4 class="modal-title">选择产品</h4>
 			</div>
 			<div class="modal-body">
-				<table  class="table table-striped" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+				<table class="table table-striped" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
+					data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
 					<thead>
 						<tr>
 							<th data-field="id" id="ID" data-sortable="true">ID</th>
@@ -166,6 +166,8 @@
 	</div>
 </div>
 <script>
+	var $table = $('#table');
+	$button = $('#button');
     function update(id, products, code) {
         $('#productid').val(id);
         $('#products').val(products);
@@ -185,23 +187,28 @@
         var number = $('#number').val();
         var discount = $('#discount').val();
         var wooden = $('#wooden').val();
-        var $table = $('#table');
+        
         $.ajax({
             type: "post",
             url: "{{ url_for('freight') }}",
             data: "id=" + id + "&deliverycity=" + deliverycity + "&trancorp=" + trancorp + "&cho_Province=" + cho_Province + "&cho_City=" + cho_City + "&cho_Area=" + cho_Area + "&transportation=" + transportation + "&number=" + number + "&discount=" + discount + "&wooden=" + wooden,
             dataType: 'json',
-            //contentType: 'application/json',
+			//contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function(data) {
-                 
-                //data=JSON.parse(data); 
-                //$table.bootstrapTable({ data:data });
-                $table.bootstrapTable('load', data);
-                alert(data);
-                //$table.bootstrapTable('refresh', data});
 
-            }
+				$table.bootstrapTable('load', data);
+                alert(data);
+				
+				
+			}
             
         });
     }
+	$(function () {
+        $button.click(function () {
+			getdata()
+			//$table.bootstrapTable('load', result);
+			//alert(result);
+			});
+    });
 </script> {% endblock %}
