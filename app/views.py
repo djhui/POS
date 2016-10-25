@@ -30,7 +30,7 @@ def load_user(id):
 def before_request():
     g.user = current_user
     g.catelist = Cates.query.order_by(Cates.id)
-
+#----------------------------------------------------------------------
 @app.route("/",methods=['POST','GET'])
 def login():
     if request.method == 'POST':
@@ -45,22 +45,20 @@ def login():
         else:
             return render_template('error.html',error=u"用户名或者密码错误")
     return render_template('index.html')
- 
+ #----------------------------------------------------------------------
 @app.route("/exit",methods=['POST','GET'])
 @login_required
 def exit():
-    
     del session['name']
     logout_user()
     return redirect(url_for('login'))
 
-
+#----------------------------------------------------------------------
 @app.route("/main",methods=['POST','GET'])
 @login_required
 def main():
-    
     return render_template('main.html',user=g.user,catelist=g.catelist)
-
+#----------------------------------------------------------------------
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
@@ -144,7 +142,7 @@ def salesorder():
     nickname=User.query.order_by(User.username)
     prolist = Products.query.order_by(Products.id)
     return render_template('salesorder.html',session=session,nav = u"添加",nickname=nickname,catelist=g.catelist,prolist=prolist)
-
+#----------------------------------------------------------------------
 @app.route("/users",methods=['POST','GET'])
 @login_required
 def users():
@@ -181,7 +179,7 @@ def users():
     userlist = User.query.order_by(User.username)
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('users.html',session=session,nav = u"用户管理",userlist=userlist,rolelist=rolelist,catelist=g.catelist)
-
+#----------------------------------------------------------------------
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
@@ -334,7 +332,6 @@ def roles():
         db.session.commit()
     rolelist = Role.query.order_by(Role.rolename)
     return render_template('roles.html',session=session,nav = u"角色管理",rolelist=rolelist,catelist=g.catelist)
-
 #------------------------------categroies----------------------------------------
 @app.route("/trans",methods=['POST','GET'])
 @login_required
@@ -420,21 +417,23 @@ def upload_file():
         ext = f.filename.split(".")[-1]
         filename = md5(f.filename).hexdigest() + "." + ext
         minetype = f.content_type
-        #filename1 = './app/static/upload/%s' % (filename)
-        filename1 = '/opt/POS/app/static/upload/%s' % (filename)
-        f.save(filename1) 
-        log = u"上传文件%s" %filename
-        db.session.add(Logs(log,u"上传文件",session['nickname'])) 
-        db.session.commit()
-        return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
-        
-
+        if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
+            return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
+        else:    
+            filename1 = './app/static/upload/%s' % (filename)
+            #filename1 = '/opt/POS/app/static/upload/%s' % (filename)
+            f.save(filename1) 
+            log = u"上传文件%s" %filename
+            db.session.add(Logs(log,u"上传文件",session['nickname'])) 
+            db.session.commit()
+            return json.dumps({"files": [{"name": filename, "minetype": minetype}]})
+#----------------------------------------------------------------------
 @app.route("/log",methods=['POST','GET'])
 @login_required
 def log():
     loglist = Logs.query.order_by(Logs.id)
     return render_template('log.html',session=session,nav = u"操作日志",catelist=g.catelist,loglist=loglist)
-
+#----------------------------------------------------------------------
 @app.route("/products",methods=['POST','GET'])
 @login_required
 def products():
@@ -443,40 +442,6 @@ def products():
             id = request.form['id']
             newpro = Products.query.get(id)
         except:pass
-        try:picture = request.form['picture']
-        except:pass
-        try:products = request.form['products']
-        except:pass
-        try:code = request.form['code']
-        except:pass
-        try:specification = request.form['specification']
-        except:pass
-        try:pkgsize = request.form['pkgsize']
-        except:pass
-        try:pgkbulk = request.form['pgkbulk']
-        except:pass
-        try:categroies = request.form['categroies']
-        except:pass
-        try:memo = request.form['memo']
-        except:pass
-        print picture
-        if request.form['submit']=="update":
-            if request.form['picture']:
-                newpro.picture=picture
-            newpro.products, newpro.code, newpro.specification, newpro.pkgsize, newpro.pgkbulk, newpro.categroies,newpro.memo  = products, code, specification, pkgsize, pgkbulk, categroies, memo
-            log = u"更改产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (products,categroies,code,specification,pkgsize,pgkbulk,memo)
-        if request.form['submit']=="delete":
-            db.session.delete(newpro)
-            log = u"删除产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (newpro.products,newpro.categroies,newpro.code,newpro.specification,newpro.pkgsize,newpro.pgkbulk,newpro.memo)
-        db.session.add(Logs(log,u"产品管理",session['nickname']))
-        db.session.commit()
-    prolist = Products.query.order_by(Products.id)
-    return render_template('products.html',session=session,nav = u"全部产品",catelist=g.catelist,prolist=prolist)
-
-@app.route("/productsadd",methods=['POST','GET'])
-@login_required
-def productsadd():
-    if request.method == 'POST':
         try:picture = request.form['picture']
         except:pass
         try:products = request.form['products']
@@ -501,6 +466,15 @@ def productsadd():
             fastock=0
             db.session.add(Products(picture,products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo))
             log = u"新建产品:产品图片->%s,名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (picture,products,categroies,code,specification,pkgsize,pgkbulk,memo)
-        db.session.add(Logs(log,u"新建产品",session['nickname']))
+        if request.form['submit']=="update":
+            if request.form['picture']:
+                newpro.picture=picture
+            newpro.products, newpro.code, newpro.specification, newpro.pkgsize, newpro.pgkbulk, newpro.categroies,newpro.memo  = products, code, specification, pkgsize, pgkbulk, categroies, memo
+            log = u"更改产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (products,categroies,code,specification,pkgsize,pgkbulk,memo)
+        if request.form['submit']=="delete":
+            db.session.delete(newpro)
+            log = u"删除产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (newpro.products,newpro.categroies,newpro.code,newpro.specification,newpro.pkgsize,newpro.pgkbulk,newpro.memo)
+        db.session.add(Logs(log,u"产品管理",session['nickname']))
         db.session.commit()
-    return render_template('productadd.html',session=session,nav = u"添加产品",catelist=g.catelist)
+    prolist = Products.query.order_by(Products.id)
+    return render_template('products.html',session=session,nav = u"全部产品",catelist=g.catelist,prolist=prolist)

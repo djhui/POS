@@ -104,11 +104,11 @@ class Stock(db.Model):
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    picture = db.Column(db.VARCHAR(520), unique=True)
-    products = db.Column(db.String(120), unique=True)
+    picture = db.Column(db.VARCHAR(520))
+    products = db.Column(db.String(120))
     categroies = db.Column(db.String(120))
     code = db.Column(db.String(120))
-    specification = db.Column(db.String(120))
+    specification = db.Column(db.String(120), unique=True)
     color = db.Column(db.String(120))
     exstock = db.Column(db.Integer)
     whstock = db.Column(db.Integer)
@@ -136,7 +136,6 @@ class Sales(db.Model):
     productid = db.Column(db.Integer)
     picture = db.Column(db.String(500))
     orderdate = db.Column(db.Date)
-    
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
     type = db.Column(db.String(120))
