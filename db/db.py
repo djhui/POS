@@ -94,10 +94,10 @@ class Products(db.Model):
     whstock = db.Column(db.Integer)
     fastock = db.Column(db.Integer)
     pkgsize = db.Column(db.String(120))
-    pgkbulk = db.Column(db.String(120))
+    pkgbulk = db.Column(db.Float)
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="",exstock=0,whstock=0,fastock=0 , pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
+    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="",exstock=0,whstock=0,fastock=0 , pkgsize="0*0*0",pkgbulk="6",memo="no comments"):
         self.picture = picture
         self.products = products
         self.categroies = categroies
@@ -108,7 +108,7 @@ class Products(db.Model):
         self.whstock=whstock
         self.fastock=fastock
         self.pkgsize = pkgsize
-        self.pgkbulk = pgkbulk
+        self.pkgbulk = pkgbulk
         self.memo = memo
 
 class Sales(db.Model):

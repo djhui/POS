@@ -19,7 +19,7 @@
                     <th data-field="specification" data-sortable="true">规格</th>
                     <th data-field="color" data-sortable="true">颜色</th>
                     <th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
-                    <th data-field="pgkbulk" data-sortable="true">包装体积(m³)</th>
+                    <th data-field="pkgbulk" data-sortable="true">包装体积(m³)</th>
                     <th data-field="categroies" data-sortable="true">类别</th>
                     <th data-field="memo" data-sortable="true">备注</th>
                     <th data-field="control" data-sortable="true">操作</th>
@@ -34,10 +34,10 @@
                 <td>{{pro.specification}}</td>
                 <td>{{pro.color}}</td>
                 <td>{{pro.pkgsize}}</td>
-                <td>{{pro.pgkbulk}}</td>
+                <td>{{pro.pkgbulk}}</td>
                 <td>{{pro.categroies}}</td>
                 <td>{{pro.memo}}</td>
-                <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{pro.id}}','{{pro.products}}','{{pro.picture}}','{{pro.code}}','{{pro.specification}}','{{pro.pkgsize}}','{{pro.pgkbulk}}','{{pro.categroies}}','{{pro.memo}}' )">修改</a>
+                <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{pro.id}}','{{pro.products}}','{{pro.picture}}','{{pro.code}}','{{pro.specification}}','{{pro.pkgsize}}','{{pro.pkgbulk}}','{{pro.categroies}}','{{pro.memo}}' )">修改</a>
                     <!--<a href="# " class="btn btn-danger btn-xs" onclick="delInfo('{{pro.id}}' )">删除</a></td>-->
                     {% endfor %}
             </tr>{% endif %}
@@ -86,7 +86,7 @@
                 </div>
                 <label class="col-lg-1 control-label">包装体积(m³)</label>
                 <div class="col-lg-2">
-                    <input class="form-control" placeholder="请输入数字,否则会出错" name="pgkbulk" required>
+                    <input class="form-control" placeholder="请输入数字,否则会出错" name="pkgbulk" required>
                 </div>
                 <label class="col-lg-1 control-label">类别</label>
                 <div class="col-lg-2">
@@ -141,7 +141,7 @@
                 <label class="control-label">包装尺寸(cm)</label>
                 <input class="form-control" placeholder="包装尺寸(cm)" name="pkgsize" id="pkgsize1" required>
                 <label class="control-label">包装体积(m³)</label>
-                <input class="form-control" placeholder="包装体积(m³)" name="pgkbulk" id="pgkbulk1" required>
+                <input class="form-control" placeholder="包装体积(m³)" name="pkgbulk" id="pkgbulk1" required>
                 <label class="control-label">类别</label>
                 <select class="form-control" id="categroies1" name="categroies" required>
 {% for cate in catelist %}
@@ -190,14 +190,14 @@
 </div>
 
 <script>
-    function editInfo(id, products, picture, code, specification, pkgsize, pgkbulk, categroies, memo) {
+    function editInfo(id, products, picture, code, specification, pkgsize, pkgbulk, categroies, memo) {
         $('#ID1').val(id);
         $('#picture1').val(picture);
         $('#products1').val(products);
         $('#code1').val(code);
         $('#specification1').val(specification);
         $('#pkgsize1').val(pkgsize);
-        $('#pgkbulk1').val(pgkbulk);
+        $('#pkgbulk1').val(pkgbulk);
         $('#categroies1').val(categroies);
         $('#memo1').val(memo);
         $('#submit').val("update")
@@ -218,14 +218,14 @@
         var code = $('#code1').val();
         var specification = $('#specification1').val();
         var pkgsize = $('#pkgsize1').val();
-        var pgkbulk = $('#pgkbulk1').val();
+        var pkgbulk = $('#pkgbulk1').val();
         var categroies = $('#categroies1').val();
         var memo = $('#memo1').val();
         var submit = $('#submit').val();
         $.ajax({
             type: "post",
             url: "{{ url_for('products') }}",
-            data: "id=" + id + "&picture=" + picture + "&products=" + products + "&code=" + code + "&specification=" + specification + "&pkgsize=" + pkgsize + "&pgkbulk=" + pgkbulk + "&categroies=" + categroies + "&memo=" + memo + "&submit=" + submit,
+            data: "id=" + id + "&picture=" + picture + "&products=" + products + "&code=" + code + "&specification=" + specification + "&pkgsize=" + pkgsize + "&pkgbulk=" + pkgbulk + "&categroies=" + categroies + "&memo=" + memo + "&submit=" + submit,
             dataType: 'html',
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function(result) {

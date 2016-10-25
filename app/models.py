@@ -114,10 +114,10 @@ class Products(db.Model):
     whstock = db.Column(db.Integer)
     fastock = db.Column(db.Integer)
     pkgsize = db.Column(db.String(120))
-    pgkbulk = db.Column(db.String(120))
+    pkgbulk = db.Column(db.Float)
     memo = db.Column(db.VARCHAR(520))
   
-    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="" ,exstock=0,whstock=0,fastock=0, pkgsize="0*0*0",pgkbulk="6",memo="no comments"):
+    def __init__(self, picture="0", products="0", categroies="0", code="0", specification="0",color="",exstock=0,whstock=0,fastock=0 , pkgsize="0*0*0",pkgbulk="6",memo="no comments"):
         self.picture = picture
         self.products = products
         self.categroies = categroies
@@ -128,7 +128,7 @@ class Products(db.Model):
         self.whstock=whstock
         self.fastock=fastock
         self.pkgsize = pkgsize
-        self.pgkbulk = pgkbulk
+        self.pkgbulk = pkgbulk
         self.memo = memo
 
 class Sales(db.Model):
@@ -243,3 +243,24 @@ def __init__(self,corpname, deliveryplace,destprovice,destcity,price,dropofffee,
         self.cheapest = cheapest
         self.transtype = transtype
         self.TBOST = TBOST
+
+class Calculator(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.Column(db.String(80))
+    pkgsize = db.Column(db.String(80))
+    pkgbulk = db.Column(db.String(80))
+    transcorp = db.Column(db.String(80))
+    delicity = db.Column(db.String(80))
+    destcity = db.Column(db.String(80))
+    fee = db.Column(db.Float)
+
+    #发货地，目的省，目的市，每方价格，送货费，最低一票，快慢类型，自提时效
+
+def __init__(self,product, pkgsize,pkgbulk,transcorp,delicity,destcity,fee):
+        self.product=product
+        self.pkgsize=pkgsize
+        self.pkgbulk = pkgbulk
+        self.transcorp = transcorp
+        self.delicity = delicity
+        self.destcity = destcity
+        self.fee = fee

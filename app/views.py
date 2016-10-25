@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from models import *
 from tools import *
 from hashlib import sha512,md5
-import os
+import os,json
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
@@ -183,30 +183,46 @@ def users():
 @app.route("/freight",methods=['POST','GET'])
 @login_required
 def freight():
+    Cals = []
     if request.method == 'POST':
         try:
             id = request.form['id']
-            Transfee = Products.query.filter_by(id=id).first
+            Transfee = Products.query.filter_by(id=id).first()
         except:pass
         deliverycity = request.form['deliverycity']
         trancorp = request.form['trancorp']
         cho_Province = request.form['cho_Province']
         cho_City = request.form['cho_City']
         cho_Area = request.form['cho_Area']
-        if trancorp =="all":        
-            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area).all
-            if not transcorps:
-                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all
-        else:
-            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all
-            if not transcorps:
-                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all
-        number = request.form['number']
-        transportation = request.form['transportation']
-
+        transportation = request.form['transportation'].split("-")[-1]
+        number = int(request.form['number'])
         discount = float(request.form['discount'])
         wooden = request.form['wooden']
-
+        if wooden == "yes":wooden = 200
+        else:wooden =0
+        print deliverycity,trancorp,cho_Province,cho_City,cho_Area
+        if trancorp =="all":
+            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area).all()
+            if not transcorps:
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all()
+        else:
+            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all()
+            if not transcorps:
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all()
+        if transcorps:
+            for tran in transcorps:
+                woodenfee = float(Transfee.pkgbulk) * wooden
+                totalprice = float(Transfee.pkgbulk) * tran.price * discount
+                print totalprice
+                if totalprice < tran.cheapest:totalprice = tran.cheapest 
+                if transportation != u"自提":
+                    totalprice = totalprice + tran.dropofffee + woodenfee
+                else:
+                    totalprice = totalprice  + woodenfee
+                Cals.append("{'product':u'%s','pkgsize':u'%s','pkgbulk':'%s','transcorp':u'%s','delicity':u'%s','destcity':u'%s','fee':u'%s'}" % (Transfee.products,Transfee.pkgsize,Transfee.pkgbulk,tran.corpname,tran.deliveryplace,tran.destcity,totalprice))
+            return json.dumps({"data":Cals})
+        else:
+            return json.dumps({"data":"None"})
     #总运费=price*体积*0.8+dropofffee，
     #如果price*体积*0.8<cheapest，
     #总运费=cheapest+dropofffe
@@ -454,7 +470,7 @@ def products():
         except:pass
         try:pkgsize = request.form['pkgsize']
         except:pass
-        try:pgkbulk = request.form['pgkbulk']
+        try:pkgbulk = float(request.form['pkgbulk'])
         except:pass
         try:categroies = request.form['categroies']
         except:pass
@@ -464,16 +480,16 @@ def products():
             exstock=0
             whstock=0
             fastock=0
-            db.session.add(Products(picture,products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pgkbulk,memo))
-            log = u"新建产品:产品图片->%s,名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (picture,products,categroies,code,specification,pkgsize,pgkbulk,memo)
+            db.session.add(Products(picture,products,categroies,code,specification,color,exstock,whstock,fastock,pkgsize,pkgbulk,memo))
+            log = u"新建产品:产品图片->%s,名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (picture,products,categroies,code,specification,pkgsize,pkgbulk,memo)
         if request.form['submit']=="update":
             if request.form['picture']:
                 newpro.picture=picture
-            newpro.products, newpro.code, newpro.specification, newpro.pkgsize, newpro.pgkbulk, newpro.categroies,newpro.memo  = products, code, specification, pkgsize, pgkbulk, categroies, memo
-            log = u"更改产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (products,categroies,code,specification,pkgsize,pgkbulk,memo)
+            newpro.products, newpro.code, newpro.specification, newpro.pkgsize, newpro.pkgbulk, newpro.categroies,newpro.memo  = products, code, specification, pkgsize, pkgbulk, categroies, memo
+            log = u"更改产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (products,categroies,code,specification,pkgsize,pkgbulk,memo)
         if request.form['submit']=="delete":
             db.session.delete(newpro)
-            log = u"删除产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (newpro.products,newpro.categroies,newpro.code,newpro.specification,newpro.pkgsize,newpro.pgkbulk,newpro.memo)
+            log = u"删除产品:名称->%s,规格->%s,编号->%s,包装尺寸->%s,包装体积->%s,类别->%s,备注->%s" % (newpro.products,newpro.categroies,newpro.code,newpro.specification,newpro.pkgsize,newpro.pkgbulk,newpro.memo)
         db.session.add(Logs(log,u"产品管理",session['nickname']))
         db.session.commit()
     prolist = Products.query.order_by(Products.id)

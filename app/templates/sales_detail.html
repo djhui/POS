@@ -1,185 +1,184 @@
  {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <div class="panel-body">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-						data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-						<thead>
-							<tr>
-								<th data-field="id" data-sortable="true">ID</th>
-								<th data-field="picture" data-sortable="true">产品</th>
-								<th data-field="orderdate" data-sortable="true">下单日期</th>
-								<th data-field="wangwang" data-sortable="true">旺旺号</th>
-								<th data-field="cdeliverydate" data-sortable="true">客户要求发货时间</th>
-								<th data-field="type" data-sortable="true">规格</th>
-								<th data-field="color" data-sortable="true">颜色</th>
-								<th data-field="number" data-sortable="true">数量</th>
-								<th data-field="address" data-sortable="true">客户收货信息</th>
-								<th data-field="transportation" data-sortable="true">物流送货方式</th>
-								<th data-field="Inprice" data-sortable="true">保价</th>
-								<th data-field="price" data-sortable="true">商品价格</th>
-								<th data-field="advprice" data-sortable="true">预收运费</th>
-								<th data-field="CSE" data-sortable="true">销售客服</th>
-								<th data-field="deliverydate" data-sortable="true">发货日期</th>
-								<th data-field="trancorp" data-sortable="true">物流公司</th>
-								<th data-field="Tnumber" data-sortable="true">物流单号</th>
-								<th data-field="Aprice" data-sortable="true">实际运费</th>
-								<th data-field="Recashes" data-sortable="true">返现</th>
-								<th data-field="Commission" data-sortable="true">提成结算</th>
-								<th data-field="memo" data-sortable="true">备注</th>
-								<th data-field="control" data-sortable="true">操作</th>
-							</tr>
-						</thead>
-						{% if saleslist %} {% for sales in saleslist %} {%if sales.offset == False%}
-						<tr class="no-records-found">
-							<td>{{sales.id}}</td>
-							<td><img class="img-responsive" src="../static/upload/{{sales.picture}}" width="200" /> </td>
-							<td>{{sales.orderdate}}</td>
-							<td>{{sales.wangwang}}</td>
-							<td>{{sales.cdeliverydate}}</td>
-							<td>{{sales.type}}</td>
-							<td>{{sales.color}}</td>
-							<td>{{sales.number}}</td>
-							<td>{{sales.address}}</td>
-							<td>{{sales.transportation}}</td>
-							<td>{{sales.Inprice}}</td>
-							<td>{{sales.price}}</td>
-							<td>{{sales.advprice}}</td>
-							<td>{{sales.CSE}}</td>
-							<td>{{sales.deliverydate}}</td>
-							<td>{{sales.trancorp}}</td>
-							<td>{{sales.Tnumber}}</td>
-							<td>{{sales.Aprice}}</td>
-							<td>{{sales.Recashes}}</td>
-							<td>{{sales.Commission}}</td>
-							<td>{{sales.memo}}</td>
-							<td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
-								<a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
-							</td>
-							</td>
-							{% endif%} {% endfor %}
-						</tr>{% endif %}
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                        <thead>
+                            <tr>
+                                <th data-field="id" data-sortable="true">ID</th>
+                                <th data-field="picture" data-sortable="true">产品</th>
+                                <th data-field="orderdate" data-sortable="true">下单日期</th>
+                                <th data-field="wangwang" data-sortable="true">旺旺号</th>
+                                <th data-field="cdeliverydate" data-sortable="true">客户要求发货时间</th>
+                                <th data-field="type" data-sortable="true">规格</th>
+                                <th data-field="color" data-sortable="true">颜色</th>
+                                <th data-field="number" data-sortable="true">数量</th>
+                                <th data-field="address" data-sortable="true">客户收货信息</th>
+                                <th data-field="transportation" data-sortable="true">物流送货方式</th>
+                                <th data-field="Inprice" data-sortable="true">保价</th>
+                                <th data-field="price" data-sortable="true">商品价格</th>
+                                <th data-field="advprice" data-sortable="true">预收运费</th>
+                                <th data-field="CSE" data-sortable="true">销售客服</th>
+                                <th data-field="deliverydate" data-sortable="true">发货日期</th>
+                                <th data-field="trancorp" data-sortable="true">物流公司</th>
+                                <th data-field="Tnumber" data-sortable="true">物流单号</th>
+                                <th data-field="Aprice" data-sortable="true">实际运费</th>
+                                <th data-field="Recashes" data-sortable="true">返现</th>
+                                <th data-field="Commission" data-sortable="true">提成结算</th>
+                                <th data-field="memo" data-sortable="true">备注</th>
+                                <th data-field="control" data-sortable="true">操作</th>
+                            </tr>
+                        </thead>
+                        {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == False%}
+                        <tr class="no-records-found">
+                            <td>{{sales.id}}</td>
+                            <td><img src="../static/upload/{{sales.picture}}" width="200" /> </td>
+                            <td>{{sales.orderdate}}</td>
+                            <td>{{sales.wangwang}}</td>
+                            <td>{{sales.cdeliverydate}}</td>
+                            <td>{{sales.type}}</td>
+                            <td>{{sales.color}}</td>
+                            <td>{{sales.number}}</td>
+                            <td>{{sales.address}}</td>
+                            <td>{{sales.transportation}}</td>
+                            <td>{{sales.Inprice}}</td>
+                            <td>{{sales.price}}</td>
+                            <td>{{sales.advprice}}</td>
+                            <td>{{sales.CSE}}</td>
+                            <td>{{sales.deliverydate}}</td>
+                            <td>{{sales.trancorp}}</td>
+                            <td>{{sales.Tnumber}}</td>
+                            <td>{{sales.Aprice}}</td>
+                            <td>{{sales.Recashes}}</td>
+                            <td>{{sales.Commission}}</td>
+                            <td>{{sales.memo}}</td>
+                            <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
+                                <a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
+                            </td>
+                            </td>
+                            {% endif%}
+                        </tr>{% endfor %}{% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <!-- update the record-->
 <div class="modal" id="update">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">修改产品</h4>
-			</div>
-			<div class="modal-body">
-				<form role="form" class="form-horizontal" action="" method="post">
-					<div class="form-group">
-						<label class="col-lg-1 control-label">订单ID</label>
-						<div class="col-lg-3">
-							<input class="form-control" placeholder="名称" name="id" id="ID1" required readonly>
-						</div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改产品</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal" action="" method="post">
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">订单ID</label>
+                        <div class="col-lg-3">
+                            <input class="form-control" placeholder="名称" name="id" id="ID1" required readonly>
+                        </div>
 
-						<label class="col-lg-1 control-label">送货方式</label>
-						<div class="col-lg-3">
-							<select class="form-control" name="transportation" required id="transportation1">
+                        <label class="col-lg-1 control-label">送货方式</label>
+                        <div class="col-lg-3">
+                            <select class="form-control" name="transportation" required id="transportation1">
                                     {% for deli in delilist %}
 										<option value="{{deli.delivery}}">{{deli.delivery}}</option>
 										{%endfor %}
 									</select>
-						</div>
-						<label class="col-lg-1 control-label">发货日期</label>
-						<div class="col-lg-3">
-							<div class="input-group date " data-provide="datepicker">
-								<input class="form-control" placeholder="实际日期" name="deliverydate" id="deliverydate1" required>
-								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-lg-1 control-label">保价</label>
-						<div class="col-lg-3">
-							<div class="input-group">
-								<span class="input-group-addon">$</span>
-								<input class="form-control" placeholder="保价" name="Inprice" id="Inprice1" required></div>
-						</div>
-						<label class="col-lg-1 control-label">物流公司</label>
-						<div class="col-lg-3">
-							<select class="form-control" id="trancorp1" name="trancorp" required>
+                        </div>
+                        <label class="col-lg-1 control-label">发货日期</label>
+                        <div class="col-lg-3">
+                            <div class="input-group date " data-provide="datepicker">
+                                <input class="form-control" placeholder="实际日期" name="deliverydate" id="deliverydate1" required>
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">保价</label>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input class="form-control" placeholder="保价" name="Inprice" id="Inprice1" required></div>
+                        </div>
+                        <label class="col-lg-1 control-label">物流公司</label>
+                        <div class="col-lg-3">
+                            <select class="form-control" id="trancorp1" name="trancorp" required>
                                 
 										 {% for trans in translist %}
 										<option value="{{trans.corpname}}">{{trans.corpname}}</option>
                                         {% endfor %}
 									</select>
-						</div>
-						<label class="col-lg-1 control-label">物流单号</label>
-						<div class="col-lg-3">
-							<input class="form-control" placeholder="物流单号" name="Tnumber" id="Tnumber1" required>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-lg-1 control-label">实际运费</label>
-						<div class="col-lg-3">
-							<div class="input-group">
-								<span class="input-group-addon">$</span>
-								<input class="form-control" placeholder="实际运费" name="Aprice" id="Aprice1" required>
-							</div>
-						</div>
-						<label class="col-lg-1 control-label">返现</label>
-						<div class="col-lg-3">
-							<div class="input-group">
-								<span class="input-group-addon">$</span>
-								<input class="form-control" placeholder="返现" name="Recashes" id="Recashes1" required></div>
-						</div>
-						<label class="col-lg-1 control-label">提成结算</label>
-						<div class="col-lg-3">
+                        </div>
+                        <label class="col-lg-1 control-label">物流单号</label>
+                        <div class="col-lg-3">
+                            <input class="form-control" placeholder="物流单号" name="Tnumber" id="Tnumber1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">实际运费</label>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input class="form-control" placeholder="实际运费" name="Aprice" id="Aprice1" required>
+                            </div>
+                        </div>
+                        <label class="col-lg-1 control-label">返现</label>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input class="form-control" placeholder="返现" name="Recashes" id="Recashes1" required></div>
+                        </div>
+                        <label class="col-lg-1 control-label">提成结算</label>
+                        <div class="col-lg-3">
 
-							<div class="input-group date " data-provide="datepicker">
-								<input class="form-control" type="text" placeholder="提成结算" name="Commission" id="Commission1" required>
-								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-lg-1 control-label">备注</label>
-						<div class="col-lg-9">
-							<textarea class="form-control" rows="3" id="memo1" name="memo"></textarea>
-						</div>
+                            <div class="input-group date " data-provide="datepicker">
+                                <input class="form-control" type="text" placeholder="提成结算" name="Commission" id="Commission1" required>
+                                <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">备注</label>
+                        <div class="col-lg-9">
+                            <textarea class="form-control" rows="3" id="memo1" name="memo"></textarea>
+                        </div>
 
-					</div>
-				</form>
-				<div class="modal-footer ">
-					<button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </form>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="submit" onclick="update()">保存更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- delete the record-->
 <div class="modal" id="delete">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
-				<input type="text" class="form-control hide" id="ID1" name="ID" required>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 你确认要删除么？
+                <input type="text" class="form-control hide" id="ID1" name="ID" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
- function editInfo(id, transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo) {
+    function editInfo(id, transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo) {
         $('#ID1').val(id);
         $('#transportation1').val(transportation);
         $('#Inprice1').val(Inprice);
@@ -202,15 +201,15 @@
 
     function update() {
         var id = $('#ID1').val();
-var transportation= $('#transportation1').val();
-var Inprice= $('#Inprice1').val();
-var deliverydate= $('#deliverydate1').val();
-var trancorp= $('#trancorp1').val();
-var Tnumber= $('#Tnumber1').val();
-var Aprice= $('#Aprice1').val();
-var Recashes= $('#Recashes1').val();
-var Commission= $('#Commission1').val();
-var memo= $('#memo1').val();
+        var transportation = $('#transportation1').val();
+        var Inprice = $('#Inprice1').val();
+        var deliverydate = $('#deliverydate1').val();
+        var trancorp = $('#trancorp1').val();
+        var Tnumber = $('#Tnumber1').val();
+        var Aprice = $('#Aprice1').val();
+        var Recashes = $('#Recashes1').val();
+        var Commission = $('#Commission1').val();
+        var memo = $('#memo1').val();
         var submit = $('#submit').val();
         $.ajax({
             type: "post",
