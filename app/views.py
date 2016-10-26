@@ -206,14 +206,14 @@ def freight():
             if not transcorps:
                 transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all()
         else:
-            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all()
+            transcorps = Freight.query.filter_by(corpname=trancorp, deliveryplace=deliverycity, destcity=cho_Area).all()
+            print transcorps
             if not transcorps:
-                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,corpname=trancorp).all()
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,corpname=trancorp).all()
         if transcorps:
             for tran in transcorps:
                 woodenfee = float(Transfee.pkgbulk) * wooden
-                totalprice = float(Transfee.pkgbulk) * tran.price * discount
-                print totalprice
+                totalprice = float(Transfee.pkgbulk) * tran.price * discount * number
                 if totalprice < tran.cheapest:totalprice = tran.cheapest 
                 if transportation != u"自提":
                     totalprice = totalprice + tran.dropofffee + woodenfee
