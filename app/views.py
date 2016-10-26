@@ -440,8 +440,8 @@ def upload_file():
         if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
         else:    
-            filename1 = './app/static/upload/%s' % (filename)
-            #filename1 = '/opt/POS/app/static/upload/%s' % (filename)
+            #filename1 = './app/static/upload/%s' % (filename)
+            filename1 = '/opt/POS/app/static/upload/%s' % (filename)
             f.save(filename1) 
             log = u"上传文件%s" %filename
             db.session.add(Logs(log,u"上传文件",session['nickname'])) 
