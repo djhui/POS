@@ -219,13 +219,14 @@ def freight():
                     totalprice = totalprice + tran.dropofffee + woodenfee
                 else:
                     totalprice = totalprice  + woodenfee
-                #Cals ={'product':Transfee.products,'pkgsize':Transfee.pkgsize,'pkgbulk':Transfee.pkgbulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':totalprice}
+                result = {'product':Transfee.products,'pkgsize':Transfee.pkgsize,'pkgbulk':Transfee.pkgbulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':totalprice}
                 
-                Cals.append("{'product':'%s','pkgsize':'%s','pkgbulk':'%s','transcorp':'%s','transtype':'%s','delicity':'%s','destcity':'%s','fee':'%s'}" % (Transfee.products,Transfee.pkgsize,Transfee.pkgbulk,tran.corpname,tran.transtype,tran.deliveryplace,tran.destcity,totalprice))
-                print json.dumps(Cals).replace("\"","")
-            return json.dumps(Cals).replace("\"","")
+                Cals.append(result)
+                print json.dumps(Cals)
+            
+            return json.dumps({'msg':Cals})
         else:
-            return json.dumps({"data":"None"})
+            return json.dumps({"msg":"None"})
     #总运费=price*体积*0.8+dropofffee，
     #如果price*体积*0.8<cheapest，
     #总运费=cheapest+dropofffe
@@ -439,8 +440,8 @@ def upload_file():
         if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
         else:    
-            filename1 = './app/static/upload/%s' % (filename)
-            #filename1 = '/opt/POS/app/static/upload/%s' % (filename)
+            #filename1 = './app/static/upload/%s' % (filename)
+            filename1 = '/opt/POS/app/static/upload/%s' % (filename)
             f.save(filename1) 
             log = u"上传文件%s" %filename
             db.session.add(Logs(log,u"上传文件",session['nickname'])) 
