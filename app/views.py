@@ -264,7 +264,7 @@ def purlist():
         if request.form['submit']=="delete":
             newstock.offset=1
             memo=u"冲销订单%s" % id
-            db.session.add(Stock(newstock.productid,newstock.picture,newstock.products,newstock.code,newstock.specification,newstock.color,newstock.exstock,newstock.whstock,newstock.fastock,1,memo))
+            db.session.add(Stock(newstock.productid,newstock.picture,newstock.products,newstock.code,newstock.specification,newstock.color,newstock.exstock,newstock.whstock,newstock.fastock,newstock.offset,memo))
             newpro.exstock = newpro.exstock - newstock.exstock
             newpro.whstock = newpro.whstock - newstock.whstock
             newpro.fastock = newpro.fastock - newstock.fastock
@@ -440,8 +440,8 @@ def upload_file():
         if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
         else:    
-            #filename1 = './app/static/upload/%s' % (filename)
-            filename1 = '/opt/POS/app/static/upload/%s' % (filename)
+            filename1 = './app/static/upload/%s' % (filename)
+            #filename1 = '/opt/POS/app/static/upload/%s' % (filename)
             f.save(filename1) 
             log = u"上传文件%s" %filename
             db.session.add(Logs(log,u"上传文件",session['nickname'])) 
