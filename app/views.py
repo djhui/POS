@@ -203,6 +203,7 @@ def freight():
         discount = float(request.form['discount'])
         wooden = request.form['wooden']
         bulk = request.form['bulk']
+        transtype = request.form['transtype']
 
         if bulk:
             bulk=float(bulk) * number
@@ -214,16 +215,15 @@ def freight():
             pkgsize = Transfee.pkgsize
         if wooden == "yes":wooden = 200
         else:wooden =0
-        print deliverycity,trancorp,cho_Province,cho_City,cho_Area,bulk
         if trancorp =="all":
-            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area).all()
+            transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,transtype=transtype).all()
             if not transcorps:
-                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all()
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,transtype=transtype).all()
         else:
-            transcorps = Freight.query.filter_by(corpname=trancorp, deliveryplace=deliverycity, destcity=cho_Area).all()
+            transcorps = Freight.query.filter_by(corpname=trancorp, deliveryplace=deliverycity, destcity=cho_Area,transtype=transtype).all()
             
             if not transcorps:
-                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,corpname=trancorp).all()
+                transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,corpname=trancorp,transtype=transtype).all()
         if transcorps:
             for tran in transcorps:
                 woodenfee = bulk * wooden
@@ -233,7 +233,7 @@ def freight():
                     totalprice = totalprice + tran.dropofffee + woodenfee
                 else:
                     totalprice = totalprice  + woodenfee
-                result = {'product':product,'pkgsize':pkgsize,'pkgbulk':bulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':"%.2f" % totalprice}
+                result = {'product':product,'pkgsize':pkgsize,'price':tran.price,'pkgbulk':bulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'TBOST':tran.TBOST,'destcity':tran.destcity,'fee':"%.2f" % totalprice}
                 
                 Cals.append(result)
                 #print json.dumps(Cals)

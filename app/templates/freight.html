@@ -103,11 +103,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-lg-2 control-label">运输类型</label>
+                            <div class="col-lg-2">
+                                <select class="form-control" id="transtype" name="transtype" required>
+										<option value="快车">快车</option>
+										<option value="慢车" selected>慢车</option>
+									</select>
+                            </div>
                             <label class="col-lg-2 control-label">体积(优先级高于选择产品)</label>
                             <div class="col-lg-2  has-success">
                                 <input class="form-control" placeholder="直接通过体积计算运费" name="bulk" id="bulk">
                             </div>
-
                         </div>
                     </div>
                 </div><button id="button" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
@@ -123,10 +129,12 @@
                                         <th data-field="product" data-sortable="true">名称</th>
                                         <th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
                                         <th data-field="pkgbulk" data-sortable="true">包装体积(m³)=体积*数量</th>
+                                        <th data-field="price" data-sortable="true">单价(m³)</th>
                                         <th data-field="transcorp" data-sortable="true">物流公司</th>
                                         <th data-field="transtype" data-sortable="true">快车/慢车</th>
                                         <th data-field="delicity" data-sortable="true">发货城市</th>
                                         <th data-field="destcity" data-sortable="true">目的城市</th>
+                                        <th data-field="TBOST" data-sortable="true">时效</th>
                                         <th data-field="fee" data-sortable="true">运费</th>
                                     </tr>
                                 </thead>
@@ -196,10 +204,11 @@
         var discount = $('#discount').val();
         var wooden = $('#wooden').val();
         var bulk = $('#bulk').val();
+        var transtype = $('#transtype').val();
         $.ajax({
             type: "post",
             url: "{{ url_for('freight') }}",
-            data: "id=" + id + "&deliverycity=" + deliverycity + "&trancorp=" + trancorp + "&cho_Province=" + cho_Province + "&cho_City=" + cho_City + "&cho_Area=" + cho_Area + "&transportation=" + transportation + "&number=" + number + "&discount=" + discount + "&wooden=" + wooden + "&bulk=" + bulk,
+            data: "id=" + id + "&deliverycity=" + deliverycity + "&trancorp=" + trancorp + "&cho_Province=" + cho_Province + "&cho_City=" + cho_City + "&cho_Area=" + cho_Area + "&transportation=" + transportation + "&number=" + number + "&discount=" + discount + "&wooden=" + wooden + "&bulk=" + bulk + "&transtype=" + transtype,
             dataType: 'json',
             success: function(data) {
 
