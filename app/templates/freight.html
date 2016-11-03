@@ -18,20 +18,21 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">选择产品</label>
                             <div class="col-lg-2">
-                                <a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
+                                <a href="#update" class="btn btn-primary" data-toggle="modal">选择产品</a>
                                 <input class="form-control hide" placeholder="名称" name="products" id="products" required readonly>
                                 <input class="form-control hide" placeholder="名称" name="id" id="productid" required readonly>
                             </div>
                             <label class="col-lg-2 control-label">数量</label>
-                            <div class="col-lg-2">
-                                <input class="form-control" placeholder="数量" type="number" id="number" name="number" required>
+                            <div class="col-lg-2  has-error">
+                                <input class="form-control" placeholder="数量" type="number" id="number" name="number" value="1" required>
                             </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-2 control-label">发货城市</label>
                             <div class="col-lg-2">
                                 <input class="form-control" placeholder="发货城市" value="杭州市" required name="deliverycity" id="deliverycity">
-                            </div><label class="col-lg-2 control-label">提货方式</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">提货方式</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="transportation" name="transportation" required>
                                     {% for deli in delilist %} {% if deli.delivery=="到付-送货到楼下" %}
@@ -42,36 +43,37 @@
 										{%endfor %}
 									</select>
                             </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-2 control-label">目的城市</label>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <div class="infolist">
                                     <div class="liststyle">
                                         <span id="Province">
-                                    <i>请选择省份</i>
-                                    <ul>
-                                        <li></li>
-                                    </ul>
-                                    <input type="hidden" id="cho_Province" name="cho_Province" value="广东省">
-                                </span>
+                                            <i>请选择省份</i>
+                                            <ul>
+                                                <li></li>
+                                            </ul>
+                                            <input type="hidden" id="cho_Province" name="cho_Province" value="广东省">
+                                        </span>
                                         <span id="City">
-                                    <i>请选择城市</i>
-                                    <ul>
-                                        <li></li>
-                                    </ul>
-                                    <input type="hidden" name="cho_City" id="cho_City" value="广州市">
-                                </span>
+                                            <i>请选择城市</i>
+                                            <ul>
+                                                <li></li>
+                                            </ul>
+                                            <input type="hidden" name="cho_City" id="cho_City" value="广州市">
+                                        </span>
                                         <span id="Area">
-                                    <i>请选择地区</i>
-                                    <ul>
-                                        <li></li>
-                                    </ul>
-                                    <input type="hidden" name="cho_Area" id="cho_Area" value="请选择地区">
-                                </span>
+                                            <i>请选择地区</i>
+                                            <ul>
+                                                <li></li>
+                                            </ul>
+                                            <input type="hidden" name="cho_Area" id="cho_Area" value="请选择地区">
+                                        </span>
                                     </div>
                                 </div>
-                            </div><label class="col-lg-2 control-label">物流公司</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">物流公司</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="trancorp" name="trancorp" required>
                                     <option value="all">全部</option>
@@ -80,8 +82,6 @@
                                         {% endfor %}
 									</select>
                             </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-lg-2 control-label">折扣</label>
                             <div class="col-lg-2">
                                 <select class="form-control" id="discount" required name="discount">
@@ -100,13 +100,18 @@
 										<option value="no" selected>否</option>
 									</select>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">体积(优先级高于选择产品)</label>
+                            <div class="col-lg-2  has-success">
+                                <input class="form-control" placeholder="直接通过体积计算运费" name="bulk" id="bulk">
+                            </div>
 
                         </div>
-                        <button id="button" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
-                        <button type="reset" class="btn btn-default">重置</button>
                     </div>
-
-                </div>
+                </div><button id="button" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
+                <button type="reset" class="btn btn-default">重置</button>
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -115,10 +120,9 @@
                             <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar" data-pagination="true">
                                 <thead>
                                     <tr>
-
                                         <th data-field="product" data-sortable="true">名称</th>
                                         <th data-field="pkgsize" data-sortable="true">包装尺寸(cm)</th>
-                                        <th data-field="pkgbulk" data-sortable="true">包装体积(m³)</th>
+                                        <th data-field="pkgbulk" data-sortable="true">包装体积(m³)=体积*数量</th>
                                         <th data-field="transcorp" data-sortable="true">物流公司</th>
                                         <th data-field="transtype" data-sortable="true">快车/慢车</th>
                                         <th data-field="delicity" data-sortable="true">发货城市</th>
@@ -170,8 +174,6 @@
     </div>
 </div>
 <script>
-    //$button = $('#button');
-
     function update(id, products, code) {
         $('#productid').val(id);
         $('#products').val(products);
@@ -182,6 +184,7 @@
     function getdata() {
 
         var $table = $('#table');
+        $table.bootstrapTable('removeAll');
         var id = $('#productid').val();
         var deliverycity = $('#deliverycity').val();
         var trancorp = $('#trancorp').val();
@@ -192,14 +195,14 @@
         var number = $('#number').val();
         var discount = $('#discount').val();
         var wooden = $('#wooden').val();
-
+        var bulk = $('#bulk').val();
         $.ajax({
             type: "post",
             url: "{{ url_for('freight') }}",
-            data: "id=" + id + "&deliverycity=" + deliverycity + "&trancorp=" + trancorp + "&cho_Province=" + cho_Province + "&cho_City=" + cho_City + "&cho_Area=" + cho_Area + "&transportation=" + transportation + "&number=" + number + "&discount=" + discount + "&wooden=" + wooden,
+            data: "id=" + id + "&deliverycity=" + deliverycity + "&trancorp=" + trancorp + "&cho_Province=" + cho_Province + "&cho_City=" + cho_City + "&cho_Area=" + cho_Area + "&transportation=" + transportation + "&number=" + number + "&discount=" + discount + "&wooden=" + wooden + "&bulk=" + bulk,
             dataType: 'json',
             success: function(data) {
-                $table.bootstrapTable('removeAll');
+
                 $table.bootstrapTable('load', data.msg);
 
             }

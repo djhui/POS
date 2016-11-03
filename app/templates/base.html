@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/Logo.jpg') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta charset="utf-8"> {% block head %}{% endblock %}
 </head>
 
 <body role="document">
@@ -33,7 +33,7 @@
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{session['nickname']}}  <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> 更改密码</a></li>
+                            <li><a href="#" onclick="uppswd('{{session['id']}}','{{session['name']}}')"><span class="glyphicon glyphicon-user"></span> 更改密码</a></li>
                             <li><a href="{{ url_for('exit') }}"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
                         </ul>
                     </li>
@@ -215,6 +215,54 @@
         $(window).on('resize', function() {
             if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
         })
+    </script>
+    <div class="modal" id="password">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改帐号</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="inputDefault " class="control-label ">ID</label>
+                    <input type="text" class="form-control" id="ID1" name="ID" placeholder="ID" readonly>
+                    <label for="inputDefault" class="control-label">用户名</label>
+                    <input type="text" class="form-control" id="username1" name="username" readonly>
+                    <label for="inputPassword" class="control-label">密码</label>
+                    <input type="password" class="form-control" id="password1" name="password" placeholder="留空表示不更改密码">
+                    <div class="modal-footer ">
+                        <button type="button " class="btn btn-default " data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="submit" onclick="updatepass()">保存更新</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function uppswd(id, username) {
+            $('#ID1').val(id);
+            $('#username1').val(username);
+            $('#submit').val("uppswd")
+            $('#password').modal('show');
+        }
+
+        function updatepass() {
+            //获取模态框数据  
+            var id = $('#ID1').val();
+            var password = $('#password1').val();
+            var submit = $('#submit').val();
+
+            $.ajax({
+                type: "post",
+                url: "{{ url_for('users') }}",
+                data: "id=" + id + "&password=" + password + "&submit=" + submit,
+                dataType: 'html',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
     </script>
 </body>
 

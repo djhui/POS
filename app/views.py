@@ -7,6 +7,7 @@ from models import *
 from tools import *
 from hashlib import sha512,md5
 import os,json
+from datetime import datetime
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
@@ -170,6 +171,9 @@ def users():
                 log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s,以及密码(此处不显示)" % (username,role,mobile,nickname)
             newuser.nickname, newuser.mobile, newuser.role =nickname, mobile, role
             log = u"更新用户%s的信息为-角色:%s,手机:%s-别名:%s" % (username,role,mobile,nickname)
+        if request.form['submit']=="uppswd":
+            newuser.password=password
+            log = u"%s更改了密码" % (newuser.username)
         if request.form['submit']=="delete":
             db.session.delete(newuser)
             log = u"删除用户:%s" % (newuser.username)
@@ -198,31 +202,41 @@ def freight():
         number = int(request.form['number'])
         discount = float(request.form['discount'])
         wooden = request.form['wooden']
+        bulk = request.form['bulk']
+
+        if bulk:
+            bulk=float(bulk) * number
+            product = u"自定义"
+            pkgsize = u"无所谓~"
+        else:
+            bulk=float(Transfee.pkgbulk) * number
+            product = Transfee.products
+            pkgsize = Transfee.pkgsize
         if wooden == "yes":wooden = 200
         else:wooden =0
-        print deliverycity,trancorp,cho_Province,cho_City,cho_Area
+        print deliverycity,trancorp,cho_Province,cho_City,cho_Area,bulk
         if trancorp =="all":
             transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area).all()
             if not transcorps:
                 transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City).all()
         else:
             transcorps = Freight.query.filter_by(corpname=trancorp, deliveryplace=deliverycity, destcity=cho_Area).all()
-            print transcorps
+            
             if not transcorps:
                 transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,corpname=trancorp).all()
         if transcorps:
             for tran in transcorps:
-                woodenfee = float(Transfee.pkgbulk) * wooden
-                totalprice = float(Transfee.pkgbulk) * tran.price * discount * number
+                woodenfee = bulk * wooden
+                totalprice = bulk * tran.price * discount 
                 if totalprice < tran.cheapest:totalprice = tran.cheapest 
                 if transportation != u"自提":
                     totalprice = totalprice + tran.dropofffee + woodenfee
                 else:
                     totalprice = totalprice  + woodenfee
-                result = {'product':Transfee.products,'pkgsize':Transfee.pkgsize,'pkgbulk':Transfee.pkgbulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':totalprice}
+                result = {'product':product,'pkgsize':pkgsize,'pkgbulk':bulk,'transcorp':tran.corpname,'transtype':tran.transtype,'delicity':tran.deliveryplace,'destcity':tran.destcity,'fee':"%.2f" % totalprice}
                 
                 Cals.append(result)
-                print json.dumps(Cals)
+                #print json.dumps(Cals)
             
             return json.dumps({'msg':Cals})
         else:
@@ -435,7 +449,7 @@ def upload_file():
     if request.method == 'POST':
         f = request.files['files[]']
         ext = f.filename.split(".")[-1]
-        filename = md5(f.filename).hexdigest() + "." + ext
+        filename = md5(str(datetime.now())).hexdigest() + "." + ext
         minetype = f.content_type
         if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
