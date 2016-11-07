@@ -11,7 +11,6 @@ from datetime import datetime
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
-
 @app.errorhandler(403)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
