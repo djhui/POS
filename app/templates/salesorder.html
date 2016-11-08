@@ -39,20 +39,20 @@
                                     <a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
                                 </td>
                                 <td>
-                                    <input class="form-control" placeholder="颜色" name="color" id="color" required readonly>
+                                    <input class="form-control" placeholder="颜色" name="color0" id="color0" required readonly>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="warehouse" name="warehouse" required>
+                                    <select class="form-control" id="warehouse0" name="warehouse0" required>
                                     
 										<option value="exstock">展厅</option>
 										<option value="whstock">仓库</option>
 										<option value="fastock">工厂</option>
 									</select>
                                 </td>
-                                <input class="form-control hide" placeholder="产品ID" name="productid" id="productid" required readonly>
-                                <input class="form-control hide" placeholder="规格" name="type" readonly id="specification">
+                                <input class="form-control hide" placeholder="产品ID" name="productid0" id="productid0" required readonly>
+                                <input class="form-control hide" placeholder="规格" name="specification0" readonly id="specification0">
                                 <td>
-                                    <input class="form-control" placeholder="数量" name="number" type="number" required>
+                                    <input class="form-control" placeholder="数量" name="number0" type="number" id="number0" required>
                                 </td>
                             </tr>
                             <tr id='addr1'></tr>
@@ -172,7 +172,7 @@
         $(document).ready(function() {
             var i = 1;
             $("#add_row").click(function() {
-                $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#update' class='btn btn-primary' data-toggle='modal' role='button'>选择产品</a> </td><td><input class='form-control' placeholder='颜色' name='color' id='color' required readonly><td><select class='form-control' id='warehouse' name='warehouse' required><option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td><td><input class='form-control' placeholder='数量' name='number' type='number' required></td>");
+                $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#update' class='btn btn-primary' data-toggle='modal' role='button'>选择产品</a> </td><td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly><td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required><option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td><td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
 
                 $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
                 i++;

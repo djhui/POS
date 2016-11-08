@@ -175,7 +175,7 @@
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="#"><span class="glyphicon glyphicon-home"></span></a>
+                <li><a href="{{ url_for('main') }}"><span class="glyphicon glyphicon-home"></span></a>
                     </li>
                     <li class="active">{{ nav }}</li>
                     </ol>
@@ -194,9 +194,6 @@
 
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
-    <!--<script src="{{ url_for('static', filename='js/chart-data.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/easypiechart.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/easypiechart-data.js') }}"></script>-->
     <script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-datepicker.zh-CN.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
