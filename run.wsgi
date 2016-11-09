@@ -4,7 +4,8 @@ from app import app
 #from flask_debug import Debug
 #Debug(app)
 import sys
-
+import sys
+sys.path.insert(0, '/opt/POS/')
 
 
 if __name__ == "__main__":
@@ -16,3 +17,4 @@ if __name__ == "__main__":
     else:
         port = 5000
     app.run(host="0.0.0.0",port=port, debug=True)
+    
