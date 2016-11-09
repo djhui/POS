@@ -11,9 +11,9 @@ from datetime import datetime
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
-@app.errorhandler(403)
-def page_not_found(e):
-    return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
+#@app.errorhandler(403)
+#def page_not_found(e):
+#    return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
 @app.errorhandler(400)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"服务器出错了"), 400
@@ -62,7 +62,8 @@ def main():
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
-    return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist)
+    nickname=User.query.order_by(User.username)
+    return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist,nickname=nickname)
 #---------------------------------------------------------------------------------------
 @app.route("/sales/detail",methods=['POST','GET'])
 @login_required

@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import logging
 from logging.handlers import RotatingFileHandler
+
 #from flask.ext.openid import OpenID
 #from flask.ext.mail import Mail
 #from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
