@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 from app import app
 #from flask_debug import Debug
+application=app
 #Debug(app)
 import sys
 import sys
