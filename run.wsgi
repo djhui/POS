@@ -3,5 +3,5 @@
 
 import sys
 sys.path.insert(0, '/opt/POS/')
-from app import app as 
+from app import app as YFapp
 application='YFapp'
