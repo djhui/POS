@@ -36,7 +36,7 @@
                                     1
                                 </td>
                                 <td>
-                                    <a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
+                                    <a href="#update" class="btn btn-primary" data-toggle="modal" role="button" id="select0">选择产品</a>
                                 </td>
                                 <td>
                                     <input class="form-control" placeholder="颜色" name="color0" id="color0" required readonly>
@@ -128,70 +128,95 @@
         </div>
 
     </div>
-    <div class="modal" id="update">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
+</div>
+<div class="modal" id="rowend">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
 
-                    <h4 class="modal-title">选择产品</h4>
-                </div>
-                <div class="modal-body">
-                    <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
-                        <thead>
-                            <tr>
-                                <th data-field="id" id="ID" data-sortable="true">ID</th>
-                                <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
-                                <th data-field="products" id="products" data-sortable="true">产品名称</th>
-                                <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
-                                <th data-field="color" id="color" data-sortable="true">产品颜色</th>
-                                <th data-field="exstock" id="exstock" data-sortable="true">展厅数量</th>
-                                <th data-field="whstock" id="whstock" data-sortable="true">仓库数量</th>
-                                <th data-field="fastock" id="fastock" data-sortable="true">工厂数量</th>
-                                <th data-field="control" id="control" data-sortable="true">操作</th>
-                            </tr>
-                        </thead>{% if prolist %} {% for pro in prolist %}
-                        <tr class="no-records-found">
-                            <td>{{pro.id}}</td>
-                            <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-                            <td>{{pro.products}}</td>
-                            <td>{{pro.specification}}</td>
-                            <td>{{pro.color}}</td>
-                            <td>{{pro.exstock}}</td>
-                            <td>{{pro.whstock}}</td>
-                            <td>{{pro.fastock}}</td>
-                            <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
-                            {% endfor %}
-
-                        </tr>{% endif %}
-                    </table>
-                </div>
+                <h4 class="modal-title">单个订单产品到上限</h4>
+            </div>
+            <div class="modal-body">
+                无法再加入更多的产品，一个订单最多10个产品，如有更多，请再做一个订单
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submit" class="btn btn-primary" onclick="$('#rowend').hide();">确认</button>
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            var i = 1;
-            $("#add_row").click(function() {
-                $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#update' class='btn btn-primary' data-toggle='modal' role='button'>选择产品</a> </td><td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly><td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required><option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td><td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
+</div>
+<div class="modal" id="update">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
 
-                $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-                i++;
-            });
-            $("#delete_row").click(function() {
-                if (i > 1) {
-                    $("#addr" + (i - 1)).html('');
-                    i--;
+                <h4 class="modal-title">选择产品</h4>
+            </div>
+            <div class="modal-body">
+                <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
+                    <thead>
+                        <tr>
+                            <th data-field="id" id="ID" data-sortable="true">ID</th>
+                            <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+                            <th data-field="products" id="products" data-sortable="true">产品名称</th>
+                            <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
+                            <th data-field="color" id="color" data-sortable="true">产品颜色</th>
+                            <th data-field="exstock" id="exstock" data-sortable="true">展厅数量</th>
+                            <th data-field="whstock" id="whstock" data-sortable="true">仓库数量</th>
+                            <th data-field="fastock" id="fastock" data-sortable="true">工厂数量</th>
+                            <th data-field="control" id="control" data-sortable="true">操作</th>
+                        </tr>
+                    </thead>{% if prolist %} {% for pro in prolist %}
+                    <tr class="no-records-found">
+                        <td>{{pro.id}}</td>
+                        <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+                        <td>{{pro.products}}</td>
+                        <td>{{pro.specification}}</td>
+                        <td>{{pro.color}}</td>
+                        <td>{{pro.exstock}}</td>
+                        <td>{{pro.whstock}}</td>
+                        <td>{{pro.fastock}}</td>
+                        <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
+                        {% endfor %}
+
+                    </tr>{% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var i = 1;
+        $("#add_row").click(
+
+            function() {
+                if (i < 10) {
+                    $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#update' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "'>选择产品</a> </td><td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly><td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required><option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td><td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
+
+                    $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+                    i++;
+                } else {
+                    $("#rowend").show();
                 }
             });
 
+        $("#delete_row").click(function() {
+            if (i > 1) {
+                $("#addr" + (i - 1)).html('');
+                i--;
+
+            }
         });
 
-        function update(id, products, code, specification, color) {
-            $('#productid').val(id);
-            $('#products').val(products);
-            $('#code').val(code);
-            $('#color').val(color);
-            $('#specification').val(specification);
-            $('#update').modal('hide');
-        }
-    </script> {% endblock %}
+    });
+
+    function update(id, products, code, specification, color) {
+        $('#productid').val(id);
+        $('#products').val(products);
+        $('#code').val(code);
+        $('#color').val(color);
+        $('#specification').val(specification);
+        $('#update').modal('hide');
+    }
+</script> {% endblock %}
