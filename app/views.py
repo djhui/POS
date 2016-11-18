@@ -106,16 +106,17 @@ def salesdetail():
 @login_required
 def salesorder():
     if request.method == 'POST':
-        productid = request.form['productid']
-        newpro = Products.query.filter_by(id=productid).first()
+        print request.form
+        #productid = request.form['productid']
+        #newpro = Products.query.filter_by(id=productid).first()
         picture = newpro.picture
         orderdate = request.form['orderdate']
         wangwang = request.form['wangwang']
         cdeliverydate = request.form['cdeliverydate']
         type = request.form['type']
-        color = request.form['color']
-        warehouse = request.form['warehouse']
-        number = int(request.form['number'])
+        color = None ##
+        warehouse = None ##
+        number = None ##
         address = request.form['address']
         transportation = None
         Inprice = None

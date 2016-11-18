@@ -23,6 +23,9 @@
                                     颜色
                                 </th>
                                 <th class="text-center">
+                                    产品编号
+                                </th>
+                                <th class="text-center">
                                     发货仓库
                                 </th>
                                 <th class="text-center">
@@ -36,10 +39,13 @@
                                     1
                                 </td>
                                 <td>
-                                    <a href="#update" class="btn btn-primary" data-toggle="modal" role="button" id="select0">选择产品</a>
+                                    <a href="#" class="btn btn-primary" data-toggle="modal" role="button" id="select0" onclick="select('0')">选择产品</a>
                                 </td>
                                 <td>
                                     <input class="form-control" placeholder="颜色" name="color0" id="color0" required readonly>
+                                </td>
+                                <td>
+                                    <input class="form-control" placeholder="产品编号" name="code0" id="code0" required readonly>
                                 </td>
                                 <td>
                                     <select class="form-control" id="warehouse0" name="warehouse0" required>
@@ -132,7 +138,7 @@
 <div class="modal" id="rowend">
     <div class="modal-dialog">
         <div class="modal-content">
-             <div class="modal-header">
+            <div class="modal-header">
 
                 <h4 class="modal-title">单个订单产品到上限</h4>
             </div>
@@ -168,7 +174,7 @@
                         </tr>
                     </thead>{% if prolist %} {% for pro in prolist %}
                     <tr class="no-records-found">
-                        <td>{{pro.id}}</td>
+                        <td>{{pro.id}} <input class="form-control hide" placeholder="rowID" name="rowid" id="rowid" required readonly></td>
                         <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
                         <td>{{pro.products}}</td>
                         <td>{{pro.specification}}</td>
@@ -192,8 +198,12 @@
 
             function() {
                 if (i < 10) {
-                    $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#update' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "'>选择产品</a> </td><td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly><td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required><option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td><td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
-
+                    $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "' onclick=select('" + i + "')>选择产品</a> </td>\
+                    <td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly></td>\
+                    <td><input class='form-control' placeholder='产品编号' name='code" + i + "' id='code" + i + "' required readonly></td>]\
+                    <td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required>\
+                    <option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td>\
+                    <td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
                     $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
                     i++;
                 } else {
@@ -212,11 +222,17 @@
     });
 
     function update(id, products, code, specification, color) {
-        $('#productid').val(id);
-        $('#products').val(products);
-        $('#code').val(code);
-        $('#color').val(color);
-        $('#specification').val(specification);
+        rowid = $('#rowid').val();
+        $('#productid' + rowid).val(id);
+        $('#products' + rowid).val(products);
+        $('#code' + rowid).val(code);
+        $('#color' + rowid).val(color);
+        $('#specification' + rowid).val(specification);
         $('#update').modal('hide');
+    }
+
+    function select(rowid) {
+        $('#rowid').val(rowid);
+        $('#update').modal('show');
     }
 </script> {% endblock %}

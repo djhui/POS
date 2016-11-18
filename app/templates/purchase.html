@@ -2,114 +2,113 @@
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
 <div class="panel panel-default">
-	<div class="panel-heading">添加库存</div>
-	<div class="panel-body">
-		<div class="col-md-12">
-			<form role="form" class="form-horizontal" action="" method="post">
+    <div class="panel-heading">添加库存</div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <form role="form" class="form-horizontal" action="" method="post">
 
-				<div class="form-group">
-					<label class="col-lg-1 control-label">产品图片</label>
-					<div class="col-lg-1">
-						<a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
-					</div>
-					<label class="col-lg-2 control-label">产品ID</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="产品ID" name="productid" id="productid" required readonly>
-					</div>
-					<label class="col-lg-1 control-label">名称</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="名称" name="products" id="products" required readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">编号</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="编号" name="code" id="code" required readonly>
-					</div>
-					<label class="col-lg-1 control-label">规格</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="规格" name="specification" id="specification" required readonly>
-					</div>
-					<label class="col-lg-1 control-label">颜色</label>
-					<div class="col-lg-2">
-						<input class="form-control" placeholder="颜色" name="color" id="color" required readonly>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-1 control-label">展厅数量</label>
-					<div class="col-lg-2">
-						<input class="form-control" type="number" placeholder="展厅数量" name="exstock" required>
-					</div>
-					<label class="col-lg-1 control-label">仓库数量</label>
-					<div class="col-lg-2">
-						<input class="form-control" type="number" placeholder="仓库数量" name="whstock" required>
-					</div>
-					<label class="col-lg-1 control-label">工厂数量</label>
-					<div class="col-lg-2">
-						<input class="form-control" type="number" placeholder="工厂数量" name="fastock" required>
-					</div>
-				</div>
-		
-		<div class="form-group">
-			<label class="col-lg-1 control-label">备注</label>
-			<div class="col-lg-10">
-				<textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-lg-10">
-				<button type="reset" class="btn btn-default">重置</button>
-				<button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal" id="update">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">产品图片</label>
+                    <div class="col-lg-1">
+                        <a href="#update" class="btn btn-primary" data-toggle="modal" role="button">选择产品</a>
+                    </div>
+                    <label class="col-lg-2 control-label">产品ID</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="产品ID" name="productid" id="productid" required readonly>
+                    </div>
+                    <label class="col-lg-1 control-label">名称</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="名称" name="products" id="products" required readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">编号</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="编号" name="code" id="code" required readonly>
+                    </div>
+                    <label class="col-lg-1 control-label">规格</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="规格" name="specification" id="specification" required readonly>
+                    </div>
+                    <label class="col-lg-1 control-label">颜色</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" placeholder="颜色" name="color" id="color" required readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">展厅数量</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" type="number" placeholder="展厅数量" name="exstock" required>
+                    </div>
+                    <label class="col-lg-1 control-label">仓库数量</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" type="number" placeholder="仓库数量" name="whstock" required>
+                    </div>
+                    <label class="col-lg-1 control-label">工厂数量</label>
+                    <div class="col-lg-2">
+                        <input class="form-control" type="number" placeholder="工厂数量" name="fastock" required>
+                    </div>
+                </div>
 
-				<h4 class="modal-title">选择产品</h4>
-			</div>
-			<div class="modal-body">
-				<table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"
-					data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
-					<thead>
-						<tr>
-							<th data-field="id" id="ID" data-sortable="true">ID</th>
-							<th data-field="picture" id="picture" data-sortable="true">产品图片</th>
-							<th data-field="products" id="products" data-sortable="true">产品名称</th>
-							<th data-field="specification" id="specification" data-sortable="true">产品规格</th>
-							<th data-field="color" id="color" data-sortable="true">产品颜色</th>
-							<th data-field="control" id="control" data-sortable="true">操作</th>
-						</tr>
-					</thead>{% if prolist %} {% for pro in prolist %}
-					<tr class="no-records-found">
+                <div class="form-group">
+                    <label class="col-lg-1 control-label">备注</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" rows="3" id="textArea" name="memo"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="modal" id="update">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
 
-						<td>{{pro.id}}</td>
-						<td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-						<td>{{pro.products}}</td>
-						<td>{{pro.specification}}</td>
-						<td>{{pro.color}}</td>
-						<td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
-						{% endfor %}
+                    <h4 class="modal-title">选择产品</h4>
+                </div>
+                <div class="modal-body">
+                    <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+                        <thead>
+                            <tr>
+                                <th data-field="id" id="ID" data-sortable="true">ID</th>
+                                <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+                                <th data-field="products" id="products" data-sortable="true">产品名称</th>
+                                <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
+                                <th data-field="color" id="color" data-sortable="true">产品颜色</th>
+                                <th data-field="control" id="control" data-sortable="true">操作</th>
+                            </tr>
+                        </thead>{% if prolist %} {% for pro in prolist %}
+                        <tr class="no-records-found">
 
-					</tr>{% endif %}
+                            <td>{{pro.id}}</td>
+                            <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+                            <td>{{pro.products}}</td>
+                            <td>{{pro.specification}}</td>
+                            <td>{{pro.color}}</td>
+                            <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
+                            {% endfor %}
+
+                        </tr>{% endif %}
 
 
-				</table>
-			</div>
+                    </table>
+                </div>
 
-		</div>
-	</div>
-</div>
-<script>
-    function update(id,products,code,specification,color) {
-        $('#productid').val(id);
-        $('#products').val(products);
-        $('#code').val(code);
-		$('#color').val(color);
-		$('#specification').val(specification);
-        $('#update').modal('hide');
-    }
-</script> {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function update(id, products, code, specification, color) {
+            $('#productid').val(id);
+            $('#products').val(products);
+            $('#code').val(code);
+            $('#color').val(color);
+            $('#specification').val(specification);
+            $('#update').modal('hide');
+        }
+    </script> {% endblock %}

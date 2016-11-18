@@ -6,9 +6,10 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade active in" id="home">
-        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id" data-sort-order="desc">
             <thead>
                 <tr>
+                    <th data-field="control" data-sortable="true">操作</th>
                     <th data-field="id" data-sortable="true">ID</th>
                     <th data-field="picture" data-sortable="true">产品</th>
                     <th data-field="orderdate" data-sortable="true">下单日期</th>
@@ -30,11 +31,14 @@
                     <th data-field="Recashes" data-sortable="true">返现</th>
                     <th data-field="Commission" data-sortable="true">提成结算</th>
                     <th data-field="memo" data-sortable="true">备注</th>
-                    <th data-field="control" data-sortable="true">操作</th>
+                    
                 </tr>
             </thead>
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == False%}
             <tr class="no-records-found">
+                <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
+                    <a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
+                </td>
                 <td>{{sales.id}}</td>
                 <td><img src="../static/upload/{{sales.picture}}" width="200" /> </td>
                 <td>{{sales.orderdate}}</td>
@@ -56,17 +60,15 @@
                 <td>{{sales.Recashes}}</td>
                 <td>{{sales.Commission}}</td>
                 <td>{{sales.memo}}</td>
-                <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
-                    <a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
-                </td>
-                </td>
+                
+                
                 {% endif%}
             </tr>{% endfor %}{% endif %}
         </table>
     </div>
     <div class="tab-pane fade" id="profile">
 
-        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
+        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id" data-sort-order="desc">
             <thead>
                 <tr>
                     <th data-field="id" data-sortable="true">ID</th>
@@ -151,7 +153,7 @@
                         <label class="col-lg-1 control-label">发货日期</label>
                         <div class="col-lg-3">
                             <div class="input-group date " data-provide="datepicker">
-                                <input class="form-control" placeholder="实际日期" name="deliverydate" id="deliverydate1" required>
+                                <input class="form-control" placeholder="实际日期" name="deliverydate" id="deliverydate1">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
                                 </div>
                             </div>
@@ -162,11 +164,11 @@
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                <input class="form-control" placeholder="保价" name="Inprice" id="Inprice1" required></div>
+                                <input class="form-control" placeholder="保价" name="Inprice" id="Inprice1"></div>
                         </div>
                         <label class="col-lg-1 control-label">物流公司</label>
                         <div class="col-lg-3">
-                            <select class="form-control" id="trancorp1" name="trancorp" required>
+                            <select class="form-control" id="trancorp1" name="trancorp">
                                 
 										 {% for trans in translist %}
 										<option value="{{trans.corpname}}">{{trans.corpname}}</option>
@@ -175,7 +177,7 @@
                         </div>
                         <label class="col-lg-1 control-label">物流单号</label>
                         <div class="col-lg-3">
-                            <input class="form-control" placeholder="物流单号" name="Tnumber" id="Tnumber1" required>
+                            <input class="form-control" placeholder="物流单号" name="Tnumber" id="Tnumber1">
                         </div>
                     </div>
                     <div class="form-group">
@@ -183,20 +185,20 @@
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                <input class="form-control" placeholder="实际运费" name="Aprice" id="Aprice1" required>
+                                <input class="form-control" placeholder="实际运费" name="Aprice" id="Aprice1">
                             </div>
                         </div>
                         <label class="col-lg-1 control-label">返现</label>
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                <input class="form-control" placeholder="返现" name="Recashes" id="Recashes1" required></div>
+                                <input class="form-control" placeholder="返现" name="Recashes" id="Recashes1"></div>
                         </div>
                         <label class="col-lg-1 control-label">提成结算</label>
                         <div class="col-lg-3">
 
                             <div class="input-group date " data-provide="datepicker">
-                                <input class="form-control" type="text" placeholder="提成结算" name="Commission" id="Commission1" required>
+                                <input class="form-control" type="text" placeholder="提成结算" name="Commission" id="Commission1">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
                                 </div>
                             </div>
