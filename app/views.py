@@ -14,9 +14,9 @@ def page_not_found(e):
 #@app.errorhandler(403)
 #def page_not_found(e):
 #    return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
-@app.errorhandler(400)
-def page_not_found(e):
-    return render_template('error.html',methods=['POST','GET'],error=u"服务器出错了"), 400
+#@app.errorhandler(400)
+#def page_not_found(e):
+#    return render_template('error.html',methods=['POST','GET'],error=u"服务器出错了"), 400
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template('error.html',methods=['POST','GET'],error=u"内部服务器出错了"), 500
@@ -35,7 +35,6 @@ def before_request():
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        
         if user != None and sha512(request.form['password']).hexdigest() == user.password: 
             login_user(user)
             session['id'] = user.id
@@ -69,34 +68,42 @@ def sales():
 @login_required
 def salesdetail():
     if request.method == 'POST':
-        try:
-            id = request.form['id']
-            newsales = Sales.query.get(id)
-            newpro = Products.query.filter_by(id=newsales.productid).first()
-        except:pass
+        id = request.form['id']
+        newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset).filter_by(id=id)
+        #newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo).filter_by(id=id).first()
+        #print newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo
+            #newpro = Products.query.filter_by(id=newsales.productid0).first()
+
         if request.form['submit']=="update":
             transportation = request.form['transportation']
-            Inprice = float(request.form['Inprice'])
-            Aprice = float(request.form['Aprice'])
-            Recashes = float(request.form['Recashes'])
+            try:Inprice = float(request.form['Inprice'])
+            except:Inprice=""
+            try:Aprice = float(request.form['Aprice'])
+            except:Aprice=""
+            try:Recashes = float(request.form['Recashes'])
+            except:Recashes=""
             Commission = request.form['Commission']
             deliverydate = request.form['deliverydate']
             trancorp = request.form['trancorp']
             Tnumber = request.form['Tnumber']
             memo = request.form['memo']
-            newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo = transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo
-            log = u"更新订单:%s" % newsales.id
+            newsales.update({'transportation':transportation,'Inprice':Inprice,'Aprice':Aprice,'Recashes':Recashes,'Commission':Commission,'deliverydate':deliverydate,'trancorp':trancorp,'Tnumber':Tnumber,'memo':memo})
+            #(newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo) = (transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo)
+            log = u"更新订单:%s" % id
         if request.form['submit']=="delete":
-            newsales.offset=1
-            memo=u"冲销订单%s" % id
-            db.session.add(Sales(newsales.productid,newsales.picture,newsales.orderdate, newsales.wangwang, newsales.cdeliverydate, newsales.type,newsales.color,newsales.number,newsales.address,newsales.transportation,newsales.Inprice,newsales.price,newsales.advprice,newsales.CSE,newsales.deliverydate, newsales.trancorp, newsales.Tnumber, newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.offset, memo))
-            if newsales.warehouse == "exstock" : newpro.exstock = newpro.exstock + newsales.number
-            if newsales.warehouse == "whstock" : newpro.whstock = newpro.whstock + newsales.number
-            if newsales.warehouse == "fastock" : newpro.fastock = newpro.fastock + newsales.number
-            log = u"冲销订单:%s" % newsales.id
-        db.session.add(Logs(log,u"销售管理",session['nickname'])) 
+            log = memo = u"冲销订单%s" % id
+            newsales.update({'offset':1,'memo':memo})
+            #db.session.add(Sales(newsales.productid,newsales.picture,newsales.orderdate, newsales.wangwang, newsales.cdeliverydate, newsales.type,newsales.color,newsales.number,newsales.address,newsales.transportation,newsales.Inprice,newsales.price,newsales.advprice,newsales.CSE,#newsales.deliverydate, newsales.trancorp, newsales.Tnumber, newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.offset, memo))
+            #if newsales.warehouse == "exstock" : newpro.exstock = newpro.exstock + newsales.number
+            #if newsales.warehouse == "whstock" : newpro.whstock = newpro.whstock + newsales.number
+            #if newsales.warehouse == "fastock" : newpro.fastock = newpro.fastock + newsales.number
+            #log = u"冲销订单:%s" % newsales.id
+            db.session.add(Logs(log,u"销售管理",session['nickname'])) 
+        if request.form['submit']=="getpro":
+            return id
+        
         db.session.commit()
-    saleslist = Sales.query.order_by(Sales.id)
+    saleslist = db.session.query(Sales.id,Sales.picture,Sales.orderdate,Sales.wangwang,Sales.cdeliverydate,Sales.type1,Sales.color0,Sales.number0,Sales.address,Sales.transportation,Sales.Inprice,Sales.price,Sales.advprice,Sales.CSE,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset,Sales.productid1).all()
     prolist = Products.query.order_by(Products.id)
     delilist = Delivery.query.order_by(Delivery.id)
     translist = Trans.query.order_by(Trans.id)
@@ -105,40 +112,41 @@ def salesdetail():
 @app.route("/salesorder",methods=['POST','GET'])
 @login_required
 def salesorder():
+    names = locals()
     if request.method == 'POST':
-        print request.form
-        #productid = request.form['productid']
-        #newpro = Products.query.filter_by(id=productid).first()
-        picture = newpro.picture
+        for i in xrange(0, 10):
+            try:
+                names['productid%s' % i] = request.form['productid%s' % i]
+                names['number%s' % i] = int(request.form['number%s' % i])
+                names['warehouse%s' % i] = request.form['warehouse%s' % i]
+                names['code%s' % i] = request.form['code%s' % i]
+                names['color%s' % i] = request.form['color%s' % i]
+                print names['productid%s' % i]
+                newpro = Products.query.filter_by(id=names['productid0']).first()
+                picture = newpro.picture
+            except:
+                names['productid%s' % i] = names['number%s' % i] = names['warehouse%s' % i] = names['code%s' % i] = names['color%s' % i] = None
+            if names['warehouse%s' % i] == "exstock" : newpro.exstock = newpro.exstock - names['number%s' % i]
+            if names['warehouse%s' % i] == "whstock" : newpro.whstock = newpro.whstock - names['number%s' % i]
+            if names['warehouse%s' % i] == "fastock" : newpro.fastock = newpro.fastock - names['number%s' % i]
         orderdate = request.form['orderdate']
         wangwang = request.form['wangwang']
         cdeliverydate = request.form['cdeliverydate']
-        type = request.form['type']
-        color = None ##
-        warehouse = None ##
-        number = None ##
+        type1 = request.form['specification0']
+        color = request.form['color0']
+        warehouse = number = transportation = Inprice = deliverydate = trancorp = Tnumber = Aprice = Recashes = Commission = None 
+
         address = request.form['address']
-        transportation = None
-        Inprice = None
         price = float(request.form['price'])
         advprice = float(request.form['advprice'])
         CSE = request.form['CSE']
-        deliverydate = None
-        trancorp = None
-        Tnumber = None
-        Aprice = None
-        Recashes = None
-        Commission = None
         offset = 0
         try:memo = request.form['memo']
         except:memo="no comments"
         if request.form['submit']=="add":
-            addsales = Sales(productid, picture,orderdate, wangwang, cdeliverydate, type,color,number,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission,offset, memo,warehouse)
+            addsales = Sales(picture,orderdate, wangwang, cdeliverydate, type1,address,transportation,Inprice,price,advprice,CSE,deliverydate, trancorp, Tnumber, Aprice,Recashes,Commission,offset,memo,names['productid0'], names['warehouse0'], names['code0'], names['number0'], names['productid1'], names['warehouse1'], names['code1'], names['number1'], names['productid2'], names['warehouse2'], names['code2'], names['number2'],names['productid3'], names['warehouse3'], names['code3'], names['number3'], names['productid4'], names['warehouse4'], names['code4'], names['number4'], names['productid5'], names['warehouse5'], names['code5'], names['number5'], names['productid6'], names['warehouse6'], names['code6'], names['number6'], names['productid7'], names['warehouse7'], names['code7'], names['number7'], names['productid8'], names['warehouse8'], names['code8'], names['number8'], names['productid9'], names['warehouse9'], names['code9'], names['number9'],color)
             db.session.add(addsales)
-            if warehouse == "exstock" : newpro.exstock = newpro.exstock - number
-            if warehouse == "whstock" : newpro.whstock = newpro.whstock - number
-            if warehouse == "fastock" : newpro.fastock = newpro.fastock - number
-            log = u"添加订单:产品ID->%s,下单日期->%s,旺旺->%s,客户要求发货日期->%s,规格->%s,颜色->%s,发货仓库->%s,下单数量->%s,发货地址->%s,物流送货方式->%s,保费->%s,商品价格->%s,预收运费->%s,客服->%s,实际发货日期->%s,物流公司->%s,物流单号->%s,,实际运费->%s,返现->%s,提成结算日期->%s,备注->%s" % (productid,orderdate,wangwang,cdeliverydate,type,color,warehouse,number,address,transportation,Inprice,price,advprice,CSE,deliverydate,trancorp,Tnumber,Aprice,Recashes,Commission,memo)
+            log = u"添加订单:产品ID->%s,下单日期->%s,旺旺->%s,客户要求发货日期->%s,规格->%s,颜色->%s,发货仓库->%s,下单数量->%s,发货地址->%s,物流送货方式->%s,保费->%s,商品价格->%s,预收运费->%s,客服->%s,实际发货日期->%s,物流公司->%s,物流单号->%s,,实际运费->%s,返现->%s,提成结算日期->%s,备注->%s" % (names['productid0'],orderdate,wangwang,cdeliverydate,type1,names['color0'],names['warehouse0'],names['number0'],address,transportation,Inprice,price,advprice,CSE,deliverydate,trancorp,Tnumber,Aprice,Recashes,Commission,memo)
         db.session.add(Logs(log,u"销售订单",session['nickname'])) 
         db.session.commit()
     nickname=User.query.order_by(User.username)
@@ -220,11 +228,14 @@ def freight():
             transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Area,transtype=transtype).all()
             if not transcorps:
                 transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,transtype=transtype).all()
+                if not transcorps:
+                    transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Province,transtype=transtype).all()
         else:
             transcorps = Freight.query.filter_by(corpname=trancorp, deliveryplace=deliverycity, destcity=cho_Area,transtype=transtype).all()
-            
             if not transcorps:
                 transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_City,corpname=trancorp,transtype=transtype).all()
+                if not transcorps:
+                    transcorps = Freight.query.filter_by(deliveryplace=deliverycity,destcity=cho_Province,transtype=transtype).all()
         if transcorps:
             for tran in transcorps:
                 woodenfee = bulk * wooden

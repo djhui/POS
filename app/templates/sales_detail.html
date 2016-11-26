@@ -6,11 +6,12 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade active in" id="home">
-        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id" data-sort-order="desc">
+        <table class="table table-striped" id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="orderdate" data-sort-order="desc">
             <thead>
                 <tr>
                     <th data-field="control" data-sortable="true">操作</th>
                     <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="mutlipro" data-sortable="true">多货</th>
                     <th data-field="picture" data-sortable="true">产品</th>
                     <th data-field="orderdate" data-sortable="true">下单日期</th>
                     <th data-field="wangwang" data-sortable="true">旺旺号</th>
@@ -31,22 +32,25 @@
                     <th data-field="Recashes" data-sortable="true">返现</th>
                     <th data-field="Commission" data-sortable="true">提成结算</th>
                     <th data-field="memo" data-sortable="true">备注</th>
-                    
+
                 </tr>
             </thead>
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == False%}
             <tr class="no-records-found">
                 <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
-                    <a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
+                    <!--<a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>-->
                 </td>
                 <td>{{sales.id}}</td>
-                <td><img src="../static/upload/{{sales.picture}}" width="200" /> </td>
+                <td>{% if sales.productid1 %}是{% endif%}</td>
+                <td>
+                    <a href="#" onclick="show({{sales.id}})"><img src="../static/upload/{{sales.picture}}" width="200" /></a>
+                </td>
                 <td>{{sales.orderdate}}</td>
                 <td>{{sales.wangwang}}</td>
                 <td>{{sales.cdeliverydate}}</td>
-                <td>{{sales.type}}</td>
-                <td>{{sales.color}}</td>
-                <td>{{sales.number}}</td>
+                <td>{{sales.type1}}</td>
+                <td>{{sales.color0}}</td>
+                <td>{{sales.number0}}</td>
                 <td>{{sales.address}}</td>
                 <td>{{sales.transportation}}</td>
                 <td>{{sales.Inprice}}</td>
@@ -60,8 +64,8 @@
                 <td>{{sales.Recashes}}</td>
                 <td>{{sales.Commission}}</td>
                 <td>{{sales.memo}}</td>
-                
-                
+
+
                 {% endif%}
             </tr>{% endfor %}{% endif %}
         </table>
@@ -72,6 +76,7 @@
             <thead>
                 <tr>
                     <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="mutlipro" data-sortable="true">多货</th>
                     <th data-field="picture" data-sortable="true">产品</th>
                     <th data-field="orderdate" data-sortable="true">下单日期</th>
                     <th data-field="wangwang" data-sortable="true">旺旺号</th>
@@ -97,13 +102,16 @@
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == True%}
             <tr class="no-records-found">
                 <td>{{sales.id}}</td>
-                <td><img src="../static/upload/{{sales.picture}}" width="200" /> </td>
+                <td>{% if sales.productid1 %}是{% endif%}</td>
+                <td>
+                    <a href="#" onclick="show({{sales.id}})"><img src="../static/upload/{{sales.picture}}" width="200" /> </a>
+                </td>
                 <td>{{sales.orderdate}}</td>
                 <td>{{sales.wangwang}}</td>
                 <td>{{sales.cdeliverydate}}</td>
-                <td>{{sales.type}}</td>
-                <td>{{sales.color}}</td>
-                <td>{{sales.number}}</td>
+                <td>{{sales.type1}}</td>
+                <td>{{sales.color0}}</td>
+                <td>{{sales.number0}}</td>
                 <td>{{sales.address}}</td>
                 <td>{{sales.transportation}}</td>
                 <td>{{sales.Inprice}}</td>
@@ -235,6 +243,42 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="products">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">选择产品</h4>
+            </div>
+            <div class="modal-body">
+                <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
+                    <thead>
+                        <tr>
+                            <th data-field="id" id="ID" data-sortable="true">ID</th>
+                            <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
+                            <th data-field="products" id="products" data-sortable="true">产品名称</th>
+                            <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
+                            <th data-field="color" id="color" data-sortable="true">产品颜色</th>
+                            <th data-field="stock" id="stock" data-sortable="true">发货仓库</th>
+                        </tr>
+                    </thead>{% if prolist %} {% for pro in prolist %}
+                    <tr class="no-records-found">
+                        <td>{{pro.id}} <input class="form-control hide" placeholder="rowID" name="rowid" id="rowid" required readonly></td>
+                        <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
+                        <td>{{pro.products}}</td>
+                        <td>{{pro.specification}}</td>
+                        <td>{{pro.color}}</td>
+                        <td>{{pro.exstock}}</td>
+                        {% endfor %}
+
+                    </tr>{% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function editInfo(id, transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo) {
         $('#ID1').val(id);
@@ -279,5 +323,20 @@
                 location.reload();
             }
         });
+    }
+
+    function show(id) {
+        var submit = 'getpro';
+        $.ajax({
+            type: "post",
+            url: "{{ url_for('salesdetail') }}",
+            data: "id=" + id + "&submit=" + submit,
+            dataType: 'html',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function(result) {
+                location.reload();
+            }
+        });
+        $('#products').modal('show');
     }
 </script> {% endblock %}

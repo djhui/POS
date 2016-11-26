@@ -20,29 +20,20 @@ class User(db.Model):
         self.role= role
         self.mobile = mobile
         self.nickname = nickname
-
     @staticmethod
     def make_unique_nickname(username):
         pass
-        
     def is_authenticated(self):
         return True
-
     def is_active(self):
         return True
-
     def is_anonymous(self):
         return False
 
     def get_id(self):
         return unicode(self.id)
-
-        
     def __repr__(self):
-        return '<User %r>' % (self.username)    
-        
-
-
+        return '<User %r>' % (self.username)
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rolename = db.Column(db.String(80), unique=True)
@@ -58,7 +49,6 @@ class Role(db.Model):
     stockadd = db.Column(db.Boolean(1))
     account = db.Column(db.Boolean(1))
     role = db.Column(db.Boolean(1))
-  
     def __init__(self, rolename=0, sales=0, salesdetail=0,salesadd=0,freight=0,stock=0,stockcabinets=0,stockchairs=0,stockdesks=0,stocksofa=0,stockadd=0,account=0,role=0):
         self.rolename = rolename
         self.sales = sales
@@ -133,14 +123,14 @@ class Products(db.Model):
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    productid = db.Column(db.Integer)
+    #productid = db.Column(db.Integer)
     picture = db.Column(db.String(500))
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
-    type = db.Column(db.String(120))
-    color = db.Column(db.String(120))
-    number = db.Column(db.Integer)
+    type1 = db.Column(db.String(120))
+    color0 = db.Column(db.String(120))
+    #number = db.Column(db.Integer)
     address = db.Column(db.VARCHAR(520))
     trancorp = db.Column(db.VARCHAR(520))
     transportation = db.Column(db.VARCHAR(520))
@@ -155,18 +145,58 @@ class Sales(db.Model):
     Commission = db.Column(db.Date)
     offset = db.Column(db.Boolean(1))
     memo = db.Column(db.VARCHAR(520))
-    warehouse = db.Column(db.String(120))
+    #warehouse = db.Column(db.String(120))
 
+    productid0 = db.Column(db.String(120))
+    warehouse0 = db.Column(db.String(120))
+    code0 = db.Column(db.String(120))
+    number0 = db.Column(db.Integer)
+    productid1 = db.Column(db.String(120))
+    warehouse1 = db.Column(db.String(120))
+    code1 = db.Column(db.String(120))
+    number1 = db.Column(db.Integer)
+    productid2 = db.Column(db.String(120))
+    warehouse2 = db.Column(db.String(120))
+    code2 = db.Column(db.String(120))
+    number2 = db.Column(db.Integer)
+    productid3 = db.Column(db.String(120))
+    warehouse3 = db.Column(db.String(120))
+    code3 = db.Column(db.String(120))
+    number3 = db.Column(db.Integer)
+    productid4 = db.Column(db.String(120))
+    warehouse4 = db.Column(db.String(120))
+    code4 = db.Column(db.String(120))
+    number4 = db.Column(db.Integer)
+    productid5 = db.Column(db.String(120))
+    warehouse5 = db.Column(db.String(120))
+    code5 = db.Column(db.String(120))
+    number5 = db.Column(db.Integer)
+    productid6 = db.Column(db.String(120))
+    warehouse6 = db.Column(db.String(120))
+    code6 = db.Column(db.String(120))
+    number6 = db.Column(db.Integer)
+    productid7 = db.Column(db.String(120))
+    warehouse7 = db.Column(db.String(120))
+    code7 = db.Column(db.String(120))
+    number7 = db.Column(db.Integer)
+    productid8 = db.Column(db.String(120))
+    warehouse8 = db.Column(db.String(120))
+    code8 = db.Column(db.String(120))
+    number8 = db.Column(db.Integer)
+    productid9 = db.Column(db.String(120))
+    warehouse9 = db.Column(db.String(120))
+    code9 = db.Column(db.String(120))
+    number9 = db.Column(db.Integer)
   
-    def __init__(self, productid="0", picture="",orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type="0",color="0",number=0,address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,  offset=0,memo="no comments",warehouse=""):
-        self.productid = productid
+    def __init__(self, picture="",orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type1="0",address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,offset=0,memo="no comments",productid0="0", warehouse0="", code0="", number0=0, productid1="0", warehouse1="", code1="", number1=0, productid2="0", warehouse2="", code2="", number2=0,productid3="0", warehouse3="", code3="", number3=0, productid4="0", warehouse4="", code4="", number4=0, productid5="0", warehouse5="", code5="", number5=0, productid6="0", warehouse6="", code6="", number6=0, productid7="0", warehouse7="", code7="", number7=0, productid8="0", warehouse8="", code8="", number8=0, productid9="0", warehouse9="", code9="", number9=0,color0=""):
+        #self.productid = productid
         self.picture = picture
         self.orderdate = orderdate
         self.wangwang = wangwang
         self.cdeliverydate = cdeliverydate
-        self.type = type
-        self.color = color
-        self.number = number
+        self.type1 = type1
+        self.color0 = color0
+        #self.number = number
         self.address = address
         self.transportation = transportation
         self.Inprice = Inprice
@@ -181,8 +211,49 @@ class Sales(db.Model):
         self.Commission = Commission
         self.offset = offset
         self.memo = memo
-        self.warehouse = warehouse
-
+        #self.warehouse = warehouse
+        self.productid0 = productid0
+        self.warehouse0 = warehouse0
+        self.code0 = code0
+        self.number0 = number0
+        self.productid1 = productid1
+        self.warehouse1 = warehouse1
+        self.code1 = code1
+        self.number1 = number1
+        self.productid2 = productid2
+        self.warehouse2 = warehouse2
+        self.code2 = code2
+        self.number2 = number2
+        self.productid3 = productid3
+        self.warehouse3 = warehouse3
+        self.code3 = code3
+        self.number3 = number3
+        self.productid4 = productid4
+        self.warehouse4 = warehouse4
+        self.code4 = code4
+        self.number4 = number4
+        self.productid5 = productid5
+        self.warehouse5 = warehouse5
+        self.code5 = code5
+        self.number5 = number5
+        self.productid6 = productid6
+        self.warehouse6 = warehouse6
+        self.code6 = code6
+        self.number6 = number6
+        self.productid7 = productid7
+        self.warehouse7 = warehouse7
+        self.code7 = code7
+        self.number7 = number7
+        self.productid8 = productid8
+        self.warehouse8 = warehouse8
+        self.code8 = code8
+        self.number8 = number8
+        self.productid9 = productid9
+        self.warehouse9 = warehouse9
+        self.code9 = code9
+        self.number9 = number9
+    def __repr__(self):
+        return self.id
 
 class Trans(db.Model):
     id = db.Column(db.Integer, primary_key=True)
