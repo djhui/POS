@@ -69,7 +69,8 @@ def sales():
 def salesdetail():
     if request.method == 'POST':
         id = request.form['id']
-        newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset).filter_by(id=id)
+        newsales = Sales.query.filter_by(id=id).first()
+        ##newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset).filter_by(id=id)
         #newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo).filter_by(id=id).first()
         #print newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo
             #newpro = Products.query.filter_by(id=newsales.productid0).first()
@@ -87,29 +88,35 @@ def salesdetail():
             trancorp = request.form['trancorp']
             Tnumber = request.form['Tnumber']
             memo = request.form['memo']
-            newsales.update({'transportation':transportation,'Inprice':Inprice,'Aprice':Aprice,'Recashes':Recashes,'Commission':Commission,'deliverydate':deliverydate,'trancorp':trancorp,'Tnumber':Tnumber,'memo':memo})
-            #(newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo) = (transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo)
+            #newsales.update({'transportation':transportation,'Inprice':Inprice,'Aprice':Aprice,'Recashes':Recashes,'Commission':Commission,'deliverydate':deliverydate,'trancorp':trancorp,'Tnumber':Tnumber,'memo':memo})
+            newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo = transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo
             log = u"更新订单:%s" % id
         if request.form['submit']=="delete":
-            log = memo = u"冲销订单%s" % id
-            newsales.update({'offset':1,'memo':memo})
-            #db.session.add(Sales(newsales.productid,newsales.picture,newsales.orderdate, newsales.wangwang, newsales.cdeliverydate, newsales.type,newsales.color,newsales.number,newsales.address,newsales.transportation,newsales.Inprice,newsales.price,newsales.advprice,newsales.CSE,#newsales.deliverydate, newsales.trancorp, newsales.Tnumber, newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.offset, memo))
-            #if newsales.warehouse == "exstock" : newpro.exstock = newpro.exstock + newsales.number
-            #if newsales.warehouse == "whstock" : newpro.whstock = newpro.whstock + newsales.number
-            #if newsales.warehouse == "fastock" : newpro.fastock = newpro.fastock + newsales.number
-            #log = u"冲销订单:%s" % newsales.id
+            log = memo = u"冲销订单%s" % newsales.id
+            newsales.offset=1
+            for i in range(0, 10):
+                if eval("newsales.productid%s" %i):
+                    proinfo = Products.query.filter_by(id=eval("newsales.productid%s" %i)).first()
+                    if eval("newsales.warehouse%s" %i) == "exstock" : proinfo.exstock = proinfo.exstock + eval("newsales.number%s" %i)
+                    if eval("newsales.warehouse%s" %i) == "whstock" : proinfo.whstock = proinfo.whstock + eval("newsales.number%s" %i)
+                    if eval("newsales.warehouse%s" %i) == "fastock" : proinfo.fastock = proinfo.fastock + eval("newsales.number%s" %i)
+            db.session.add(Sales(newsales.picture,newsales.orderdate,newsales.wangwang,newsales.cdeliverydate,newsales.type1,newsales.address,newsales.transportation,newsales.Inprice,newsales.price,newsales.advprice,newsales.CSE,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.offset,newsales.memo,newsales.productid0,newsales.warehouse0,newsales.code0,newsales.number0,newsales.productid1,newsales.warehouse1,newsales.code1,newsales.number1,newsales.productid2,newsales.warehouse2,newsales.code2,newsales.number2,newsales.productid3,newsales.warehouse3,newsales.code3,newsales.number3,newsales.productid4,newsales.warehouse4,newsales.code4,newsales.number4,newsales.productid5,newsales.warehouse5,newsales.code5,newsales.number5,newsales.productid6,newsales.warehouse6,newsales.code6,newsales.number6,newsales.productid7,newsales.warehouse7,newsales.code7,newsales.number7,newsales.productid8,newsales.warehouse8,newsales.code8,newsales.number8,newsales.productid9,newsales.warehouse9,newsales.code9,newsales.number9,newsales.color0))
+
+            log = u"冲销订单:%s" % newsales.id
             db.session.add(Logs(log,u"销售管理",session['nickname'])) 
         if request.form['submit']=="getpro":
-            print id
-            proorder = Sales.query.filter_by(id=id).first()
+            #proorder = Sales.query.filter_by(id=id).first()
             allpro = []
             names = locals()
             for i in range(0, 10):
-                if eval("proorder.productid%s" %i):
-                    proinfo = Products.query.filter_by(id=eval("proorder.productid%s" %i)).first()
-                    result = {'id':eval("proorder.productid%s" %i),'picture':'<img src="../static/upload/'+proinfo.picture+'" width="200" />','products':proinfo.products,'specification':proinfo.specification,'color':proinfo.color,'warehouse':eval("proorder.warehouse%s" %i),'number':eval("proorder.number%s" %i)}
+                if eval("newsales.productid%s" %i):
+                    proinfo = Products.query.filter_by(id=eval("newsales.productid%s" %i)).first()
+                    if eval("newsales.warehouse%s" %i) == u'exstock': warehouse = u"展厅"
+                    if eval("newsales.warehouse%s" %i) == u'whstock': warehouse = u"仓库"
+                    if eval("newsales.warehouse%s" %i) == u'fastock': warehouse = u"工厂"
+                    result = {'id':eval("newsales.productid%s" %i),'picture':'<img src="../static/upload/'+proinfo.picture+'" width="200" />','products':proinfo.products,'specification':proinfo.specification,'color':proinfo.color,'warehouse':warehouse,'number':eval("newsales.number%s" %i)}
                     allpro.append(result)
-                    print eval("proorder.productid%s" %i)
+                    print eval("newsales.productid%s" %i)
                 #print json.dumps(Cals)
             
             return json.dumps({'msg':allpro})
