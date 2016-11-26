@@ -100,8 +100,19 @@ def salesdetail():
             #log = u"冲销订单:%s" % newsales.id
             db.session.add(Logs(log,u"销售管理",session['nickname'])) 
         if request.form['submit']=="getpro":
-            return id
-        
+            print id
+            proorder = Sales.query.filter_by(id=id).first()
+            allpro = []
+            names = locals()
+            for i in range(0, 10):
+                if eval("proorder.productid%s" %i):
+                    proinfo = Products.query.filter_by(id=eval("proorder.productid%s" %i)).first()
+                    result = {'id':eval("proorder.productid%s" %i),'picture':'<img src="../static/upload/'+proinfo.picture+'" width="200" />','products':proinfo.products,'specification':proinfo.specification,'color':proinfo.color,'warehouse':eval("proorder.warehouse%s" %i),'number':eval("proorder.number%s" %i)}
+                    allpro.append(result)
+                    print eval("proorder.productid%s" %i)
+                #print json.dumps(Cals)
+            
+            return json.dumps({'msg':allpro})
         db.session.commit()
     saleslist = db.session.query(Sales.id,Sales.picture,Sales.orderdate,Sales.wangwang,Sales.cdeliverydate,Sales.type1,Sales.color0,Sales.number0,Sales.address,Sales.transportation,Sales.Inprice,Sales.price,Sales.advprice,Sales.CSE,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset,Sales.productid1).all()
     prolist = Products.query.order_by(Products.id)

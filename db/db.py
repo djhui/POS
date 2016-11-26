@@ -137,7 +137,7 @@ class Sales(db.Model):
     memo = db.Column(db.VARCHAR(520))
     #warehouse = db.Column(db.String(120))
 
-    productid0 = db.Column(db.String(120))
+    productid0 = db.Column(db.Integer)
     warehouse0 = db.Column(db.String(120))
     code0 = db.Column(db.String(120))
     number0 = db.Column(db.Integer)

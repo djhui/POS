@@ -41,9 +41,9 @@
                     <!--<a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>-->
                 </td>
                 <td>{{sales.id}}</td>
-                <td>{% if sales.productid1 %}是{% endif%}</td>
+                <td>{% if sales.productid1 %} <a href="#" onclick="showpro({{sales.id}})">是</a>{% endif%}</td>
                 <td>
-                    <a href="#" onclick="showpro({{sales.id}})"><img src="../static/upload/{{sales.picture}}" width="200" /></a>
+                    <img src="../static/upload/{{sales.picture}}" width="200" />
                 </td>
                 <td>{{sales.orderdate}}</td>
                 <td>{{sales.wangwang}}</td>
@@ -102,9 +102,9 @@
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == True%}
             <tr class="no-records-found">
                 <td>{{sales.id}}</td>
-                <td>{% if sales.productid1 %}是{% endif%}</td>
+                <td>{% if sales.productid1 %}<a href="#" onclick="showpro({{sales.id}})">是</a>{% endif%}</td>
                 <td>
-                    <a href="#" onclick="showpro({{sales.id}})"><img src="../static/upload/{{sales.picture}}" width="200" /> </a>
+                    <img src="../static/upload/{{sales.picture}}" width="200" />
                 </td>
                 <td>{{sales.orderdate}}</td>
                 <td>{{sales.wangwang}}</td>
@@ -249,30 +249,21 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title">选择产品</h4>
+                <h4 class="modal-title">订单产品详情</h4>
             </div>
             <div class="modal-body">
-                <table id=table class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="products">
+                <table id="tablepro" class="table table-striped" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="id">
                     <thead>
                         <tr>
-                            <th data-field="id" id="ID" data-sortable="true">ID</th>
+                            <th data-field="id" id="ID" data-sortable="true">产品ID</th>
                             <th data-field="picture" id="picture" data-sortable="true">产品图片</th>
                             <th data-field="products" id="products" data-sortable="true">产品名称</th>
                             <th data-field="specification" id="specification" data-sortable="true">产品规格</th>
                             <th data-field="color" id="color" data-sortable="true">产品颜色</th>
-                            <th data-field="stock" id="stock" data-sortable="true">发货仓库</th>
+                            <th data-field="warehouse" id="warehouse" data-sortable="true">发货仓库</th>
+                            <th data-field="number" id="number" data-sortable="true">发货数量</th>
                         </tr>
-                    </thead>{% if prolist %} {% for pro in prolist %}
-                    <tr class="no-records-found">
-                        <td>{{pro.id}} <input class="form-control hide" placeholder="rowID" name="rowid" id="rowid" required readonly></td>
-                        <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
-                        <td>{{pro.products}}</td>
-                        <td>{{pro.specification}}</td>
-                        <td>{{pro.color}}</td>
-                        <td>{{pro.exstock}}</td>
-                        {% endfor %}
-
-                    </tr>{% endif %}
+                    </thead>
                 </table>
             </div>
         </div>
@@ -321,20 +312,21 @@
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function(result) {
                 location.reload();
+
             }
         });
     }
 
     function showpro(id) {
         var submit = 'getpro';
+        var $table = $('#tablepro');
         $.ajax({
             type: "post",
             url: "{{ url_for('salesdetail') }}",
             data: "id=" + id + "&submit=" + submit,
-            dataType: 'html',
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
-            success: function(result) {
-                location.reload();
+            dataType: 'json',
+            success: function(data) {
+                $table.bootstrapTable('load', data.msg);
             }
         });
         $('#products').modal('show');

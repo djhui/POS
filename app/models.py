@@ -123,14 +123,12 @@ class Products(db.Model):
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #productid = db.Column(db.Integer)
     picture = db.Column(db.String(500))
     orderdate = db.Column(db.Date)
     wangwang = db.Column(db.String(120))
     cdeliverydate = db.Column(db.Date) #Cumstomer wants to delivery data
     type1 = db.Column(db.String(120))
     color0 = db.Column(db.String(120))
-    #number = db.Column(db.Integer)
     address = db.Column(db.VARCHAR(520))
     trancorp = db.Column(db.VARCHAR(520))
     transportation = db.Column(db.VARCHAR(520))
@@ -145,9 +143,8 @@ class Sales(db.Model):
     Commission = db.Column(db.Date)
     offset = db.Column(db.Boolean(1))
     memo = db.Column(db.VARCHAR(520))
-    #warehouse = db.Column(db.String(120))
 
-    productid0 = db.Column(db.String(120))
+    productid0 = db.Column(db.Integer)
     warehouse0 = db.Column(db.String(120))
     code0 = db.Column(db.String(120))
     number0 = db.Column(db.Integer)
@@ -187,16 +184,13 @@ class Sales(db.Model):
     warehouse9 = db.Column(db.String(120))
     code9 = db.Column(db.String(120))
     number9 = db.Column(db.Integer)
-  
     def __init__(self, picture="",orderdate="0000-00-00", wangwang="0", cdeliverydate="0000-00-00", type1="0",address="",transportation="-",Inprice=0,price=0,advprice=0,CSE=0,deliverydate="0000-00-00", trancorp="", Tnumber="", Aprice=0,Recashes=0,Commission=0,offset=0,memo="no comments",productid0="0", warehouse0="", code0="", number0=0, productid1="0", warehouse1="", code1="", number1=0, productid2="0", warehouse2="", code2="", number2=0,productid3="0", warehouse3="", code3="", number3=0, productid4="0", warehouse4="", code4="", number4=0, productid5="0", warehouse5="", code5="", number5=0, productid6="0", warehouse6="", code6="", number6=0, productid7="0", warehouse7="", code7="", number7=0, productid8="0", warehouse8="", code8="", number8=0, productid9="0", warehouse9="", code9="", number9=0,color0=""):
-        #self.productid = productid
         self.picture = picture
         self.orderdate = orderdate
         self.wangwang = wangwang
         self.cdeliverydate = cdeliverydate
         self.type1 = type1
         self.color0 = color0
-        #self.number = number
         self.address = address
         self.transportation = transportation
         self.Inprice = Inprice
@@ -211,7 +205,6 @@ class Sales(db.Model):
         self.Commission = Commission
         self.offset = offset
         self.memo = memo
-        #self.warehouse = warehouse
         self.productid0 = productid0
         self.warehouse0 = warehouse0
         self.code0 = code0
@@ -252,8 +245,7 @@ class Sales(db.Model):
         self.warehouse9 = warehouse9
         self.code9 = code9
         self.number9 = number9
-    def __repr__(self):
-        return self.id
+
 
 class Trans(db.Model):
     id = db.Column(db.Integer, primary_key=True)
