@@ -94,6 +94,7 @@ def salesdetail():
         if request.form['submit']=="delete":
             log = memo = u"冲销订单%s" % newsales.id
             newsales.offset=1
+            newsales.memo = memo
             for i in range(0, 10):
                 if eval("newsales.productid%s" %i):
                     proinfo = Products.query.filter_by(id=eval("newsales.productid%s" %i)).first()
