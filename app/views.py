@@ -67,7 +67,6 @@ def sales():
         enddate = request.form['enddate']
         CSE = request.form['CSE']
         SalesSum = []
-        print startdate,enddate,CSE
         if CSE == "all":
             CSE = u"全店"
             sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.Aprice),func.sum(Sales.Recashes)).filter("orderdate<:enddate","orderdate>:startdate").params(startdate=startdate,enddate=enddate).all()
