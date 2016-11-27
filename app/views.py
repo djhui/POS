@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 from flask import * 
 from app import app,lm
+from sqlalchemy.sql import func
 from flask_login import login_user, logout_user, current_user, login_required
 from models import *
 from tools import *
@@ -61,6 +62,21 @@ def main():
 @app.route("/sales",methods=['POST','GET'])
 @login_required
 def sales():
+    if request.method == 'POST':
+        startdate = request.form['startdate']
+        enddate = request.form['enddate']
+        CSE = request.form['CSE']
+        SalesSum = []
+        print startdate,enddate,CSE
+        if CSE == "all":
+            CSE = u"全店"
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.Aprice),func.sum(Sales.Recashes)).filter("orderdate<:enddate","orderdate>:startdate").params(startdate=startdate,enddate=enddate).all()
+        else:
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.Aprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate").params(CSE=CSE,startdate=startdate,enddate=enddate).all()
+        for sumsingle in sumre:
+            result = {'id':'id','employee':CSE,'price':"%.2f" % sumsingle[0],'Aprice':"%.2f" % sumsingle[1],'Recashes':"%.2f" % sumsingle[2]}
+            SalesSum.append(result)
+        return json.dumps({'msg':SalesSum})
     nickname=User.query.order_by(User.username)
     return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist,nickname=nickname)
 #---------------------------------------------------------------------------------------
@@ -70,10 +86,6 @@ def salesdetail():
     if request.method == 'POST':
         id = request.form['id']
         newsales = Sales.query.filter_by(id=id).first()
-        ##newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset).filter_by(id=id)
-        #newsales = db.session.query(Sales.id,Sales.transportation,Sales.Inprice,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo).filter_by(id=id).first()
-        #print newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo
-            #newpro = Products.query.filter_by(id=newsales.productid0).first()
 
         if request.form['submit']=="update":
             transportation = request.form['transportation']
@@ -88,7 +100,6 @@ def salesdetail():
             trancorp = request.form['trancorp']
             Tnumber = request.form['Tnumber']
             memo = request.form['memo']
-            #newsales.update({'transportation':transportation,'Inprice':Inprice,'Aprice':Aprice,'Recashes':Recashes,'Commission':Commission,'deliverydate':deliverydate,'trancorp':trancorp,'Tnumber':Tnumber,'memo':memo})
             newsales.transportation,newsales.Inprice,newsales.deliverydate,newsales.trancorp,newsales.Tnumber,newsales.Aprice,newsales.Recashes,newsales.Commission,newsales.memo = transportation, Inprice, deliverydate, trancorp, Tnumber, Aprice, Recashes, Commission, memo
             log = u"更新订单:%s" % id
         if request.form['submit']=="delete":
@@ -106,7 +117,6 @@ def salesdetail():
             log = u"冲销订单:%s" % newsales.id
             db.session.add(Logs(log,u"销售管理",session['nickname'])) 
         if request.form['submit']=="getpro":
-            #proorder = Sales.query.filter_by(id=id).first()
             allpro = []
             names = locals()
             for i in range(0, 10):

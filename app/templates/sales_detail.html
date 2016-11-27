@@ -37,8 +37,8 @@
             </thead>
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == False%}
             <tr class="no-records-found">
-                <td><a href=" # " class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
-                    <a href=" # " class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
+                <td><a href="#" class="btn btn-primary btn-xs" onclick="editInfo('{{sales.id}}','{{sales.transportation}}','{{sales.Inprice}}','{{sales.deliverydate}}','{{sales.trancorp}}','{{sales.Tnumber}}','{{sales.Aprice}}','{{sales.Recashes}}','{{sales.Commission}}','{{sales.memo}}')">修改</a>
+                    <a href="#" class="btn btn-danger btn-xs" onclick="delInfo('{{sales.id}}' )">冲销</a>
                 </td>
                 <td>{{sales.id}}</td>
                 <td>{% if sales.productid1 %} <a href="#" class="btn btn-primary btn-xs" onclick="showpro({{sales.id}})">查看</a>{% endif%}</td>
