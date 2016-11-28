@@ -69,12 +69,14 @@ def sales():
         SalesSum = []
         if CSE == "all":
             CSE = u"全店"
-            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.Aprice),func.sum(Sales.Recashes)).filter("orderdate<:enddate","orderdate>:startdate").params(startdate=startdate,enddate=enddate).all()
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("orderdate<:enddate","orderdate>:startdate").params(startdate=startdate,enddate=enddate).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<:enddate","orderdate>:startdate","transportation not like :transportation").params(startdate=startdate,enddate=enddate,transportation=u"%到付%").first()
         else:
-            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.Aprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate").params(CSE=CSE,startdate=startdate,enddate=enddate).all()
-        for sumsingle in sumre:
-            result = {'id':'id','employee':CSE,'price':"%.2f" % sumsingle[0],'Aprice':"%.2f" % sumsingle[1],'Recashes':"%.2f" % sumsingle[2]}
-            SalesSum.append(result)
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate").params(CSE=CSE,startdate=startdate,enddate=enddate).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate","transportation not like :transportation").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%").first()
+        price = sumre[0] + sumre[1]
+        result = {'id':'id','employee':CSE,'price':"%.2f" % price,'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
+        SalesSum.append(result)
         return json.dumps({'msg':SalesSum})
     nickname=User.query.order_by(User.username)
     return render_template('sales.html',session=session,nav = u"销售总览",catelist=g.catelist,nickname=nickname)
