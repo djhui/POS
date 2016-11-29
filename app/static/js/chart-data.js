@@ -1,7 +1,7 @@
 var randomScalingFactor = function() { return Math.round(Math.random() * 5000) };
 
 var lineChartData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "Augest"],
+    labels: ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"],
     datasets: [{
             label: "My First dataset",
             fillColor: "rgba(220,220,220,0.2)",
@@ -10,7 +10,7 @@ var lineChartData = {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
         },
         {
             label: "My Second dataset",
@@ -20,14 +20,24 @@ var lineChartData = {
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(48, 164, 255, 1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+        },
+        {
+            label: "My Third dataset",
+            fillColor: "rgba(48, 164, 255, 0.2)",
+            strokeColor: "rgba(48, 164, 255, 1)",
+            pointColor: "rgba(48, 164, 255, 1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(48, 164, 255, 1)",
+            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
         }
     ]
 
 }
 
 var barChartData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"],
     datasets: [{
             fillColor: "rgba(220,220,220,0.5)",
             strokeColor: "rgba(220,220,220,0.8)",
@@ -105,17 +115,17 @@ window.onload = function() {
     window.myLine = new Chart(chart1).Line(lineChartData, {
         responsive: true
     });
-    var chart2 = document.getElementById("bar-chart").getContext("2d");
-    window.myBar = new Chart(chart2).Bar(barChartData, {
-        responsive: true
-    });
-    var chart3 = document.getElementById("doughnut-chart").getContext("2d");
-    window.myDoughnut = new Chart(chart3).Doughnut(doughnutData, {
-        responsive: true
-    });
-    var chart4 = document.getElementById("pie-chart").getContext("2d");
-    window.myPie = new Chart(chart4).Pie(pieData, {
-        responsive: true
-    });
+    //var chart2 = document.getElementById("bar-chart").getContext("2d");
+    //window.myBar = new Chart(chart2).Bar(barChartData, {
+    //    responsive: true
+    //});
+    //var chart3 = document.getElementById("doughnut-chart").getContext("2d");
+    //window.myDoughnut = new Chart(chart3).Doughnut(doughnutData, {
+    //    responsive: true
+    //});
+    //var chart4 = document.getElementById("pie-chart").getContext("2d");
+    //window.myPie = new Chart(chart4).Pie(pieData, {
+    //    responsive: true
+    //});
 
 };
