@@ -129,9 +129,6 @@ def salesdetail():
                     if eval("newsales.warehouse%s" %i) == u'fastock': warehouse = u"工厂"
                     result = {'id':eval("newsales.productid%s" %i),'picture':'<img src="../static/upload/'+proinfo.picture+'" width="200" />','products':proinfo.products,'specification':proinfo.specification,'color':proinfo.color,'warehouse':warehouse,'number':eval("newsales.number%s" %i)}
                     allpro.append(result)
-                    print eval("newsales.productid%s" %i)
-                #print json.dumps(Cals)
-            
             return json.dumps({'msg':allpro})
         db.session.commit()
     saleslist = db.session.query(Sales.id,Sales.picture,Sales.orderdate,Sales.wangwang,Sales.cdeliverydate,Sales.type1,Sales.color0,Sales.number0,Sales.address,Sales.transportation,Sales.Inprice,Sales.price,Sales.advprice,Sales.CSE,Sales.deliverydate,Sales.trancorp,Sales.Tnumber,Sales.Aprice,Sales.Recashes,Sales.Commission,Sales.memo,Sales.offset,Sales.productid1).all()
@@ -153,7 +150,7 @@ def salesorder():
                 names['code%s' % i] = request.form['code%s' % i]
                 names['color%s' % i] = request.form['color%s' % i]
                 print names['productid%s' % i]
-                newpro = Products.query.filter_by(id=names['productid0']).first()
+                newpro = Products.query.filter_by(id=names['productid%s' % i]).first()
                 picture = newpro.picture
             except:
                 names['productid%s' % i] = names['number%s' % i] = names['warehouse%s' % i] = names['code%s' % i] = names['color%s' % i] = None
