@@ -19,6 +19,7 @@
                     <th data-field="type" data-sortable="true">规格</th>
                     <th data-field="color" data-sortable="true">颜色</th>
                     <th data-field="number" data-sortable="true">数量</th>
+                    <th data-field="memo" data-sortable="true">备注</th>
                     <th data-field="address" data-sortable="true">客户收货信息</th>
                     <th data-field="transportation" data-sortable="true">物流送货方式</th>
                     <th data-field="Inprice" data-sortable="true">保价</th>
@@ -31,7 +32,7 @@
                     <th data-field="Aprice" data-sortable="true">实际运费</th>
                     <th data-field="Recashes" data-sortable="true">返现</th>
                     <th data-field="Commission" data-sortable="true">提成结算</th>
-                    <th data-field="memo" data-sortable="true">备注</th>
+                    
 
                 </tr>
             </thead>
@@ -51,6 +52,7 @@
                 <td>{{sales.type1}}</td>
                 <td>{{sales.color0}}</td>
                 <td>{{sales.number0}}</td>
+                <td>{{sales.memo}}</td>
                 <td>{{sales.address}}</td>
                 <td>{{sales.transportation}}</td>
                 <td>{{sales.Inprice}}</td>
@@ -63,7 +65,7 @@
                 <td>{{sales.Aprice}}</td>
                 <td>{{sales.Recashes}}</td>
                 <td>{{sales.Commission}}</td>
-                <td>{{sales.memo}}</td>
+                
 
 
                 {% endif%}
@@ -84,6 +86,7 @@
                     <th data-field="type" data-sortable="true">规格</th>
                     <th data-field="color" data-sortable="true">颜色</th>
                     <th data-field="number" data-sortable="true">数量</th>
+                    <th data-field="memo" data-sortable="true">备注</th>
                     <th data-field="address" data-sortable="true">客户收货信息</th>
                     <th data-field="transportation" data-sortable="true">物流送货方式</th>
                     <th data-field="Inprice" data-sortable="true">保价</th>
@@ -96,7 +99,7 @@
                     <th data-field="Aprice" data-sortable="true">实际运费</th>
                     <th data-field="Recashes" data-sortable="true">返现</th>
                     <th data-field="Commission" data-sortable="true">提成结算</th>
-                    <th data-field="memo" data-sortable="true">备注</th>
+                    
                 </tr>
             </thead>
             {% if saleslist %} {% for sales in saleslist %} {%if sales.offset == True%}
@@ -112,6 +115,7 @@
                 <td>{{sales.type1}}</td>
                 <td>{{sales.color0}}</td>
                 <td>{{sales.number0}}</td>
+                <td>{{sales.memo}}</td>
                 <td>{{sales.address}}</td>
                 <td>{{sales.transportation}}</td>
                 <td>{{sales.Inprice}}</td>
@@ -124,7 +128,7 @@
                 <td>{{sales.Aprice}}</td>
                 <td>{{sales.Recashes}}</td>
                 <td>{{sales.Commission}}</td>
-                <td>{{sales.memo}}</td>
+                
 
                 </td>
                 {% endif%}

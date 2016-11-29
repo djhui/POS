@@ -69,11 +69,11 @@ def sales():
         SalesSum = []
         if CSE == "all":
             CSE = u"全店"
-            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("orderdate<:enddate","orderdate>:startdate").params(startdate=startdate,enddate=enddate).first()
-            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<:enddate","orderdate>:startdate","transportation not like :transportation").params(startdate=startdate,enddate=enddate,transportation=u"%到付%").first()
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(startdate=startdate,enddate=enddate,offset=0).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
         else:
-            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate").params(CSE=CSE,startdate=startdate,enddate=enddate).first()
-            transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<:enddate","orderdate>:startdate","transportation not like :transportation").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%").first()
+            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,offset=0).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
         price = sumre[0] + sumre[1]
         result = {'id':'id','employee':CSE,'price':"%.2f" % price,'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
         SalesSum.append(result)
@@ -91,12 +91,13 @@ def salesdetail():
         if request.form['submit']=="update":
             transportation = request.form['transportation']
             try:Inprice = float(request.form['Inprice'])
-            except:Inprice=""
+            except:Inprice=None
             try:Aprice = float(request.form['Aprice'])
-            except:Aprice=""
+            except:Aprice=None
             try:Recashes = float(request.form['Recashes'])
-            except:Recashes=""
+            except:Recashes=None
             Commission = request.form['Commission']
+            if Commission == "None":Commission=None
             deliverydate = request.form['deliverydate']
             trancorp = request.form['trancorp']
             Tnumber = request.form['Tnumber']

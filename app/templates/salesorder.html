@@ -23,7 +23,7 @@
                                     颜色
                                 </th>
                                 <th class="text-center">
-                                    产品编号
+                                    产品名称
                                 </th>
                                 <th class="text-center">
                                     发货仓库
@@ -45,7 +45,8 @@
                                     <input class="form-control" placeholder="颜色" name="color0" id="color0" required readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control" placeholder="产品编号" name="code0" id="code0" required readonly>
+                                    <input class="form-control hide" placeholder="产品编号" name="code0" id="code0" required readonly>
+                                    <input class="form-control " placeholder="产品名称" name="products0" id="products0" required readonly>
                                 </td>
                                 <td>
                                     <select class="form-control" id="warehouse0" name="warehouse0" required>
@@ -182,7 +183,7 @@
                         <td>{{pro.exstock}}</td>
                         <td>{{pro.whstock}}</td>
                         <td>{{pro.fastock}}</td>
-                        <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
+                        <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}','{{pro.products}}','{{pro.specification}}','{{pro.color}}')">选择</button></td>
                         {% endfor %}
 
                     </tr>{% endif %}
@@ -193,47 +194,49 @@
 </div>
 <script>
     $(document).ready(function() {
-        var i = 1;
-        $("#add_row").click(
+                var i = 1;
+                $("#add_row").click(
 
-            function() {
-                if (i < 10) {
-                    $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "' onclick=select('" + i + "')>选择产品</a> </td>\
-                    <td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly>\
-                    <input class='form-control hide' placeholder='产品ID' name='productid" + i + "' id='productid" + i + "' required readonly></td>\
-                    <td><input class='form-control' placeholder='产品编号' name='code" + i + "' id='code" + i + "' required readonly></td>]\
-                    <td><select class='form-control' id='warehouse" + i + "' name='warehouse" + i + "' required>\
-                    <option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td>\
-                    <td><input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required></td>");
-                    $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
-                    i++;
-                } else {
-                    $("#rowend").show();
-                }
-            });
+                    function() {
+                        if (i < 10) {
+                            $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "' onclick=select('" + i + "')>选择产品</a> </td>\
+                            <td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly>\
+                            <input class='form-control hide' placeholder='产品ID' name='productid" + i + "' id='productid" + i + "' required readonly></td>\
+                            <td><input class='form-control hide' placeholder='产品编号' name='code" + i + "' id='code" + i + "' required readonly>\
+                            <input class='form-control' placeholder='产品名称' name='products" + i + "' id='products" + i + "' required readonly></td>]\
+                            <td><select class='form-control' id='warehouse" + i + "' name = 'warehouse" + i + "' required > \
+                            <option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td>\
+                            <td> <input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required> </td>");
+                            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>'); 
+                            i++;
+                                }
+                        else {
+                            $("#rowend").show();
+                            }
+                        });
 
-        $("#delete_row").click(function() {
-            if (i > 1) {
-                $("#addr" + (i - 1)).html('');
-                i--;
+                    $("#delete_row").click(function() {
+                        if (i > 1) {
+                            $("#addr" + (i - 1)).html('');
+                            i--;
 
+                        }
+                    });
+
+                });
+
+            function update(id, products, code, specification, color) {
+                rowid = $('#rowid').val();
+                $('#productid' + rowid).val(id);
+                $('#products' + rowid).val(products);
+                $('#code' + rowid).val(code);
+                $('#color' + rowid).val(color);
+                $('#specification' + rowid).val(specification);
+                $('#update').modal('hide');
             }
-        });
 
-    });
-
-    function update(id, products, code, specification, color) {
-        rowid = $('#rowid').val();
-        $('#productid' + rowid).val(id);
-        $('#products' + rowid).val(products);
-        $('#code' + rowid).val(code);
-        $('#color' + rowid).val(color);
-        $('#specification' + rowid).val(specification);
-        $('#update').modal('hide');
-    }
-
-    function select(rowid) {
-        $('#rowid').val(rowid);
-        $('#update').modal('show');
-    }
+            function select(rowid) {
+                $('#rowid').val(rowid);
+                $('#update').modal('show');
+            }
 </script> {% endblock %}
