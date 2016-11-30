@@ -1,31 +1,31 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from flask import * 
-from app import app,lm
+from flask import *
+from app import app, lm
 from sqlalchemy.sql import func
 from flask_login import login_user, logout_user, current_user, login_required
 from models import *
 from tools import *
-from hashlib import sha512,md5
-import os,json
+from hashlib import sha512, md5
+import os, json
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('error.html',methods=['POST','GET'],error=u"文件未找到"), 404
-#@app.errorhandler(403)
-#def page_not_found(e):
-#    return render_template('error.html',methods=['POST','GET'],error=u"无权限"), 403
-#@app.errorhandler(400)
-#def page_not_found(e):
-#    return render_template('error.html',methods=['POST','GET'],error=u"服务器出错了"), 400
+    return render_template('error.html', methods=['POST', 'GET'], error=u"文件未找到"), 404
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('error.html', methods=['POST', 'GET'], error=u"无权限"), 403
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('error.html', methods=['POST', 'GET'], error=u"服务器出错了"), 400
 @app.errorhandler(500)
 def page_not_found(e):
-    return render_template('error.html',methods=['POST','GET'],error=u"内部服务器出错了"), 500
+    return render_template('error.html', methods=['POST', 'GET'], error=u"内部服务器出错了"), 500
 
 @lm.user_loader
 def load_user(id):
     return User.query.filter_by(username=session['name']).first()
-    
 
 @app.before_request
 def before_request():
@@ -54,32 +54,54 @@ def exit():
     return redirect(url_for('login'))
 
 #----------------------------------------------------------------------
-@app.route("/main",methods=['POST','GET'])
+@app.route("/main", methods=['POST','GET'])
 @login_required
 def main():
-    return render_template('main.html',user=g.user,catelist=g.catelist)
+    if request.method == 'POST':
+        labels=["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"]
+        Maindata = []
+        for i in range(11,-1,-1):
+            label = (datetime.now() - relativedelta(months=i)).strftime("%Y-%b")
+            date = (datetime.now() - relativedelta(months=i)).strftime("%Y-%m")
+            try:
+                sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("orderdate like :date", "offset=:offset").params(date=date+"%", offset=0).first()
+                sales = sumre[0] + sumre[1]
+                Recashes = sumre[2]
+            except:Recashes = sales = 0
+            try:
+                transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate like :date", "transportation not like :transportation", "offset=:offset").params(date=date+"%", transportation=u"%到付%", offset=0).first()
+                if transfee[0] == None:
+                    Aprice = 0
+                else: Aprice = transfee[0]
+            except:Aprice = 0
+            print sales,Recashes,Aprice
+            result = {'id':i,'label':label,'sales':"%.2f" % sales,'Aprice':"%.2f" % Aprice ,'Recashes':"%.2f" % Recashes}
+            Maindata.append(result)
+        print Maindata
+        return json.dumps({'msg':Maindata})
+
+    return render_template('main.html', user=g.user, catelist=g.catelist)
 #----------------------------------------------------------------------
-@app.route("/sales",methods=['POST','GET'])
+@app.route("/sales", methods=['POST','GET'])
 @login_required
 def sales():
     if request.method == 'POST':
         startdate = request.form['startdate']
         enddate = request.form['enddate']
         SalesSum = []
-        sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(startdate=startdate,enddate=enddate,offset=0).first()
-        transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
+        sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("orderdate<=:enddate", "orderdate>=:startdate", "offset=:offset").params(startdate=startdate, enddate=enddate, offset=0).first()
+        transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<=:enddate", "orderdate>=:startdate", "transportation not like :transportation", "offset=:offset").params(startdate=startdate, enddate=enddate, transportation=u"%到付%", offset=0).first()
         price = sumre[0] + sumre[1]
-        result = {'id':1,'employee':u"全店情况",'price':"%.2f" % price,'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
+        result = {'id':1, 'employee':u"全店情况", 'price':"%.2f" % price, 'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
         SalesSum.append(result)
-        print SalesSum
         userlist = User.query.all()
         id=2
         for CSE in userlist:
-            
             CSE = u"%s" % CSE.nickname
-            sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,offset=0).first()
-            transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
             try:
+                sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,offset=0).first()
+                transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
+            
                 price = sumre[0] + sumre[1]
                 result = {'id':id,'employee':CSE,'price':"%.2f" % price,'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
                 SalesSum.append(result)

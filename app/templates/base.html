@@ -16,6 +16,8 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/Logo.jpg') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
     <meta charset="utf-8"> {% block head %}{% endblock %}
 </head>
 
@@ -193,7 +195,7 @@
 
 
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
     <script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-datepicker.zh-CN.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap-table.js') }}"></script>
