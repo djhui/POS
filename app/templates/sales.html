@@ -16,15 +16,7 @@
             </div>
         </div>
     </div>
-    <label class="col-lg-1 control-label">销售客服</label>
-    <div class="col-lg-2">
-        <select class="form-control" id="CSE" name="CSE" required>
-                <option value="all">全店</option>
-										 {% for nick in nickname %}
-                                        <option value="{{nick.nickname}}">{{nick.nickname}}</option>
-                                        {% endfor %}
-									</select>
-    </div>
+    
     <button id="button" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
     <div class="row">
         <div class="col-lg-12">
@@ -54,12 +46,12 @@
         $table.bootstrapTable('removeAll');
         var startdate = $('#startdate').val();
         var enddate = $('#enddate').val();
-        var CSE = $('#CSE').val();
+
 
         $.ajax({
             type: "post",
             url: "{{ url_for('sales') }}",
-            data: "startdate=" + startdate + "&enddate=" + enddate + "&CSE=" + CSE,
+            data: "startdate=" + startdate + "&enddate=" + enddate,
             dataType: 'json',
             success: function(data) {
 
