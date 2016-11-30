@@ -74,10 +74,8 @@ def main():
                     Aprice = 0
                 else: Aprice = transfee[0]
             except:Aprice = 0
-            print sales,Recashes,Aprice
             result = {'id':i,'label':label,'sales':"%.2f" % sales,'Aprice':"%.2f" % Aprice ,'Recashes':"%.2f" % Recashes}
             Maindata.append(result)
-        print Maindata
         return json.dumps({'msg':Maindata})
 
     return render_template('main.html', user=g.user, catelist=g.catelist)
