@@ -3,6 +3,60 @@
 <script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/easypiechart.js') }}"></script>
 
+
+
+<div class="col-xs-12 col-md-6 col-lg-3">
+    <div class="panel panel-blue panel-widget ">
+        <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+                <em class="glyphicon glyphicon-shopping-cart glyphicon-l"></em>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+                <div class="large" id="sales5">0</div>
+                <div class="text-muted">本月销售额</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-md-6 col-lg-3">
+    <div class="panel panel-orange panel-widget">
+        <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+                <em class="glyphicon glyphicon-comment glyphicon-l"></em>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+                <div class="large" id="sales4">0</div>
+                <div class="text-muted">上月销售额</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-md-6 col-lg-3">
+    <div class="panel panel-teal panel-widget">
+        <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+                <em class="glyphicon glyphicon-user glyphicon-l"></em>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+                <div class="large">24</div>
+                <div class="text-muted">New Users</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-md-6 col-lg-3">
+    <div class="panel panel-red panel-widget">
+        <div class="row no-padding">
+            <div class="col-sm-3 col-lg-5 widget-left">
+                <em class="glyphicon glyphicon-stats glyphicon-l"></em>
+            </div>
+            <div class="col-sm-9 col-lg-7 widget-right">
+                <div class="large">25.2k</div>
+                <div class="text-muted">Visitors</div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">历史数据</div>
@@ -13,44 +67,6 @@
         </div>
     </div>
 </div>
-
-<div class="col-xs-6 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-            <h4>当日订单</h4>
-            <div class="easypiechart" id="easypiechart-blue" data-percent="92"><span class="percent">92%</span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-6 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-            <h4>当日销售额</h4>
-            <div class="easypiechart" id="easypiechart-orange" data-percent="65"><span class="percent">65%</span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-6 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-            <h4>当日运费</h4>
-            <div class="easypiechart" id="easypiechart-teal" data-percent="56"><span class="percent">56%</span>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-6 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-body easypiechart-panel">
-            <h4>当日返现</h4>
-            <div class="easypiechart" id="easypiechart-red" data-percent="27"><span class="percent">27%</span>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     var data1
     $.ajax({
@@ -62,9 +78,10 @@
             data1 = data.msg;
         }
     });
-
+    document.getElementById("sales5").innerHTML = data1[5].sales;
+    document.getElementById("sales4").innerHTML = data1[4].sales;
     var lineChartData = {
-        labels: [data1[0].label, data1[1].label, data1[2].label, data1[3].label, data1[4].label, data1[5].label, data1[6].label, data1[7].label, data1[8].label, data1[9].label, data1[10].label, data1[11].label],
+        labels: [data1[0].label, data1[1].label, data1[2].label, data1[3].label, data1[4].label, data1[5].label],
         datasets: [{
             label: "销售额",
             fillColor: "rgba(220,20,220,0.2)",
@@ -73,25 +90,7 @@
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(220,20,220,1)",
-            data: [data1[0].sales, data1[1].sales, data1[2].sales, data1[3].sales, data1[4].sales, data1[5].sales, data1[6].sales, data1[7].sales, data1[8].sales, data1[9].sales, data1[10].sales, data1[11].sales]
-        }, {
-            label: "物流费用",
-            fillColor: "rgba(48, 164, 255, 0.2)",
-            strokeColor: "rgba(48, 164, 255, 1)",
-            pointColor: "rgba(48, 164, 255, 1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(48, 164, 255, 1)",
-            data: [data1[0].Aprice, data1[1].Aprice, data1[2].Aprice, data1[3].Aprice, data1[4].Aprice, data1[5].Aprice, data1[6].Aprice, data1[7].Aprice, data1[8].Aprice, data1[9].Aprice, data1[10].Aprice, data1[11].Aprice]
-        }, {
-            label: "返现费用",
-            fillColor: "rgba(148, 64, 255, 0.2)",
-            strokeColor: "rgba(148, 64, 255, 1)",
-            pointColor: "rgba(148, 64, 255, 1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(148, 64, 255, 1)",
-            data: [data1[0].Recashes, data1[1].Recashes, data1[2].Recashes, data1[3].Recashes, data1[4].Recashes, data1[5].Recashes, data1[6].Recashes, data1[7].Recashes, data1[8].Recashes, data1[9].Recashes, data1[10].Recashes, data1[11].Recashes]
+            data: [data1[0].sales, data1[1].sales, data1[2].sales, data1[3].sales, data1[4].sales, data1[5].sales]
         }]
 
     }
@@ -100,36 +99,7 @@
         window.myLine = new Chart(chart1).Line(lineChartData, {
             responsive: true
         });
-
-
     };
-    $(function() {
-        $('#easypiechart-teal').easyPieChart({
-            scaleColor: false,
-            barColor: '#1ebfae'
-        });
-    });
-
-    $(function() {
-        $('#easypiechart-orange').easyPieChart({
-            scaleColor: false,
-            barColor: '#ffb53e'
-        });
-    });
-
-    $(function() {
-        $('#easypiechart-red').easyPieChart({
-            scaleColor: false,
-            barColor: '#f9243f'
-        });
-    });
-
-    $(function() {
-        $('#easypiechart-blue').easyPieChart({
-            scaleColor: false,
-            barColor: '#30a5ff'
-        });
-    });
 </script>
 
 {% endblock %}

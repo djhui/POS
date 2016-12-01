@@ -58,9 +58,8 @@ def exit():
 @login_required
 def main():
     if request.method == 'POST':
-        labels=["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"]
         Maindata = []
-        for i in range(11,-1,-1):
+        for i in range(5,-1,-1):
             label = (datetime.now() - relativedelta(months=i)).strftime("%Y-%b")
             date = (datetime.now() - relativedelta(months=i)).strftime("%Y-%m")
             try:
@@ -74,7 +73,8 @@ def main():
                     Aprice = 0
                 else: Aprice = transfee[0]
             except:Aprice = 0
-            result = {'id':i,'label':label,'sales':"%.2f" % sales,'Aprice':"%.2f" % Aprice ,'Recashes':"%.2f" % Recashes}
+            salesprice = sales - Aprice - Recashes
+            result = {'id':i,'label':label,'sales':"%.2f" % salesprice}
             Maindata.append(result)
         return json.dumps({'msg':Maindata})
 
