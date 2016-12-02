@@ -66,7 +66,10 @@ def main():
                 sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("orderdate like :date", "offset=:offset").params(date=date+"%", offset=0).first()
                 sales = sumre[0] + sumre[1]
                 Recashes = sumre[2]
-            except:Recashes = sales = 0
+                if sales == None:sales = 0
+                if Recashes == None:Recashes = 0
+            except:
+                Recashes = sales = 0
             try:
                 transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate like :date", "transportation not like :transportation", "offset=:offset").params(date=date+"%", transportation=u"%到付%", offset=0).first()
                 if transfee[0] == None:
