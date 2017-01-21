@@ -37,8 +37,8 @@ def main():
             salesprice = sales - Aprice - Recashes
             result = {'id':i,'label':label,'sales':"%.2f" % salesprice}
             Maindata.append(result)
-        label = (datetime.now() - relativedelta(months=i)).strftime("%Y-%b")
-        date = (datetime.now() - relativedelta(months=i)).strftime("%Y-%m")
+
+        date = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m")
         try:
             sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("Commission like :date", "offset=:offset").params(date=date+"%", offset=0).first()
             sales = sumre[0] + sumre[1]
@@ -54,7 +54,7 @@ def main():
             else: Aprice = transfee[0]
         except:Aprice = 0
         salesprice = sales - Aprice - Recashes
-        return json.dumps({'msg':Maindata,'msg1': salesprice})
+        return json.dumps({'msg':Maindata,'msg1': "%.2f" % salesprice})
 
     return render_template('main.html', user=g.user, catelist=g.catelist)
 #----------------------------------------------------------------------
