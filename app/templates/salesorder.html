@@ -156,7 +156,6 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-
                 <h4 class="modal-title">选择产品</h4>
             </div>
             <div class="modal-body">
@@ -194,12 +193,12 @@
 </div>
 <script>
     $(document).ready(function() {
-                var i = 1;
-                $("#add_row").click(
+        var i = 1;
+        $("#add_row").click(
 
-                    function() {
-                        if (i < 10) {
-                            $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "' onclick=select('" + i + "')>选择产品</a> </td>\
+            function() {
+                if (i < 10) {
+                    $('#addr' + i).html("<td>" + (i + 1) + "</td><td><a href='#' class='btn btn-primary' data-toggle='modal' role='button' id='select" + i + "' onclick=select('" + i + "')>选择产品</a> </td>\
                             <td><input class='form-control' placeholder='颜色' name='color" + i + "' id='color" + i + "' required readonly>\
                             <input class='form-control hide' placeholder='产品ID' name='productid" + i + "' id='productid" + i + "' required readonly></td>\
                             <td><input class='form-control hide' placeholder='产品编号' name='code" + i + "' id='code" + i + "' required readonly>\
@@ -207,36 +206,35 @@
                             <td><select class='form-control' id='warehouse" + i + "' name = 'warehouse" + i + "' required > \
                             <option value='exstock'>展厅</option><option value='whstock'>仓库</option><option value='fastock'>工厂</option></select></td>\
                             <td> <input class='form-control' placeholder='数量' id='number" + i + "' name='number" + i + "' type='number' required> </td>");
-                            $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>'); 
-                            i++;
-                                }
-                        else {
-                            $("#rowend").show();
-                            }
-                        });
+                    $('#tab_logic').append('<tr id="addr' + (i + 1) + '"></tr>');
+                    i++;
+                } else {
+                    $("#rowend").show();
+                }
+            });
 
-                    $("#delete_row").click(function() {
-                        if (i > 1) {
-                            $("#addr" + (i - 1)).html('');
-                            i--;
+        $("#delete_row").click(function() {
+            if (i > 1) {
+                $("#addr" + (i - 1)).html('');
+                i--;
 
-                        }
-                    });
-
-                });
-
-            function update(id, products, code, specification, color) {
-                rowid = $('#rowid').val();
-                $('#productid' + rowid).val(id);
-                $('#products' + rowid).val(products);
-                $('#code' + rowid).val(code);
-                $('#color' + rowid).val(color);
-                $('#specification' + rowid).val(specification);
-                $('#update').modal('hide');
             }
+        });
 
-            function select(rowid) {
-                $('#rowid').val(rowid);
-                $('#update').modal('show');
-            }
+    });
+
+    function update(id, products, code, specification, color) {
+        rowid = $('#rowid').val();
+        $('#productid' + rowid).val(id);
+        $('#products' + rowid).val(products);
+        $('#code' + rowid).val(code);
+        $('#color' + rowid).val(color);
+        $('#specification' + rowid).val(specification);
+        $('#update').modal('hide');
+    }
+
+    function select(rowid) {
+        $('#rowid').val(rowid);
+        $('#update').modal('show');
+    }
 </script> {% endblock %}

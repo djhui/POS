@@ -153,10 +153,9 @@
 
 
 <div class="modal" id="update">
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-
                 <h4 class="modal-title">选择产品</h4>
             </div>
             <div class="modal-body">
@@ -172,7 +171,6 @@
                         </tr>
                     </thead>{% if prolist %} {% for pro in prolist %}
                     <tr class="no-records-found">
-
                         <td>{{pro.id}}</td>
                         <td><img class="img-responsive" src="../static/upload/{{pro.picture}}" width="200" /></td>
                         <td>{{pro.products}}</td>
@@ -180,10 +178,7 @@
                         <td>{{pro.color}}</td>
                         <td><button type="button" class="btn btn-primary" id="submit" onclick="update('{{pro.id}}','{{pro.products}}','{{pro.code}}')">选择</button></td>
                         {% endfor %}
-
                     </tr>{% endif %}
-
-
                 </table>
             </div>
 
