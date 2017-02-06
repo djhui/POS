@@ -41,7 +41,7 @@ def main():
         date1 = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-%d")
         date2 = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-01")
         try:
-            sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("Commission like :date", "offset=:offset").params(date=date+"%", offset=0).first()
+            sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("orderdate<=:date1","orderdate>=:date2", "offset=:offset").params(date1=date1,date2=date2, offset=0).first()
             sales = sumre[0] + sumre[1]
             Recashes = sumre[2]
             if sales == None: sales = 0
