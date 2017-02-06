@@ -27,7 +27,7 @@
             </div>
             <div class="col-sm-9 col-lg-7 widget-right">
                 <div class="large" id="sales41">1</div>
-                <div class="text-muted">上月销售(至今)</div>
+                <div class="text-muted">上月销售(同期)</div>
             </div>
         </div>
     </div>
@@ -80,11 +80,13 @@
         success: function(data) {
             data1 = data.msg;
             data2 = data.msg1;
+            data3 = data.msg2;
         }
     });
     document.getElementById("sales5").innerHTML = data1[5].sales;
     document.getElementById("sales4").innerHTML = data1[4].sales;
     document.getElementById("sales41").innerHTML = data2;
+    document.getElementById("sales42").innerHTML = data3 + "%";
     var lineChartData = {
         labels: [data1[0].label, data1[1].label, data1[2].label, data1[3].label, data1[4].label, data1[5].label],
         datasets: [{
