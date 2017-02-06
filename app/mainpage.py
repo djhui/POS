@@ -38,17 +38,18 @@ def main():
             result = {'id':i,'label':label,'sales':"%.2f" % salesprice}
             Maindata.append(result)
 
-        date = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-%d")
+        date1 = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-%d")
+        date2 = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-01")
         try:
             sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("Commission like :date", "offset=:offset").params(date=date+"%", offset=0).first()
             sales = sumre[0] + sumre[1]
             Recashes = sumre[2]
-            if sales == None:sales = 0
-            if Recashes == None:Recashes = 0
+            if sales == None: sales = 0
+            if Recashes == None: Recashes = 0
         except:
             Recashes = sales = 0
         try:
-            transfee = db.session.query(func.sum(Sales.Aprice)).filter("Commission like :date", "transportation not like :transportation", "offset=:offset").params(date=date+"%", transportation=u"%到付%", offset=0).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate like <=:date1","orderdate like >=:date2", "transportation not like :transportation", "offset=:offset").params(date=date+"%", transportation=u"%到付%", offset=0).first()
             if transfee[0] == None:
                 Aprice = 0
             else: Aprice = transfee[0]
