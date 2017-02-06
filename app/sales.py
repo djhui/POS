@@ -21,20 +21,32 @@ def sales():
             SalesSum = []
             sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("orderdate<=:enddate", "orderdate>=:startdate", "offset=:offset").params(startdate=startdate, enddate=enddate, offset=0).first()
             transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<=:enddate", "orderdate>=:startdate", "transportation not like :transportation", "offset=:offset").params(startdate=startdate, enddate=enddate, transportation=u"%到付%", offset=0).first()
-            price = sumre[0] + sumre[1]
-            result = {'id':1, 'employee':u"全店情况", 'price':"%.2f" % price, 'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
+            try:price = float(sumre[0] + sumre[1])
+            except: price = 0.00
+            try:Aprice = float(transfee[0])
+            except:Aprice = 0.00
+            try:Recashes =  float(sumre[2])
+            except:Recashes = 0.00
+            result = {'id':1, 'employee':u"全店情况", 'price':"%.2f" % price, 'Aprice':"%.2f" % Aprice ,'Recashes':"%.2f" % Recashes}
             SalesSum.append(result)
             userlist = User.query.all()
             id = 2
             for CSE in userlist:
                 CSE = u"%s" % CSE.nickname
-                try:
-                    sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,offset=0).first()
-                    transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
-                    price = sumre[0] + sumre[1]
-                    result = {'id':id, 'employee':CSE, 'price':"%.2f" % price, 'Aprice':"%.2f" %transfee[0], 'Recashes':"%.2f" % sumre[2]}
-                    SalesSum.append(result)
-                except:pass
+
+                sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,offset=0).first()
+                transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","orderdate<=:enddate","orderdate>=:startdate","transportation not like :transportation","offset=:offset").params(CSE=CSE,startdate=startdate,enddate=enddate,transportation=u"%到付%",offset=0).first()
+                try:price = float(sumre[0] + sumre[1])
+                except: price = 0.00
+                try:Aprice = float(transfee[0])
+                except:Aprice = 0.00
+                try:Recashes =  float(sumre[2])
+                except:Recashes = 0.00
+                    
+
+
+                result = {'id':id, 'employee':CSE, 'price':"%.2f" % price, 'Aprice':"%.2f" % Aprice, 'Recashes':"%.2f" % Recashes}
+                SalesSum.append(result)
                 id += 1
             return json.dumps({'msg':SalesSum})
         if submit == "cal":
@@ -42,20 +54,32 @@ def sales():
             SalesSum = []
             sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("Commission=:caldate", "offset=:offset").params(caldate=caldate,  offset=0).first()
             transfee = db.session.query(func.sum(Sales.Aprice)).filter("Commission=:caldate", "transportation not like :transportation", "offset=:offset").params(caldate=caldate, transportation=u"%到付%", offset=0).first()
-            price = sumre[0] + sumre[1]
-            result = {'id':1, 'employee':u"全店情况", 'price':"%.2f" % price, 'Aprice':"%.2f" %transfee[0] ,'Recashes':"%.2f" % sumre[2]}
+            try:price = float(sumre[0] + sumre[1])
+            except: price = 0.00
+            try:Aprice = float(transfee[0])
+            except:Aprice = 0.00
+            try:Recashes =  float(sumre[2])
+            except:Recashes = 0.00
+            result = {'id':1, 'employee':u"全店情况", 'price':"%.2f" % price, 'Aprice':"%.2f" % Aprice ,'Recashes':"%.2f" % Recashes}
             SalesSum.append(result)
             userlist = User.query.all()
             id = 2
             for CSE in userlist:
                 CSE = u"%s" % CSE.nickname
-                try:
-                    sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","Commission=:caldate", "offset=:offset").params(CSE=CSE, caldate=caldate, offset=0).first()
-                    transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","Commission=:caldate", "transportation not like :transportation","offset=:offset").params(CSE=CSE,caldate=caldate, transportation=u"%到付%",offset=0).first()
-                    price = sumre[0] + sumre[1]
-                    result = {'id':id, 'employee':CSE, 'price':"%.2f" % price, 'Aprice':"%.2f" %transfee[0], 'Recashes':"%.2f" % sumre[2]}
-                    SalesSum.append(result)
-                except:pass
+                
+                sumre = db.session.query(func.sum(Sales.price),func.sum(Sales.advprice),func.sum(Sales.Recashes)).filter("CSE=:CSE","Commission=:caldate", "offset=:offset").params(CSE=CSE, caldate=caldate, offset=0).first()
+                transfee = db.session.query(func.sum(Sales.Aprice)).filter("CSE=:CSE","Commission=:caldate", "transportation not like :transportation","offset=:offset").params(CSE=CSE,caldate=caldate, transportation=u"%到付%",offset=0).first()
+                try:price = float(sumre[0] + sumre[1])
+                except: price = 0.00
+                try:Aprice = float(transfee[0])
+                except:Aprice = 0.00
+                try:Recashes =  float(sumre[2])
+                except:Recashes = 0.00
+                    
+
+
+                result = {'id':id, 'employee':CSE, 'price':"%.2f" % price, 'Aprice':"%.2f" % Aprice, 'Recashes':"%.2f" % Recashes}
+                SalesSum.append(result)
                 id += 1
             return json.dumps({'msg':SalesSum})
     nickname=User.query.order_by(User.username)

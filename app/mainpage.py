@@ -38,7 +38,7 @@ def main():
             result = {'id':i,'label':label,'sales':"%.2f" % salesprice}
             Maindata.append(result)
 
-        date = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m")
+        date = (datetime.now() - relativedelta(months=1)).strftime("%Y-%m-%d")
         try:
             sumre = db.session.query(func.sum(Sales.price), func.sum(Sales.advprice), func.sum(Sales.Recashes)).filter("Commission like :date", "offset=:offset").params(date=date+"%", offset=0).first()
             sales = sumre[0] + sumre[1]
