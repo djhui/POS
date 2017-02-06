@@ -16,8 +16,19 @@
             </div>
         </div>
     </div>
-    
-    <button id="button" class="btn btn-primary pull-right" onclick="getdata()">提交</button>
+
+    <button id="button" class="btn btn-primary col-lg-1 control-label" onclick="getdata()">提交</button>
+
+    <div class="col-lg-2">
+        <div class="input-group date" data-provide="datepicker">
+            <input class="form-control" type=text placeholder="结算日期" name="caldate" id="caldate">
+            <div class="input-group-addon"><span class="glyphicon glyphicon-th"></span>
+            </div>
+        </div>
+    </div>
+
+    <button id="button" class="btn btn-primary col-lg-1 control-label" onclick="getcaldata()">提交</button>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -46,12 +57,28 @@
         $table.bootstrapTable('removeAll');
         var startdate = $('#startdate').val();
         var enddate = $('#enddate').val();
-
-
         $.ajax({
             type: "post",
             url: "{{ url_for('sales') }}",
-            data: "startdate=" + startdate + "&enddate=" + enddate,
+            data: "startdate=" + startdate + "&enddate=" + enddate + "&submit=area",
+            dataType: 'json',
+            success: function(data) {
+
+                $table.bootstrapTable('load', data.msg);
+
+            }
+        });
+    }
+
+    function getcaldata() {
+
+        var $table = $('#table');
+        $table.bootstrapTable('removeAll');
+        var caldate = $('#caldate').val();
+        $.ajax({
+            type: "post",
+            url: "{{ url_for('sales') }}",
+            data: "caldate=" + caldate + "&submit=cal",
             dataType: 'json',
             success: function(data) {
 
