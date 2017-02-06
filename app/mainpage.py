@@ -49,7 +49,7 @@ def main():
         except:
             Recashes = sales = 0
         try:
-            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate <=:date1","orderdate >=:date2", "transportation not like :transportation", "offset=:offset").params(date1=date1,date2=date2, transportation=u"%到付%", offset=0).first()
+            transfee = db.session.query(func.sum(Sales.Aprice)).filter("orderdate<=:date1","orderdate>=:date2", "transportation not like :transportation", "offset=:offset").params(date1=date1,date2=date2, transportation=u"%到付%", offset=0).first()
             if transfee[0] == None:
                 Aprice = 0
             else: Aprice = transfee[0]
