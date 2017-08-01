@@ -55,7 +55,8 @@ def main():
             else: Aprice = transfee[0]
         except:Aprice = 0
         salesprice1 = sales - Aprice - Recashes
-        salepct = (salesprice - salesprice1) / salesprice1 * 100
+        try:salepct = (salesprice - salesprice1) / salesprice1 * 100
+        except:pass
         return json.dumps({'msg':Maindata,'msg1': "%.2f" % salesprice1,'msg2': "%.2f" % salepct})
 
     return render_template('main.html', user=g.user, catelist=g.catelist)
