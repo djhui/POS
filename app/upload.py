@@ -18,8 +18,8 @@ def upload_file():
         ext = f.filename.split(".")[-1]
         filename = md5(str(datetime.now())).hexdigest() + "." + ext
         minetype = f.content_type
-        if ext.lower() not in ['jpg','jpeg','png','bmp','gif']:
-            return json.dumps({"files": [{"name": u"文件格式错误,请上传图片格式", "minetype": minetype}]})
+        if ext.lower() not in ['jpg','jpeg','png','bmp','gif','xls','xlsx']:
+            return json.dumps({"files": [{"name": u"文件格式错误,请上传允许的格式", "minetype": minetype}]})
         else:    
             #filename1 = './app/static/upload/%s' % (filename)
             filename1 = '/opt/POS/app/static/upload/%s' % (filename)

@@ -28,4 +28,4 @@ lm.login_view = 'login'
 
 
 
-from app import views, models, error, mainpage, sales, salesdetail, salesorder, freight, users, stocks, roles, products, purchase, delivery, upload, purlist, cates, trans
+from app import views, models, error, mainpage, sales, salesdetail, salesorder, freight, users, stocks, roles, products, purchase, delivery, upload, purlist, cates, trans, fileupload

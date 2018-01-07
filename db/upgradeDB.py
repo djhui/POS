@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 from sqlalchemy import *
 from migrate import *
-engine = create_engine('mysql://root:123456@localhost/flask', convert_unicode=True)
+engine = create_engine('mysql://root:123456@192.168.1.254/Alpha', convert_unicode=True)
 
 meta = MetaData(bind=engine)
     #meta.bind = db.Model
