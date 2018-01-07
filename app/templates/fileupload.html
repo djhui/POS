@@ -1,4 +1,4 @@
- {% extends "base.html" %} {% block content %}
+﻿ {% extends "base.html" %} {% block content %}
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.ui.widget.js') }}"></script>
@@ -22,7 +22,7 @@
             <tr class="no-records-found">
                 <td>{{file.id}}</td>
                 <td>
-                    <a href=" ../static/upload/{{file.filename}}" target="_blank">{{file.filename}}</a>
+                    <a href=" ../static/upload/{{file.filename}}" target="_blank"> {{file.filename}}</a>
                 </td>
                 <td>{{file.uploadtime}}</td>
                 <td>
@@ -31,24 +31,24 @@
             </tr>{% endif %}
         </table>
     </div>
-    <div class=" tab-pane fade " id="profile ">
-        <form role="form " class="form-horizontal " action=" " method="post ">
+    <div class=" tab-pane fade" id="profile">
+        <form role="form" class="form-horizontal" action="" method="post">
 
-            <div class="form-group ">
-                <label class="col-lg-1 control-label ">选择文件</label>
-                <div class="col-lg-2 ">
-                    <span class="btn btn-default fileinput-button ">
-                                <i class="glyphicon glyphicon-plus "></i>
+            <div class="form-group">
+                <label class="col-lg-1 control-label">选择文件</label>
+                <div class="col-lg-2">
+                    <span class="btn btn-default fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
                                 <span>选择文件</span>
-                    <input id="fileupload " type="file " name="files[] " multiple=" " data-url="/upload " class="form-control " style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0) ";opacity:0;background-color:transparent;color:transparent;'>
+                    <input id="fileupload" type="file" name="files[]" multiple="" data-url="/upload" class="form-control" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'>
                     </span>
                 </div>
-                <div class="col-lg-3 "><input class="form-control " id="filename " name="filename " required readonly placeholder="上传成功后在此显示文件名 "></div>
+                <div class="col-lg-3"><input class="form-control" id="filename" name="filename" required readonly placeholder="上传成功后在此显示文件名"></div>
 
 
             </div>
-            <button type="reset " class="btn btn-default ">重置</button>
-            <button type="submit " class="btn btn-primary pull-right " name="submit " value="add ">提交</button>
+            <button type="reset" class="btn btn-default">重置</button>
+            <button type="submit" class="btn btn-primary pull-right" name="submit" value="add">提交</button>
         </form>
     </div>
 </div>
@@ -59,15 +59,15 @@
 
 <!-- update the record-->
 
-<div class="modal " id="upload ">
-    <div class="modal-dialog modal-lg ">
-        <div class="modal-content ">
-            <div class="modal-body ">
+<div class="modal" id="upload">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
                 文件上传成功
-                <input type="text " class="form-control hide " id="ID1 " name="ID " required>
+                <input type="text" class="form-control hide" id="ID1" name="ID" required>
             </div>
-            <div class="modal-footer ">
-                <button type="button " id="submit " class="btn btn-primary " data-dismiss="modal ">确认</button>
+            <div class="modal-footer">
+                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal">确认</button>
 
             </div>
         </div>
@@ -81,24 +81,24 @@
 
         var submit = $('#submit').val();
         $.ajax({
-            type: "post ",
-            url: "{{ url_for( 'fileupload') }} ",
-            data: "filename=" + filename + " &submit=" + submit,
+            type: "post",
+            url: "{{ url_for( 'fileupload') }}",
+            data: "filename=" + filename + "&submit=" + submit,
             dataType: 'html',
-            contentType: " application/x-www-form-urlencoded; charset=utf-8 ",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function(result) {
                 location.reload();
             }
         });
     }
     $(function() {
-        $(' #fileupload ').fileupload({
-            dataType: 'json ',
+        $('#fileupload').fileupload({
+            dataType: 'json',
             done: function(e, data) {
                 $.each(data.result.files, function(index, file) {
 
                     $('<p/>').text(file.name).appendTo(document.body);
-                    document.getElementById("filename ").value = file.name;
+                    document.getElementById("filename").value = file.name;
                 });
                 $('#upload').modal('show');
             }
