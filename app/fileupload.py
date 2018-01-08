@@ -24,7 +24,7 @@ def fileupload():
         try:uploadtime = request.form['uploadtime']
         except:pass
         if request.form['submit']=="add":
-            if not FileUpload.query.filter_by(filename='filename').first():
+            if FileUpload.query.filter_by(filename=filename).first():
                 db.session.add(FileUpload(filename))
         #db.session.add(Logs(log,u"上传文件",session['nickname']))
         db.session.commit()
