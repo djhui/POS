@@ -36,9 +36,9 @@ def uploadfile():
         f = request.files['files[]']
         ext = f.filename.split(".")[-1]
         try:
-            filename = u"%s" % f.filename.decode('gb2312')
+            filename = f.filename.decode('gb2312')
         except UnicodeDecodeError:
-            filename = u"%s" % f.filename.decode('utf-8')
+            filename = f.filename.decode('utf-8')
         minetype = f.content_type
         if ext.lower() not in ['xls','xlsx','doc','docx','ppt','pptx']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传允许的格式", "minetype": minetype}]})
