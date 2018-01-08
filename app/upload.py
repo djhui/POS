@@ -35,7 +35,7 @@ def uploadfile():
     if request.method == 'POST':
         f = request.files['files[]']
         ext = f.filename.split(".")[-1]
-        filename = f.filename
+        filename = f.filename.encode('utf-8')
         minetype = f.content_type
         if ext.lower() not in ['xls','xlsx','doc','docx','ppt','pptx']:
             return json.dumps({"files": [{"name": u"文件格式错误,请上传允许的格式", "minetype": minetype}]})
