@@ -17,7 +17,7 @@ from dateutil.relativedelta import relativedelta
 def main():
     if request.method == 'POST':
         Maindata = []
-        for i in range(5,-1,-1):
+        for i in range(12,-1,-1):
             label = (datetime.now() - relativedelta(months=i)).strftime("%Y-%b")
             date = (datetime.now() - relativedelta(months=i)).strftime("%Y-%m")
             try:
